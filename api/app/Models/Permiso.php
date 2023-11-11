@@ -15,4 +15,9 @@ class Permiso extends Model
         'codigo',
         'id_padre', 
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany(Rol::class,'rol_permiso_detalles');
+    }
 }

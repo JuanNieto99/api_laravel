@@ -6,6 +6,8 @@ use App\Models\Rol;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
+use App\Models\RolPermisoDetalle;
+use Illuminate\Support\Facades\Log;
 
 class RolController extends Controller
 {
@@ -16,7 +18,7 @@ class RolController extends Controller
     {
         $per_page = $request->query('per_page', 2);
 
-        $query = Rol::orderBy('nombre', 'asc');
+        $query = Rol::where('estado',1)->orderBy('nombre', 'asc');
 
 		return $per_page? $query->paginate($per_page) : $query->get();
 
@@ -54,6 +56,22 @@ class RolController extends Controller
         ]);
 
         if($rol){
+
+            if($request->permiso){
+                
+                $permiso_for = explode(',',$request->permiso);
+                
+                $permisos = collect($permiso_for)->map(function ($value) use ($rol) {
+                    return new RolPermisoDetalle([
+                        'rol_id' => $rol->id,
+                        'permiso_id' => $value,
+                    ]);
+                });
+                
+                RolPermisoDetalle::insert($permisos->toArray());
+
+            }
+
             return response()
             ->json([
                 'rol' => $rol,
@@ -71,7 +89,13 @@ class RolController extends Controller
      */
     public function show($id)
     {
-        return Rol::find($id);
+        $rol = Rol::where('estado',1)->find($id);
+
+        if(!$rol){
+            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
+        }
+        
+        return $rol;
     }
 
     /**
@@ -112,6 +136,22 @@ class RolController extends Controller
 
 
         if ($filasActualizadas > 0) {
+
+            if($request->permiso){
+                
+                $permiso_for = explode(',',$request->permiso);
+
+                $permisos = collect($permiso_for)->map(function ($value) use ($request) {
+                    return new RolPermisoDetalle([
+                        'rol_id' => $request->id,
+                        'permiso_id' => $value,
+                    ]);
+                });
+                
+                RolPermisoDetalle::where('rol_id', $request->id)->delete();
+                RolPermisoDetalle::insert($permisos->toArray()); 
+
+            }
             // La actualización fue exitosa
             return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);
         } else {

@@ -8,8 +8,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth; 
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
-
-
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
+use App\Mail\EnviarCorreoContrasena;
 class AuthController extends Controller
 {
     
@@ -24,7 +25,8 @@ class AuthController extends Controller
             );
         }
 
-        $usuario = User::where('email', '=', $request->email)->firstOrFail();
+        $usuario = User::with(['roles.rolPermisoDetalle.permiso'])->where('email', '=', $request->email)->first();
+        //        $usuario = User::join('rols','rols.id','=','usuarios')->where('email', '=', $request->email)->first();
 
         $token = $usuario->createToken("tokens")->plainTextToken;
 
@@ -37,6 +39,7 @@ class AuthController extends Controller
                 'email' => $usuario->email,
                 'rol_id' => $usuario->rol_id,
                 'estado' => $usuario->estado,
+                'rol' => $usuario->roles,
             ],
         ]);
     }
@@ -55,20 +58,23 @@ class AuthController extends Controller
         $numeroAleatorioEnRango = mt_rand(0, 10000);  
 
         $nueva_contrasena =  $numeroAleatorioEnRango.$fechaActual.'lam';
-        $email =  $request->email;
-        
+        Log::debug(  $nueva_contrasena);
         $filasActualizadas = User::where('email', $request->email )
         ->update([ 
             'password' => bcrypt($nueva_contrasena),
         ]);
 
         if ($filasActualizadas > 0) {
+
+            Mail::to($request->email)->send(new EnviarCorreoContrasena($nueva_contrasena));
             // La actualización fue exitosa
-            return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);
+            return response()->json(['mensaje' => 'Actualización exitosa, pronto te llegara un correo', 'code' => "success"]);
         } else {
             // No se encontró un usuario con el ID proporcionado
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
+
+        
 
         //enviar correo aqui
     }

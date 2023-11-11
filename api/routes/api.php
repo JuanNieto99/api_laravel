@@ -6,6 +6,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\PermisoController;
+use App\Http\Controllers\RolPermisoDetalleController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,7 +26,7 @@ Route::post('recuperarContrasena', [AuthController::class, 'recuperarContrasena'
 Route::group(['middleware'=>['auth:sanctum']], function () {  
 
     //Usuario
-    Route::post('usuariosListar', [UsuarioController::class, 'index']);
+    Route::post('usuariosListar', [UsuarioController::class, 'index']); //->middleware('permission:sa');
     Route::post('usuariosCrear', [UsuarioController::class, 'create']); 
     Route::post('usuarioMostrar/{id}', [UsuarioController::class, 'show']);
     Route::post('usuariosActualizar', [UsuarioController::class, 'update']);
@@ -34,12 +35,19 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     //Roles
     Route::post('rolListar', [RolController::class, 'index']);
     Route::post('rolCrear', [RolController::class, 'create']); 
-    Route::post('rolMostrar/{id}', [RolController::class, 'show']); 
+    Route::get('rolMostrar/{id}', [RolController::class, 'show']); 
     Route::post('rolActualizar', [RolController::class, 'update']);
     Route::post('rolEliminar', [RolController::class, 'destroy']);
 
     //Permisos 
     Route::post('permisoCrear', [PermisoController::class, 'create']); 
+    Route::post('permisoActualizar', [PermisoController::class, 'update']); 
+    Route::post('permisoEliminar', [PermisoController::class, 'destroy']); 
+    Route::post('permisoListar', [PermisoController::class, 'index']); 
+    Route::get('permisoMostrar/{id}', [PermisoController::class, 'show']); 
+
+    //Permisos detalle rol
+    Route::post('permisoRolDetalleCrear', [RolPermisoDetalleController::class, 'create']); 
 
 
     Route::get('logout', [AuthController::class, 'logout']);  

@@ -18,7 +18,7 @@ class UsuarioController extends Controller
     {
         $per_page = $request->query('per_page', 1);
 
-        $query = Usuario::orderBy('usuario', 'asc');
+        $query = Usuario::where('estado',1)->orderBy('usuario', 'asc');
 
 		return $per_page? $query->paginate($per_page) : $query->get();
 
@@ -88,14 +88,19 @@ class UsuarioController extends Controller
      */
     public function show($id)
     {
-        $usuario = Usuario::find($id);
+        $usuario = Usuario::where('estado',1)->find($id);
 
-        return [
-            'usuario' => $usuario->usuario,
-            'email' => $usuario->email,
-            'rol_id' => $usuario->rol_id,
-            'estado' => $usuario->estado,
-        ];
+        if($usuario ){
+            return [
+                'usuario' => $usuario->usuario,
+                'email' => $usuario->email,
+                'rol_id' => $usuario->rol_id,
+                'estado' => $usuario->estado,
+            ];
+        } else {
+            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
+        }
+
     }
 
 

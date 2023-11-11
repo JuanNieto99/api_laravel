@@ -1,0 +1,1 @@
+<h2>Cambio de contraseña exitoso, su nueva contraseña es: {{$contrasena}} </h2>

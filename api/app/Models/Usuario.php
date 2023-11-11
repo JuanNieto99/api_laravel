@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Rol;
 
 class Usuario extends Model
 {
@@ -19,4 +20,10 @@ class Usuario extends Model
         'rol_id',
         'estado',
     ];
+
+    public function roles()
+    {
+        return $this->belongsTo(Rol::class, 'rol_id','id');
+    }
+
 }
