@@ -7,27 +7,28 @@ use Illuminate\Database\Seeder;
 
 use Illuminate\Support\Facades\DB;
 
-class RolSeeder extends Seeder
+class PermisoSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('rols')->insert([
+        DB::table('permisos')->insert([
             [
                 'id' => '1',
-                'nombre' => 'admin',
-                'descripcion' => 'Super Admin',
+                'codigo' => 'cf',
+                'nombre' => 'chofer',
+                'id_padre' => 0,
                 'estado' => '1', // activo = 1, inactivo = 0
             ],
             [
                 'id' => '2',
-                'nombre' => 'permiso',
-                'descripcion' => 'permiso tesr',
+                'codigo' => 'cf2',
+                'nombre' => 'chofer2',
+                'id_padre' => 0,
                 'estado' => '1', // activo = 1, inactivo = 0
             ]
         ]);
-        
     }
 }

@@ -74,8 +74,6 @@ class AuthController extends Controller
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
 
-        
-
-        //enviar correo aqui
+      
     }
 }

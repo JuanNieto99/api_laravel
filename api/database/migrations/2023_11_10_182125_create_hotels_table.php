@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre', 50);
             $table->string('direccion', 50);
-            $table->string('ciudad', 50);
+            $table->unsignedBigInteger('ciudad_id')->nullable(false);
             $table->string('contacto', 50);
             $table->string('contacto_telefono', 30);
             $table->string('contacto_cargo', 30); 
@@ -26,7 +26,8 @@ return new class extends Migration
             $table->string('email', 50);
             $table->unsignedTinyInteger('tipo_contribuyente');
             $table->unsignedBigInteger('usuario_id')->nullable(false);
-            $table->foreign('usuario_id')->references('id')->on('rols')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('ciudad_id')->references('id')->on('ciudads')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('usuario_id')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('restrict');
             $table->timestamps();
         });
     }

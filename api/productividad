@@ -1,2 +1,4 @@
 tener en cuenta que la contraseña hay que volverla mas fuerte ya que estamos con la default de laravel
 al eliminar un dato que tenga ralacion con otro mandara error hay que hacerle una validacion para que diga que no se puede eliminar
+lso roles deben listar los permisos
+ 

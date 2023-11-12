@@ -34,6 +34,7 @@ class UsuarioController extends Controller
                 'email' => 'required|string|email|max:50|unique:usuarios',
                 'password' => 'required|string|min:8',
                 'rol_id' => 'required|integer', 
+                'superadmin' => 'required|integer', 
             ], 
             [
                 'usuario.required' => "El campo es requerio",
@@ -45,6 +46,7 @@ class UsuarioController extends Controller
                 'password.required' =>  "El campo  es requerio",
                 'password.min' =>  "La cantidad minima del campo es 8",
                 'rol_id.required' => "El campo  es requerido",
+                'superadmin.required'=> "El campo  es requerido",
                 
             ]    
         );
@@ -58,6 +60,7 @@ class UsuarioController extends Controller
             'email' => $request->email,
             'password' => $request->password,
             'rol_id' => $request->rol_id,
+            'superadmin' =>  $request->superadmin,
             'estado' => '1',
         ]);
 
@@ -137,6 +140,7 @@ class UsuarioController extends Controller
             'email' => $request->email, 
             'rol_id' => $request->rol_id,
             'estado' => $request->estado,
+            'superadmin' =>  $request->superadmin,
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
@@ -154,9 +158,9 @@ class UsuarioController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $filasActualizadas = User::where('id', $id)
+        $filasActualizadas = User::where('id', $request->id)
         ->update([ 
             'estado' => 0,
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),

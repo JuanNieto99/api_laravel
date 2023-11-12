@@ -21,13 +21,13 @@ use App\Http\Controllers\RolPermisoDetalleController;
 //inicio 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('recuperarContrasena', [AuthController::class, 'recuperarContrasena']); 
+Route::post('usuariosCrear', [UsuarioController::class, 'create']); 
 
 
 Route::group(['middleware'=>['auth:sanctum']], function () {  
 
     //Usuario
     Route::post('usuariosListar', [UsuarioController::class, 'index']); //->middleware('permission:sa');
-    Route::post('usuariosCrear', [UsuarioController::class, 'create']); 
     Route::post('usuarioMostrar/{id}', [UsuarioController::class, 'show']);
     Route::post('usuariosActualizar', [UsuarioController::class, 'update']);
     Route::post('usuariosEliminar', [UsuarioController::class, 'destroy']);  

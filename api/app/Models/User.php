@@ -25,6 +25,7 @@ class User extends Authenticatable
         'rol_id',
         'estado',
         'password',
+        'superadmin'
     ];
 
     

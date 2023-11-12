@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->unsignedBigInteger('rol_id')->nullable(false);
             $table->unsignedTinyInteger('estado');
+            $table->unsignedTinyInteger('superadmin');
             $table->timestamps();
             $table->timestamp('email_verified_at')->nullable(); 
             $table->string('verify_token', 255)->nullable();
