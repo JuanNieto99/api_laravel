@@ -19,6 +19,11 @@ class DatabaseSeeder extends Seeder
             DepartamentoSeeder::class,
             CiudadSeeder::class,
             PermisoSeeder::class, 
+            TipoDocumentoSeeder::class,
+            EstadoCivilSeeder::class,
+            GeneroSeeder::class,
+            NivelEstudioSeeder::class,
+            MetodosPagoSeeder::class,
         ]);
     }
 }
