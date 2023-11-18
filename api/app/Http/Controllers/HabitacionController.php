@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetalleHabitacion;
 use App\Models\Habitacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class HabitacionController extends Controller
 {
@@ -17,7 +19,7 @@ class HabitacionController extends Controller
     { 
         $per_page = $request->query('per_page', 1);
 
-        $query = Habitacion::where('estado',1)->orderBy('nombre', 'asc');
+        $query = Habitacion::with(['detalle'])->where('estado','!=',0)->orderBy('nombre', 'asc');
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }
@@ -28,9 +30,9 @@ class HabitacionController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(),[
-                'nombre' => 'required|string|max:50|unique:permisos',
+                'nombre' => 'required|string|max:50|unique:habitacions',
                 'descripcion' => 'required|string', 
-                'diseno_json' => 'string',
+                'diseno_json' => 'required|string',
                 'estado' => 'required|integer', 
                 'tipo' => 'required|integer',
                 'capacidad_personas' => 'required|integer', 
@@ -82,7 +84,7 @@ class HabitacionController extends Controller
      */
     public function show($id)
     {
-        $permiso = Habitacion::where('estado',1)->find($id);
+        $permiso = Habitacion::where('estado','!=',0)->find($id);
 
         if(!$permiso){
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
@@ -97,7 +99,7 @@ class HabitacionController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(),[
-                'nombre' => 'required|string|max:50|unique:permisos',
+                'nombre' => 'required|string|max:50|unique:habitacions,nombre,'.$request->input('id'),
                 'descripcion' => 'required|string', 
                 'diseno_json' => 'string',
                 'estado' => 'required|integer', 
@@ -166,4 +168,86 @@ class HabitacionController extends Controller
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
     }
+
+    public function ocupar(Request $request) {
+        
+        $validator = Validator::make($request->all(),[ 
+                'usuario_id' => 'required|integer', 
+                'cliente_id' => 'required|integer', 
+                'habitacion_id' => 'required|integer',  
+            ], 
+            [
+                'nombre.required' => "El campo es requerio",
+                'cliente_id.required' => "El campo es requerio",
+                'habitacion_id.required' => "El campo es requerio", 
+            ]    
+        );
+
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+
+        $ocupar = DetalleHabitacion::create([
+            'usuario_id' => $request->usuario_id,
+            'cliente_id' => $request->cliente_id,
+            'habitacion_id' => $request->habitacion_id, 
+            'checkin' =>  Carbon::now()->format('Y-m-d H:i:s'), 
+        ]); 
+
+        if($ocupar){
+            $filasActualizadas = Habitacion::where('id', $request->habitacion_id)
+            ->update([
+                'estado' => '2',
+            ]);
+            Log::debug($filasActualizadas);
+            if($filasActualizadas) {
+                return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]); 
+            } else {
+                return response()->json(['error' => 'No se completo correctamente la accion', 'code' => "error"], 404);
+            }
+
+        } else {
+            return response()->json(['error' => 'No se completo correctamente la accion', 'code' => "error"], 404);
+
+        }
+
+    }
+
+    public function desocupar(Request $request) {
+        
+        $validator = Validator::make($request->all(),[ 
+                'id' => 'required|integer', 
+                'id_detalle' =>  'required|integer', 
+            ], 
+            [
+                'id.required' => "El campo es requerio", 
+            ]    
+        );
+
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+
+        $filasActualizadas = Habitacion::where('id', $request->id)
+        ->update([
+            'estado' => '1',
+        ]); 
+
+        
+        $filasActualizadas = DetalleHabitacion::where('id', $request->id_detalle)
+        ->update([
+            'checkout' =>  Carbon::now()->format('Y-m-d H:i:s'), 
+        ]); 
+
+        if($filasActualizadas) {
+            return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]); 
+        } else {
+            return response()->json(['error' => 'No se completo correctamente la accion', 'code' => "error"], 404);
+        }
+
+
+
+    }
+
+
 }

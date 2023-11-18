@@ -18,7 +18,7 @@ class UsuarioSeeder extends Seeder
             'id' => 1,
             'usuario' => 'admin',
             'email' => 'admin@gmail.com',
-            'password' => '',
+            'password' => 'test1',
             'rol_id' => '1',
             'superadmin' => '1',
             'estado' => '1', // activo = 1, inactivo = 0 

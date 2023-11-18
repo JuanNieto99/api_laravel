@@ -12,9 +12,11 @@ use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\RolPermisoDetalleController;
 use App\Http\Controllers\GeneroController;
 use App\Http\Controllers\HabitacionController;
+use App\Http\Controllers\HotelController;
 use App\Http\Controllers\MetodosPagoController;
 use App\Http\Controllers\PaisController;
 use App\Http\Controllers\TipoDocumentoController;
+use Termwind\Components\Hr;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,12 +32,13 @@ use App\Http\Controllers\TipoDocumentoController;
 //inicio 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('recuperarContrasena', [AuthController::class, 'recuperarContrasena']); 
-Route::post('usuariosCrear', [UsuarioController::class, 'create']); 
+//Route::post('usuariosCrear', [UsuarioController::class, 'create']); 
 
 
 Route::group(['middleware'=>['auth:sanctum']], function () {  
 
     //Usuario
+    Route::post('usuariosCrear', [UsuarioController::class, 'create']); 
     Route::post('usuariosListar', [UsuarioController::class, 'index']); //->middleware('permission:sa');
     Route::post('usuarioMostrar/{id}', [UsuarioController::class, 'show']);
     Route::post('usuariosActualizar', [UsuarioController::class, 'update']);
@@ -59,44 +62,55 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::post('permisoRolDetalleCrear', [RolPermisoDetalleController::class, 'create']); 
 
     //Clientes
-    Route::post('ClientesCrear', [ClienteController::class, 'create']); 
-    Route::post('ClientesActualizar', [ClienteController::class, 'update']); 
-    Route::post('ClientesEliminar', [ClienteController::class, 'destroy']); 
-    Route::post('ClientesListar', [ClienteController::class, 'index']); 
-    Route::get('ClientesMostrar/{id}', [ClienteController::class, 'show']); 
+    Route::post('clientesCrear', [ClienteController::class, 'create']); 
+    Route::post('clientesActualizar', [ClienteController::class, 'update']); 
+    Route::post('clientesEliminar', [ClienteController::class, 'destroy']); 
+    Route::post('clientesListar', [ClienteController::class, 'index']); 
+    Route::get('clientesMostrar/{id}', [ClienteController::class, 'show']); 
 
     //Habitaciones
-    Route::post('HabitacionesCrear', [HabitacionController::class, 'create']); 
-    Route::post('HabitacionesActualizar', [HabitacionController::class, 'update']); 
-    Route::post('HabitacionesEliminar', [HabitacionController::class, 'destroy']); 
-    Route::post('HabitacionesListar', [HabitacionController::class, 'index']); 
-    Route::get('HabitacionesMostrar/{id}', [HabitacionController::class, 'show']); 
+    Route::post('habitacionesCrear', [HabitacionController::class, 'create']); 
+    Route::post('habitacionesActualizar', [HabitacionController::class, 'update']); 
+    Route::post('habitacionesEliminar', [HabitacionController::class, 'destroy']); 
+    Route::post('habitacionesListar', [HabitacionController::class, 'index']); 
+    Route::get('habitacionesMostrar/{id}', [HabitacionController::class, 'show']); 
 
     //Estado civil
-    Route::post('EstadoCivilListar', [EstadoCivilController::class, 'index']); 
+    Route::post('estadoCivilListar', [EstadoCivilController::class, 'index']); 
 
     //Nivel estudio
-    Route::post('NicelDeEsrudioListar', [NivelEstudioController::class, 'index']); 
+    Route::post('nivelDeEstudioListar', [NivelEstudioController::class, 'index']); 
 
     //genero
-    Route::post('GeneroListar', [GeneroController::class, 'index']); 
+    Route::post('generoListar', [GeneroController::class, 'index']); 
 
     //tipo_documento
-    Route::post('TipoDocumentoListar', [TipoDocumentoController::class, 'index']); 
+    Route::post('tipoDocumentoListar', [TipoDocumentoController::class, 'index']); 
 
     //metodos pago
-    Route::post('MediosPagoListar', [MetodosPagoController::class, 'index']); 
+    Route::post('mediosPagoListar', [MetodosPagoController::class, 'index']); 
 
     //pais
-    Route::post('PaisListar', [PaisController::class, 'index']); 
+    Route::post('paisListar', [PaisController::class, 'index']); 
 
     //departamento
-    Route::post('DepartamentoListar', [DepartamentoController::class, 'index']); 
-    Route::post('DepartamentoPaisListar', [DepartamentoController::class, 'indexGetByPais']); 
+    Route::post('departamentoListar', [DepartamentoController::class, 'index']); 
+    Route::post('departamentoPaisListar', [DepartamentoController::class, 'indexGetByPais']); 
 
     //ciudad
-    Route::post('CiudadListar', [CiudadController::class, 'index']); 
-    Route::post('CiudadDepartamentoListar', [CiudadController::class, 'indexGetByDepartamento']); 
+    Route::post('ciudadListar', [CiudadController::class, 'index']); 
+    Route::post('ciudadDepartamentoListar', [CiudadController::class, 'indexGetByDepartamento']); 
+
+    //Hotel
+    Route::post('hotelCrear', [HotelController::class, 'create']); 
+    Route::post('hotelListar', [HotelController::class, 'index']); 
+    Route::get('hotelMostrar/{id}', [HotelController::class, 'show']); 
+    Route::post('hotelEliminar', [HotelController::class, 'destroy']); 
+    Route::post('hotelActualizar', [HotelController::class, 'update']); 
+
+    //Accion ocupar habitacion
+    Route::post('ocuparHabitacionCliente', [HabitacionController::class, 'ocupar']); 
+    Route::post('desocuparHabitacionCliente', [HabitacionController::class, 'desocupar']); 
 
 
     Route::get('logout', [AuthController::class, 'logout']);  

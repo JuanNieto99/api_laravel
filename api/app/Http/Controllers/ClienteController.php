@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 
 class ClienteController extends Controller
 {
@@ -28,7 +29,7 @@ class ClienteController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'nombre' => 'required|string|max:100|unique:permisos',
+            'nombres' => 'required|string|max:100|unique:clientes',
             'apellidos' => 'required|string|max:50', 
             'estado' => 'required|integer', 
             'tipo' => 'required|integer',
@@ -50,26 +51,27 @@ class ClienteController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors());
         }
-
+    
         $Cliente = Cliente::create([
-            'nombre' => $request->nombre,
+            'nombres' => $request->nombres,
             'apellidos' => $request->apellidos,
             'estado' => $request->estado, 
             'tipo' => $request->tipo,
             'ciudad_id' => $request->ciudad_id,
-            'tipo_documento' => $request->tipo_documento,
+            'tipo_documento_id' => $request->tipo_documento,
             'numero_documento' => $request->numero_documento, 
-            'genero' => $request->genero, 
-            'estado_civil' => $request->estado_civil, 
+            'genero_id' => $request->genero, 
+            'estado_civil_id' => $request->estado_civil, 
             'barrio_residencia' => $request->barrio_residencia, 
             'fecha_nacimiento' => $request->fecha_nacimiento, 
             'telefono' => $request->telefono, 
             'celular' => $request->celular, 
-            'nivel_studio' => $request->nivel_studio, 
+            'nivel_studio_id' => $request->nivel_studio, 
             'correo' => $request->correo, 
             'observacion' => $request->observacion, 
-            'usuario_create_id' => $request->observacion, 
+            'usuario_create_id' => $request->usuario_create_id, // Corregir esta línea
         ]);
+        
 
         if($Cliente){
             return response()
@@ -103,7 +105,7 @@ class ClienteController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'nombre' => 'required|string|max:100|unique:permisos',
+            'nombres' => 'required|string|max:100|unique:clientes,nombres,' . $request->input('id'),
             'apellidos' => 'required|string|max:50', 
             'estado' => 'required|integer', 
             'tipo' => 'required|integer',
@@ -118,7 +120,7 @@ class ClienteController extends Controller
             'celular' => 'required|string|max:30', 
             'nivel_studio' => 'required|integer', 
             'correo' => 'required|string|max:50', 
-            'observacion' => 'required|string|max:200', 
+            'observacion' => 'required|string|max:200',  
             'usuario_update_id' => 'required|integer',
             'id'  => 'required|integer',
         ]);
@@ -129,20 +131,20 @@ class ClienteController extends Controller
 
         $filasActualizadas = Cliente::where('id', $request->id)
         ->update([
-            'nombre' => $request->nombre,
+            'nombres' => $request->nombres,
             'apellidos' => $request->apellidos,
             'estado' => $request->estado, 
             'tipo' => $request->tipo,
             'ciudad_id' => $request->ciudad_id,
-            'tipo_documento' => $request->tipo_documento,
+            'tipo_documento_id' => $request->tipo_documento,
             'numero_documento' => $request->numero_documento, 
-            'genero' => $request->genero, 
-            'estado_civil' => $request->estado_civil, 
+            'genero_id' => $request->genero, 
+            'estado_civil_id' => $request->estado_civil, 
             'barrio_residencia' => $request->barrio_residencia, 
             'fecha_nacimiento' => $request->fecha_nacimiento, 
             'telefono' => $request->telefono, 
             'celular' => $request->celular, 
-            'nivel_studio' => $request->nivel_studio, 
+            'nivel_studio_id' => $request->nivel_studio, 
             'correo' => $request->correo, 
             'observacion' => $request->observacion, 
             'usuario_update_id' => $request->usuario_update_id, 

@@ -84,7 +84,7 @@ class PermisoController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'nombre' => 'required|string|max:50|unique:permisos',
+            'nombre' => 'required|string|max:50|unique:permisos,nombre'.$request->input('id'),
             'id_padre' => 'integer',
         ], 
         [

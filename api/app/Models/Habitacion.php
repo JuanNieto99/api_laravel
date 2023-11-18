@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\DetalleHabitacion;
 
 class Habitacion extends Model
 {
@@ -15,10 +16,15 @@ class Habitacion extends Model
         'nombre', 
         'descripcion',
         'diseno_json', 
-        'estado', 
+        'estado',  
         'tipo', 
         'capacidad_personas', 
         'precio', 
         'usuario_modifica',
     ];
+
+    public function detalle()
+    {
+        return $this->belongsTo(DetalleHabitacion::class,'id','habitacion_id');
+    }
 }

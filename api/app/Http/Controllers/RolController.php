@@ -105,7 +105,7 @@ class RolController extends Controller
     {
         $validator = Validator::make($request->all(),[
                 'id' => 'required|integer', 
-                'nombre' => 'required|string|max:50|unique:rols',
+                'nombre' => 'required|string|max:50|unique:rols,nombre'.$request->input('id'),
                 'descripcion' => 'required|string|max:100', 
                 'estado' => 'required|integer',
             ], 

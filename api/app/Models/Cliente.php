@@ -12,22 +12,23 @@ class Cliente extends Model
     protected $table='clientes'; 
 
     protected $fillable = [
-        'nombre', 
+        'nombres', 
         'apellidos',
         'tipo', 
         'ciudad_id', 
-        'tipo_documento', 
+        'tipo_documento_id', 
         'numero_documento', 
-        'genero', 
-        'estado_civil',
+        'genero_id', 
+        'estado_civil_id',
         'barrio_residencia',
         'fecha_nacimiento',
         'telefono',
         'celular',
-        'nivel_studio',
+        'nivel_studio_id',
         'correo',
         'observacion',
         'usuario_create_id',
-        'usuario_update_id'
+        'usuario_update_id',
+        'estado'
     ];
 }

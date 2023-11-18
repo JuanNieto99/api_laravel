@@ -115,7 +115,7 @@ class UsuarioController extends Controller
         $validator = Validator::make($request->all(),[
                 'id' => 'required|integer', 
                 'usuario' => 'required|string|max:50',
-                'email' => 'required|string|email|max:50|unique:usuarios',
+                'email' => 'required|string|email|max:50|unique:usuarios,email'.$request->input('id'),
                 'rol_id' => 'required|integer', 
             ], 
             [

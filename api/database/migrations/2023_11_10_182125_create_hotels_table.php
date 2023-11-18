@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('email', 50);
             $table->unsignedTinyInteger('tipo_contribuyente');
             $table->unsignedBigInteger('usuario_id')->nullable(false);
+            $table->unsignedTinyInteger('estado');
             $table->foreign('ciudad_id')->references('id')->on('ciudads')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('usuario_id')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('restrict');
             $table->timestamps();
