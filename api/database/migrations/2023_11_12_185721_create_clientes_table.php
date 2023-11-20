@@ -31,7 +31,6 @@ return new class extends Migration
             $table->string('observacion', 200);
             $table->unsignedBigInteger('usuario_create_id')->nullable(false); 
             $table->unsignedBigInteger('usuario_update_id')->nullable(); 
-            $table->unsignedTinyInteger('estado');
             $table->timestamps(); 
             $table->foreign('ciudad_id')->references('id')->on('ciudads')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('usuario_create_id')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('restrict');

@@ -16,8 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('usuario_id')->nullable(false); 
             $table->unsignedBigInteger('cliente_id')->nullable(false); 
             $table->unsignedBigInteger('habitacion_id')->nullable(false); 
-            $table->timestamp('checkout')->nullable();
-            $table->timestamp('checkin')->nullable(); 
+            $table->timestamp('checkout')->nullable(); 
             $table->timestamp('checkin')->nullable(); 
             $table->timestamp('fecha_inicio')->nullable();
             $table->timestamp('fecha_salida')->nullable();  
