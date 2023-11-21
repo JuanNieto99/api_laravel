@@ -1,30 +1,13 @@
-# Utiliza una imagen base con PHP 8.1.0 y Apache
-FROM php:8.1.0-apache
+FROM php:8.0-fpm-alpine
 
-# Establece el directorio de trabajo
-WORKDIR /var/www/html
+ADD ./php/www.conf /usr/local/etc/php-fpm.d/www.conf
 
-# Mod Rewrite
-RUN a2enmod rewrite
+RUN addgroup -g 1000 laravel && adduser -G laravel -g laravel -s /bin/sh -D laravel
 
-# Copia solo los archivos necesarios para la aplicación Laravel
-COPY ./public ./public
-COPY ./vendor ./vendor
-COPY ./composer.json ./composer.json
-COPY ./composer.lock ./composer.lock
+RUN mkdir -p /var/www/html
 
-# Instala las dependencias de Composer
-RUN composer install --no-dev --optimize-autoloader
+ADD ./src/ /var/www/html
 
-# Copia la configuración de Apache
-COPY ./apache-config.conf /etc/apache2/sites-available/000-default.conf
+RUN docker-php-ext-install pdo pdo_mysql
 
-# Ajuste de permisos
-RUN chown -R www-data:www-data /var/www/html
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Exponer el puerto si es necesario (puedes comentar esta línea si no es necesario)
-EXPOSE 80
-
-# Comando que se ejecutará cuando inicie el contenedor
-CMD ["apache2-foreground"]
+RUN chown -R laravel:laravel /var/www/html
