@@ -12,7 +12,8 @@ RUN apt-get update -y && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
-    libpng-dev 
+    libpng-dev \
+    nano 
 
 # Instala Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -20,14 +21,17 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copia tu aplicación al contenedor
 WORKDIR /var/www/html/
 COPY . /var/www/html
-
+RUN a2enmod rewrite
 # Copia la configuración de Apache
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf 
+COPY apache2.conf /etc/apache2/apache2.conf
+RUN service apache2 restart
 
 # Ajusta los permisos
 RUN chmod -R 755 /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 RUN chown -R www-data:www-data /var/www/html/api/storage
+RUN chmod -R 755 /var/www/html/api/storage
 
 # Instala extensiones de PHP necesarias
 RUN docker-php-ext-install gettext intl pdo_mysql gd
