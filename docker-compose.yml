@@ -1,10 +1,6 @@
- 
-version: "2"
-volumes:
-  db:
-  api:
-services:
+version: '2'
 
+services:
   mariadb:
     image: docker.io/bitnami/mariadb:11.1
     environment:
@@ -16,8 +12,6 @@ services:
       - TZ=America/Bogota
     ports:
       - '8940:3306'
-    volumes:
-      - 'db:/var/lib/mysql/'
   api: 
     image: docker.io/bitnami/laravel:10
     ports:
@@ -28,7 +22,11 @@ services:
       DB_USERNAME: user
       DB_PASSWORD: 7654321
       DB_DATABASE: db
-    volumes: 
-      - 'api:/var/www/html'
+    volumes:
+      - './api:/app'
     depends_on:
       - mariadb
+    command: >
+      bash -c "
+      composer install && 
+      php artisan serve --host=0.0.0.0 --port=8000"
