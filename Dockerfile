@@ -1,34 +1,43 @@
-FROM php:7.4-apache
+FROM php:8.2-apache
 
-RUN a2enmod rewrite
+# ... (resto del Dockerfile)
 
-RUN apt-get update && apt-get install -y \
-        zlib1g-dev \
-        libicu-dev \
-        libxml2-dev \
-        libpq-dev \
-        libzip-dev \
-        && docker-php-ext-install pdo pdo_mysql zip intl xmlrpc soap opcache \
-        && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
+# Instala las dependencias de Linux y las extensiones de PHP
+RUN apt-get update -y && apt-get install -y \
+    libicu-dev \
+    libmariadb-dev \
+    unzip zip \
+    zlib1g-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev 
 
+# Instala Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN apt-get update -y 
-
-# Add Node 8 LTS
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -- \
-	&& apt-get install -y nodejs \
-	&& apt-get autoremove -y
-
-COPY --from=composer /usr/bin/composer /usr/bin/composer
-
-COPY  docker/000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY  docker/.env-pro /var/www/html/.env
-COPY  docker/php.ini /usr/local/etc/php/php.ini
-
-ENV COMPOSER_ALLOW_SUPERUSER 1
-
-COPY  . /var/www/html/
+# Copia tu aplicación al contenedor
 WORKDIR /var/www/html/
+COPY . /var/www/html
 
-RUN chown -R www-data:www-data /var/www/html  \
-    && composer install  && composer dumpautoload 
+# Copia la configuración de Apache
+COPY 000-default.conf /etc/apache2/sites-available/000-default.conf 
+
+# Ajusta los permisos
+RUN chmod -R 755 /var/www/html
+RUN chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html/api/storage
+
+# Instala extensiones de PHP necesarias
+RUN docker-php-ext-install gettext intl pdo_mysql gd
+
+# Configura la extensión GD
+RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd
+
+
+# Expone el puerto 80 para que pueda ser accesible desde el exterior
+EXPOSE 80
+
+CMD ["apache2-foreground"]

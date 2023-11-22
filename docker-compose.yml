@@ -4,6 +4,7 @@ volumes:
   db:
   api:
 services:
+
   mariadb:
     image: docker.io/bitnami/mariadb:11.1
     environment:
