@@ -29,13 +29,6 @@ RUN chmod -R 755 /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 RUN chown -R www-data:www-data /var/www/html/api/storage
 
-# Instala extensiones de PHP necesarias
-RUN docker-php-ext-install gettext intl pdo_mysql gd
-
-# Configura la extensión GD
-RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd
-
 
 # Expone el puerto 80 para que pueda ser accesible desde el exterior
 EXPOSE 80
