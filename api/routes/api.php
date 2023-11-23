@@ -35,13 +35,14 @@ Route::get('/sinPermisos', function () {
 
 //inicio 
 Route::post('login', [AuthController::class, 'login']);
-Route::post('usuariosCrear', [UsuarioController::class, 'create']); 
+Route::post('recuperarContrasena', [AuthController::class, 'recuperarContrasena']); 
+
 
 
 Route::group(['middleware'=>['auth:sanctum']], function () {  
 
     //Usuario
-    Route::post('recuperarContrasena', [AuthController::class, 'recuperarContrasena']); 
+    Route::post('usuariosCrear', [UsuarioController::class, 'create']); 
     //Route::post('usuariosCrear', [UsuarioController::class, 'create']); 
     Route::post('usuariosListar', [UsuarioController::class, 'index']); //->middleware('permission:sa');
     Route::post('usuarioMostrar/{id}', [UsuarioController::class, 'show']);

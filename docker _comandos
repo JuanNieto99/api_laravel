@@ -1,4 +1,4 @@
 docker build -t api:1.0 .
 docker exec -it api_laravel-api-1  /bin/bash
-sudo docker run --name api62  -p  80:80 api:1.0
+sudo docker run --name api62 -p 80:80 -d api:1.0
 docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nombre_del_contenedor
