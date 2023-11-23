@@ -100,13 +100,13 @@ class HotelController extends Controller
      */
     public function show($id)
     {
-        $permiso = Hotel::where('estado',1)->find($id);
+        $hotel = Hotel::where('estado',1)->find($id);
 
-        if(!$permiso){
+        if(!$hotel){
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
 
-        return $permiso;
+        return $hotel;
     } 
 
     /**

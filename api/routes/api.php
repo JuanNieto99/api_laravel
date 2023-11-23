@@ -13,8 +13,10 @@ use App\Http\Controllers\RolPermisoDetalleController;
 use App\Http\Controllers\GeneroController;
 use App\Http\Controllers\HabitacionController;
 use App\Http\Controllers\HotelController;
+use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\MetodosPagoController;
 use App\Http\Controllers\PaisController;
+use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\TipoDocumentoController;
 use Termwind\Components\Hr;
 
@@ -112,6 +114,20 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::get('hotelMostrar/{id}', [HotelController::class, 'show']); 
     Route::post('hotelEliminar', [HotelController::class, 'destroy']); 
     Route::post('hotelActualizar', [HotelController::class, 'update']); 
+
+    //Producto
+    Route::post('productoCrear', [ProductosController::class, 'create']); 
+    Route::post('productoListar', [ProductosController::class, 'index']); 
+    Route::get('productoMostrar/{id}', [ProductosController::class, 'show']); 
+    Route::post('productoEliminar', [ProductosController::class, 'destroy']); 
+    Route::post('productoActualizar', [ProductosController::class, 'update']); 
+
+    //Incentario
+    Route::post('inventarioCrear', [InventarioController::class, 'create']); 
+    Route::post('inventarioListar', [InventarioController::class, 'index']); 
+    Route::get('inventarioMostrar/{id}', [InventarioController::class, 'show']); 
+    Route::post('inventarioEliminar', [InventarioController::class, 'destroy']); 
+    Route::post('inventarioActualizar', [InventarioController::class, 'update']); 
 
     //Accion ocupar habitacion
     Route::post('ocuparHabitacionCliente', [HabitacionController::class, 'ocupar']); 
