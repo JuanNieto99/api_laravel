@@ -1,7 +1,5 @@
 FROM php:8.2-apache
 
-# ... (resto del Dockerfile)
-
 # Instala las dependencias de Linux y las extensiones de PHP
 RUN apt-get update -y && apt-get install -y \
     libicu-dev \
@@ -42,6 +40,10 @@ RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
 
 #RUN composer install
 RUN chmod -R 755 /var/www/html/api
+
+COPY migracion-seed.sh  /var/www/html/api
+
+RUN chmod -R 755 /var/www/html/api/migracion-seed.sh  
 
 # Expone el puerto 80 para que pueda ser accesible desde el exterior
 EXPOSE 80

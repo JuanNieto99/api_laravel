@@ -29,16 +29,20 @@ use Termwind\Components\Hr;
 |
 */ 
 
+Route::get('/sinPermisos', function () {
+    return response()->json(['error' => 'Erro Sin Permisos', 'code' => "error"], 403); 
+})->name('sinPermisos');
+
 //inicio 
 Route::post('login', [AuthController::class, 'login']);
-Route::post('recuperarContrasena', [AuthController::class, 'recuperarContrasena']); 
-//Route::post('usuariosCrear', [UsuarioController::class, 'create']); 
+Route::post('usuariosCrear', [UsuarioController::class, 'create']); 
 
 
 Route::group(['middleware'=>['auth:sanctum']], function () {  
 
     //Usuario
-    Route::post('usuariosCrear', [UsuarioController::class, 'create']); 
+    Route::post('recuperarContrasena', [AuthController::class, 'recuperarContrasena']); 
+    //Route::post('usuariosCrear', [UsuarioController::class, 'create']); 
     Route::post('usuariosListar', [UsuarioController::class, 'index']); //->middleware('permission:sa');
     Route::post('usuarioMostrar/{id}', [UsuarioController::class, 'show']);
     Route::post('usuariosActualizar', [UsuarioController::class, 'update']);

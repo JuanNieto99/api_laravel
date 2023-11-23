@@ -14,8 +14,7 @@ class Authenticate extends Middleware
     { 
         if (!$request->expectsJson()) {
             // Cambia la redirección a la ruta login si no es una solicitud JSON
-            return response()->json(['error' => 'No autenticado.'], 401);
-
+            return route('sinPermisos');
         } 
     }
 }
