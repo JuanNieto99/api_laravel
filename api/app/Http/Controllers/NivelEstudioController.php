@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\nivel_estudio;
+use App\Models\nivelEstudio;
 use Illuminate\Http\Request;
 
 class NivelEstudioController extends Controller
@@ -14,7 +14,7 @@ class NivelEstudioController extends Controller
     {
         $per_page = $request->query('per_page', 1);
 
-        $query = nivel_estudio::where('estado',1)->orderBy('nombre', 'asc');
+        $query = nivelEstudio::where('estado',1)->orderBy('nombre', 'asc');
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }
@@ -38,7 +38,7 @@ class NivelEstudioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(nivel_estudio $nivel_estudio)
+    public function show(nivelEstudio $nivel_estudio)
     {
         //
     }
@@ -46,7 +46,7 @@ class NivelEstudioController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(nivel_estudio $nivel_estudio)
+    public function edit(nivelEstudio $nivel_estudio)
     {
         //
     }
@@ -54,7 +54,7 @@ class NivelEstudioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, nivel_estudio $nivel_estudio)
+    public function update(Request $request, nivelEstudio $nivel_estudio)
     {
         //
     }
@@ -62,7 +62,7 @@ class NivelEstudioController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(nivel_estudio $nivel_estudio)
+    public function destroy(nivelEstudio $nivel_estudio)
     {
         //
     }

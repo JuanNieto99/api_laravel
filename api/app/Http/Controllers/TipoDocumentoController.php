@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\tipo_documento;
+use App\Models\TipoDocumento;
 use Illuminate\Http\Request;
 
 class TipoDocumentoController extends Controller
@@ -14,7 +14,7 @@ class TipoDocumentoController extends Controller
     {
         $per_page = $request->query('per_page', 1);
 
-        $query = tipo_documento::where('estado',1)->orderBy('nombre', 'asc');
+        $query = TipoDocumento::where('estado',1)->orderBy('nombre', 'asc');
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }
@@ -38,7 +38,7 @@ class TipoDocumentoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(tipo_documento $tipo_documento)
+    public function show(TipoDocumento $tipo_documento)
     {
         //
     }
@@ -46,7 +46,7 @@ class TipoDocumentoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(tipo_documento $tipo_documento)
+    public function edit(TipoDocumento $tipo_documento)
     {
         //
     }
@@ -54,7 +54,7 @@ class TipoDocumentoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, tipo_documento $tipo_documento)
+    public function update(Request $request, TipoDocumento $tipo_documento)
     {
         //
     }
@@ -62,7 +62,7 @@ class TipoDocumentoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(tipo_documento $tipo_documento)
+    public function destroy(TipoDocumento $tipo_documento)
     {
         //
     }

@@ -21,6 +21,7 @@ class Habitacion extends Model
         'capacidad_personas', 
         'precio', 
         'usuario_modifica',
+        'estado'
     ];
 
     public function detalle()

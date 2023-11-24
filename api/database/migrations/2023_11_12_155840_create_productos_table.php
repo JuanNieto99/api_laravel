@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('nombre', 100);
             $table->string('descripcion');
             $table->string('imagen', 70);
+            $table->unsignedTinyInteger('sin_limite_cantidad')->nullable(false); //1-> sin limite 0->con limite
+            $table->unsignedBigInteger('medida_id')->nullable(false); // 1 -> gramo, 2->peso , 3 -> kg, 4->
             $table->decimal('precio', 12, 2)->nullable(false);
             $table->unsignedBigInteger('cantidad');
             $table->unsignedTinyInteger('estado')->nullable(false); //0 -> eliminado  1 -> registrado 

@@ -24,6 +24,11 @@ class DatabaseSeeder extends Seeder
             GeneroSeeder::class,
             NivelEstudioSeeder::class,
             MetodosPagoSeeder::class,
+            MedidaSeeder::class,
+            TipoContribuyenteSeeder::class,
+            TipoHabitacionSeeder::class,
+            HotelSeeder::class,
+            InventarioSeeder::class,
         ]);
     }
 }

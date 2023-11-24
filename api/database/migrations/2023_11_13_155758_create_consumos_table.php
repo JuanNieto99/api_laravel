@@ -16,13 +16,14 @@ return new class extends Migration
             $table->unsignedBigInteger('usuario_id')->nullable(false); 
             $table->unsignedBigInteger('cliente_id')->nullable(false); 
             $table->unsignedBigInteger('habitacion_id')->nullable(); 
-            $table->unsignedBigInteger('producto_id')->nullable(false); 
+            $table->unsignedBigInteger('consumido_id')->nullable(false); 
+            $table->unsignedTinyInteger('tipo_consumido');  // 1 -> receta  2 -> producto 
             $table->decimal('precio', 12, 2)->nullable();
             $table->unsignedBigInteger('cantidad'); 
             $table->timestamp('created_at')->nullable();
             $table->foreign('usuario_id')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('cliente_id')->references('id')->on('clientes')->onUpdate('cascade')->onDelete('restrict');
-            $table->foreign('producto_id')->references('id')->on('productos')->onUpdate('cascade')->onDelete('restrict');
+            //$table->foreign('producto_id')->references('id')->on('productos')->onUpdate('cascade')->onDelete('restrict');
         });
     }
 

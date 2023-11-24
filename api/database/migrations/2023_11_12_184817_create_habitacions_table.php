@@ -17,7 +17,7 @@ return new class extends Migration
             $table->json('descripcion');
             $table->json('diseno_json');
             $table->unsignedTinyInteger('estado')->nullable(false); 
-            $table->unsignedTinyInteger('tipo');
+            $table->unsignedBigInteger('tipo')->nullable(false); 
             $table->unsignedBigInteger('capacidad_personas'); 
             $table->decimal('precio', 12, 2)->nullable();
             $table->unsignedBigInteger('usuario_modifica')->nullable(false); 

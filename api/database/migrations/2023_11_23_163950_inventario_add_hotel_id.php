@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('inventarios', function (Blueprint $table) {
             $table->unsignedBigInteger('hotel_id')->nullable(false)->after('descripcion');
-            $table->unsignedTinyInteger('estado')->after('hotel_id');
+            $table->unsignedTinyInteger('estado')->after('hotel_id'); 
             $table->foreign('hotel_id')->references('id')->on('hotels')->onUpdate('cascade')->onDelete('restrict');
         });
     }

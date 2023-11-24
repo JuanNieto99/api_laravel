@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DetalleHabitacion;
 use App\Models\Habitacion;
+use App\Models\TiposHabitaciones;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;   
@@ -84,13 +85,13 @@ class HabitacionController extends Controller
      */
     public function show($id)
     {
-        $permiso = Habitacion::where('estado','!=',0)->find($id);
+        $habitacion = Habitacion::where('estado','!=',0)->find($id);
 
-        if(!$permiso){
+        if(!$habitacion){
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
 
-        return $permiso;
+        return $habitacion;
     }
 
     /**
@@ -243,10 +244,23 @@ class HabitacionController extends Controller
             return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]); 
         } else {
             return response()->json(['error' => 'No se completo correctamente la accion', 'code' => "error"], 404);
+        } 
+
+    }
+
+    public function edit($id) {
+        $habitacion = Habitacion::where('estado','!=',0)->find($id);
+
+        if(!$habitacion){
+            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
 
+        $tipo_habitacion = TiposHabitaciones::select('id','nombre')->Where('estado',1)->get();
 
-
+        return [
+            'habitacion' => $habitacion,
+            'tipo_habitacion' => $tipo_habitacion,
+        ];
     }
 
 

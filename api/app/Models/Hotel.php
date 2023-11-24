@@ -24,6 +24,8 @@ class Hotel extends Model
         'cantidad_habitaciones',
         'email',
         'tipo_contribuyente',
-        'usuario_id'
+        'usuario_id',
+        'imagen',
+        'estado'
     ];
 }

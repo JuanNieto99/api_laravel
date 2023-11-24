@@ -79,9 +79,7 @@ class RolController extends Controller
             ], 201);
         } else {
             return response()->json(['error' => 'Erro al crear', 'code' => "error"], 404); 
-        }
-
-
+        } 
     }
 
     /**

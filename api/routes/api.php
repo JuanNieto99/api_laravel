@@ -14,10 +14,12 @@ use App\Http\Controllers\GeneroController;
 use App\Http\Controllers\HabitacionController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\InventarioController;
+use App\Http\Controllers\MedidaController;
 use App\Http\Controllers\MetodosPagoController;
 use App\Http\Controllers\PaisController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\TipoDocumentoController;
+use App\Models\TiposContribuyentes;
 use Termwind\Components\Hr;
 
 /*
@@ -74,6 +76,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::post('clientesEliminar', [ClienteController::class, 'destroy']); 
     Route::post('clientesListar', [ClienteController::class, 'index']); 
     Route::get('clientesMostrar/{id}', [ClienteController::class, 'show']); 
+    Route::get('clienteEditar/{id}', [ClienteController::class, 'edit']); 
 
     //Habitaciones
     Route::post('habitacionesCrear', [HabitacionController::class, 'create']); 
@@ -81,6 +84,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::post('habitacionesEliminar', [HabitacionController::class, 'destroy']); 
     Route::post('habitacionesListar', [HabitacionController::class, 'index']); 
     Route::get('habitacionesMostrar/{id}', [HabitacionController::class, 'show']); 
+    Route::get('habitacionesEditar/{id}', [HabitacionController::class, 'edit']); 
 
     //Estado civil
     Route::post('estadoCivilListar', [EstadoCivilController::class, 'index']); 
@@ -114,6 +118,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::get('hotelMostrar/{id}', [HotelController::class, 'show']); 
     Route::post('hotelEliminar', [HotelController::class, 'destroy']); 
     Route::post('hotelActualizar', [HotelController::class, 'update']); 
+    Route::get('hotelEditar/{id}', [HotelController::class, 'edit']); 
 
     //Producto
     Route::post('productoCrear', [ProductosController::class, 'create']); 
@@ -121,6 +126,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::get('productoMostrar/{id}', [ProductosController::class, 'show']); 
     Route::post('productoEliminar', [ProductosController::class, 'destroy']); 
     Route::post('productoActualizar', [ProductosController::class, 'update']); 
+    Route::get('productoEditar/{id}', [ProductosController::class, 'edit']); 
 
     //Incentario
     Route::post('inventarioCrear', [InventarioController::class, 'create']); 
@@ -133,6 +139,11 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::post('ocuparHabitacionCliente', [HabitacionController::class, 'ocupar']); 
     Route::post('desocuparHabitacionCliente', [HabitacionController::class, 'desocupar']); 
 
+    //Tipo contribuyente
+    Route::post('tipoContribuyenteListar', [TipoContribuyenteController::class, 'index']); 
+
+    //Medidas
+    Route::post('medidaListar', [MedidaController::class, 'index']); 
 
     Route::get('logout', [AuthController::class, 'logout']);  
 });

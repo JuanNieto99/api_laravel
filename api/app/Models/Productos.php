@@ -19,5 +19,7 @@ class Productos extends Model
         'cantidad',
         'estado',
         'inventario_id',
+        'sin_limite_cantidad',
+        'medida_id',
     ];
 }

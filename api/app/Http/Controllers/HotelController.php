@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hotel;
+use App\Models\Pais;
+use App\Models\TiposContribuyentes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Log;
-
+use Imagine\Gd\Imagine;
+use Imagine\Image\Box;
 class HotelController extends Controller
 {
     /**
@@ -67,6 +70,37 @@ class HotelController extends Controller
             return response()->json($validator->errors());
         }
 
+        if(!empty($request->imagen)){
+            $imagen = $request->file('imagen'); 
+
+            $ruta = $imagen->store('public/imagenes/hoteles');
+    
+            $path =  "/app/storage/app/".$ruta;
+    
+            // Carga la imagen original
+            $imagine = new Imagine();
+            $image = $imagine->open($path);
+    
+            $newWidth = 300;
+    
+            // Calcula la nueva altura manteniendo la relación de aspecto original
+            $ratio = $image->getSize()->getWidth() / $image->getSize()->getHeight();
+            $newHeight = intval($newWidth / $ratio);
+            
+            // Redimensiona la imagen
+            $resizedImage = $image->resize(new Box($newWidth, $newHeight));
+    
+            // Guarda la imagen redimensionada
+            $resizedImage->save($path);
+
+            $imagenData = base64_encode(file_get_contents($path));
+
+        } else {
+            $path =  "/app/storage/app/public/config/defaultHotel.jpg";
+            $imagenData = base64_encode(file_get_contents($path)); 
+        }
+
+
         $hotel = Hotel::create([
             'nombre' => $request->nombre, 
             'direccion' => $request-> direccion,
@@ -82,13 +116,15 @@ class HotelController extends Controller
             'tipo_contribuyente' => $request->tipo_contribuyente,
             'usuario_id' => $request->usuario_id,
             'estado' => '1',
+            'imagen' => !empty($request->imagen)?explode('/', $ruta)[3]:'defaultHotel.jpg',
         ]); 
 
         if($hotel){
             return response()
             ->json([
                 'hotel' => $hotel,
-                'code' => "success"
+                'code' => "success",
+                'imagen' => str_replace("\u005C",'',$imagenData),
             ], 201);
         } else {
             return response()->json(['error' => 'Erro al crear', 'code' => "error"], 404); 
@@ -106,7 +142,12 @@ class HotelController extends Controller
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
 
-        return $hotel;
+        return response()
+        ->json([
+            'hotel' => $hotel,
+            'imagen' => $hotel->imagen=='defaultHotel.jpg'?str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/config/defaultHotel.jpg"))):str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/imagenes/hoteles/".$hotel->imagen))),
+            'code' => "success"
+        ], 201);
     } 
 
     /**
@@ -154,8 +195,7 @@ class HotelController extends Controller
             return response()->json($validator->errors());
         }
 
-        $filasActualizadas = Hotel::where('id', $request->id)
-        ->update([
+        $insert = [
             'nombre' => $request->nombre, 
             'direccion' => $request-> direccion,
             'ciudad_id' => $request-> ciudad_id,
@@ -168,16 +208,93 @@ class HotelController extends Controller
             'cantidad_habitaciones' =>  $request->cantidad_habitaciones,
             'email' => $request->email,
             'tipo_contribuyente' => $request->tipo_contribuyente,
-            'usuario_id' => $request->usuario_id, 
+            'usuario_id' => $request->usuario_id,  
+            'imagen' => 'defaultHotel.jpg', 
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        ]); 
+        ];
+
+        if(!empty($request->imagen)){
+
+            $imagen = $request->file('imagen'); 
+
+            $ruta = $imagen->store('public/imagenes/hoteles');
+    
+            $path =  "/app/storage/app/".$ruta;
+    
+            // Carga la imagen original
+            $imagine = new Imagine();
+            $image = $imagine->open($path);
+    
+            $newWidth = 200;
+    
+            // Calcula la nueva altura manteniendo la relación de aspecto original
+            $ratio = $image->getSize()->getWidth() / $image->getSize()->getHeight();
+            $newHeight = intval($newWidth / $ratio);
+            
+            // Redimensiona la imagen
+            $resizedImage = $image->resize(new Box($newWidth, $newHeight));
+    
+            // Guarda la imagen redimensionada
+            $resizedImage->save($path);
+
+           // $imagenData = base64_encode(file_get_contents($path)); 
+
+            $insert = [
+                'nombre' => $request->nombre, 
+                'direccion' => $request-> direccion,
+                'ciudad_id' => $request-> ciudad_id,
+                'contacto' => $request-> contacto,
+                'contacto_telefono' => $request-> contacto_telefono,
+                'contacto_cargo' => $request->contacto_cargo,
+                'telefono' => $request->telefono,
+                'nit' =>  $request->nit,
+                'razon_social' => $request->razon_social,
+                'cantidad_habitaciones' =>  $request->cantidad_habitaciones,
+                'email' => $request->email,
+                'tipo_contribuyente' => $request->tipo_contribuyente,
+                'usuario_id' => $request->usuario_id, 
+                'imagen' => explode('/', $ruta)[3],
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ];
+        } 
+
+        $filasActualizadas = Hotel::where('id', $request->id)
+        ->update($insert); 
         
         if ($filasActualizadas > 0) {
-            return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);
+            $hotel = Hotel::where('estado',1)->find($request->id);
+
+            return response()->json(['mensaje' => 'Actualización exitosa',
+            'imagen' => $hotel->imagen=='defaultHotel.jpg'?str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/config/defaultHotel.jpg"))):str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/imagenes/hoteles/".$hotel->imagen))),
+            'code' => "success"]);
         } else {
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
     
+    }
+    /**
+    * Show the form for editing the specified resource.
+    */
+    public function edit($id)
+    { 
+        $hotel = Hotel::where('estado',1)->find($id);
+
+        if(!$hotel){
+            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
+        }
+
+        $pais = Pais::select('id','nombre','abreviatura')->Where('estado',1)->get();
+        $tipoContribuyente = TiposContribuyentes::select('id','nombre')->Where('estado',1)->get();
+
+        return response()
+        ->json([
+            'hotel' => $hotel,
+            'imagen' => $hotel->imagen=='defaultHotel.jpg'?str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/config/defaultHotel.jpg"))):str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/imagenes/hoteles/".$hotel->imagen))),
+            'pais' => $pais,
+            'tipoContribuyente' => $tipoContribuyente,
+            'code' => "success",
+        ], 201);
+
     }
 
     /**

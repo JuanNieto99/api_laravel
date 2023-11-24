@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre', 50);
             $table->string('direccion', 50);
+            $table->string('imagen', 70);
             $table->unsignedBigInteger('ciudad_id')->nullable(false);
             $table->string('contacto', 50);
             $table->string('contacto_telefono', 30);
@@ -24,7 +25,7 @@ return new class extends Migration
             $table->string('razon_social', 50);
             $table->unsignedBigInteger('cantidad_habitaciones');
             $table->string('email', 50);
-            $table->unsignedTinyInteger('tipo_contribuyente');
+            $table->unsignedBigInteger('tipo_contribuyente')->nullable(false);
             $table->unsignedBigInteger('usuario_id')->nullable(false);
             $table->unsignedTinyInteger('estado');
             $table->foreign('ciudad_id')->references('id')->on('ciudads')->onUpdate('cascade')->onDelete('restrict');

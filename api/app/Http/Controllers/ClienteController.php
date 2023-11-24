@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\EstadoCivil;
+use App\Models\Genero;
+use App\Models\NivelEstudio;
+use App\Models\Pais;
+use App\Models\TipoDocumento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
@@ -89,13 +94,43 @@ class ClienteController extends Controller
      */
     public function show($id)
     {
-        $permiso = Cliente::where('estado',1)->find($id);
+        $cliente = Cliente::where('estado',1)->find($id);
 
-        if(!$permiso){
+        if(!$cliente){
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
 
-        return $permiso;
+        return $cliente;
+    }
+
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
+
+        $cliente = Cliente::where('estado',1)->find($id);
+
+        if(!$cliente){
+            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
+        }
+
+        $pais = Pais::select('id','nombre','abreviatura')->Where('estado',1)->get();
+        $tipo_documento = TipoDocumento::select('id','nombre')->Where('estado',1)->get();
+        $genero = Genero::select('id','nombre')->Where('estado',1)->get();
+        $estado_civil = EstadoCivil::select('id','nombre')->Where('estado',1)->get();
+        $nivel_estudio = NivelEstudio::select('id','nombre')->Where('estado',1)->get();
+
+        return [
+            'cliente' => $cliente,
+            'pais' => $pais,
+            'tipo_documento' => $tipo_documento,
+            'genero' => $genero,
+            'estado_civil' => $estado_civil,
+            'nivel_estudio' => $nivel_estudio,
+        ]; 
+
     }
 
 
