@@ -5,17 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Caja extends Model
+class RecetaDetalle extends Model
 {
     protected $primaryKey = 'id';
 
-    protected $table='cajas'; 
+    protected $table='detalle_recetas'; 
 
     protected $fillable = [
-        'nombre', 
-        'descripcion',
-        'base',  
-        'estado',
-        'hotel_id'
+        'producto_id', 
+        'receta_id',
+        'estado',  
     ];
 }

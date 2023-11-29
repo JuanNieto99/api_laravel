@@ -5,7 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class consumo extends Model
+class Consumo extends Model
 {
-    use HasFactory;
+    protected $primaryKey = 'id';
+
+    protected $table='consumos'; 
+
+    protected $fillable = [
+        'usuario_id', 
+        'cliente_id', 
+        'habitacion_id', 
+        'consumido_id', 
+        'tipo_consumido', 
+        'precio',
+        'cantidad',
+    ];
 }

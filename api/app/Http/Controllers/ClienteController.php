@@ -10,8 +10,7 @@ use App\Models\Pais;
 use App\Models\TipoDocumento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
-use Carbon\Carbon;
-use GuzzleHttp\Client;
+use Carbon\Carbon; 
 use Illuminate\Support\Facades\Log;
 
 class ClienteController extends Controller

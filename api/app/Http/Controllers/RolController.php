@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Permiso;
 use App\Models\Rol;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
@@ -177,5 +178,21 @@ class RolController extends Controller
             // No se encontró un usuario con el ID proporcionado
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
+    }
+
+    public function edit($id) {
+
+        $rol = Rol::where('estado',1)->find($id);
+
+        if(!$rol){
+            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
+        } 
+    
+        $permisos = Permiso::select('id','codigo', 'nombre','id_padre')->where('estado','2')->get();
+        
+        return [
+            'permisos' => $permisos,
+            'rol' => $rol,
+        ];
     }
 }

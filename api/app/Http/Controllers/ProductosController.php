@@ -65,8 +65,8 @@ class ProductosController extends Controller
 
             $ruta = $imagen->store('public/imagenes/productos');
     
-            $path =  "/app/storage/app/".$ruta;
-    
+            //$path =  "/app/storage/app/".$ruta;
+            $path =  storage_path('app/'.$ruta);
             // Carga la imagen original
             $imagine = new Imagine();
             $image = $imagine->open($path);
@@ -86,7 +86,8 @@ class ProductosController extends Controller
             $imagenData = base64_encode(file_get_contents($path));
 
         } else {
-            $path =  "/app/storage/app/public/config/default.png";
+            $path = storage_path('app/public/config/default.png'); //"/app/storage/app/public/config/default.png";
+            
             $imagenData = base64_encode(file_get_contents($path)); 
         }
 
@@ -130,7 +131,7 @@ class ProductosController extends Controller
         return response()
         ->json([
             'producto' => $producto,
-            'imagen' => $producto->imagen=='default.png'?str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/config/default.png"))):str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/imagenes/productos/".$producto->imagen))),
+            'imagen' => $producto->imagen=='default.png'?str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/default.png")))):str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/imagenes/productos/".$producto->imagen)))),
             'code' => "success"
         ], 201);
     }
@@ -188,7 +189,7 @@ class ProductosController extends Controller
 
             $ruta = $imagen->store('public/imagenes/productos');
     
-            $path =  "/app/storage/app/".$ruta;
+            $path = storage_path('app/'.$ruta);
     
             // Carga la imagen original
             $imagine = new Imagine();
@@ -230,7 +231,7 @@ class ProductosController extends Controller
             $producto = Productos::find($request->id);
             // La actualización fue exitosa
             return response()->json(['mensaje' => 'Actualización exitosa',            
-            'imagen' => $producto->imagen=='default.png'?str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/config/default.png"))):str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/imagenes/productos/".$producto->imagen))),
+            'imagen' => $producto->imagen=='default.png'?str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/default.png")))):str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/imagenes/productos/".$producto->imagen)))),
             'code' => "success"]);
         } else {
             // No se encontró un usuario con el ID proporcionado
@@ -274,7 +275,7 @@ class ProductosController extends Controller
             'medida' => $medida,
             'inventario' => $inventario,
             'producto' => $producto,
-            'imagen' => $producto->imagen=='default.png'?str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/config/default.png"))):str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/imagenes/productos/".$producto->imagen))),
+            'imagen' => $producto->imagen=='default.png'?str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/default.png")))):str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/imagenes/productos/".$producto->imagen)))),
             'code' => "success"
         ], 201);
 

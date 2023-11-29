@@ -24,19 +24,17 @@ class CheckPermission
     }
 
     protected function checkPermission($permission)
-    {
-
-        
+    { 
         // Obtener el usuario actual
         $user = auth()->user();
     
         // Verificar si el usuario tiene roles
         if ($user && $user->roles) {
-
-            return $user->roles->rolPermisoDetalle->flatMap(function ($rolPermisoDetalle) {
-                return ( $rolPermisoDetalle->permiso->pluck('codigo') ); 
-            })->contains($permission);
-
+            $hasPermission = $user->roles->whereHas('rolPermisoDetalle.permiso', function ($query) use ($permission) {
+                $query->where('codigo', $permission);
+            })->count() > 0;
+            
+            return $hasPermission;
         }
     
         return response()->json(['error' => 'Usuario no autorizado'], 403);

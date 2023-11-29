@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\metodos_pago;
+use App\Models\metodosPago;
 use Illuminate\Http\Request;
 
 class MetodosPagoController extends Controller
@@ -14,7 +14,7 @@ class MetodosPagoController extends Controller
     {
         $per_page = $request->query('per_page', 1);
 
-        $query = metodos_pago::where('estado',1)->orderBy('nombre', 'asc');
+        $query = metodosPago::where('estado',1)->orderBy('nombre', 'asc');
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }

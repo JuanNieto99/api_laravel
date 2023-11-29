@@ -26,9 +26,10 @@ class DatabaseSeeder extends Seeder
             MetodosPagoSeeder::class,
             MedidaSeeder::class,
             TipoContribuyenteSeeder::class,
-            TipoHabitacionSeeder::class,
             HotelSeeder::class,
             InventarioSeeder::class,
+            TipoHabitacionSeeder::class,
+            PermisosDetalleSeeder::class,
         ]);
     }
 }

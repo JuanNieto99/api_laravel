@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('cajas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 100);
-            $table->json('descripcion');
-            $table->decimal('base', 12, 2)->nullable(); 
+            $table->string('descripcion');
+            $table->decimal('base', 12, 2)->nullable(false); 
+            $table->unsignedTinyInteger('estado')->nullable(false); 
             $table->timestamps();
         });
     }

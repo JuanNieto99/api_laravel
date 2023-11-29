@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('codigo', 50);
             $table->string('nombre', 100);
+            $table->string('descripcion');
             $table->unsignedBigInteger('id_padre')->nullable();
             $table->unsignedTinyInteger('estado');
             $table->timestamps();

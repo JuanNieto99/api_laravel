@@ -20,7 +20,7 @@ class Rol extends Model
 
     public function rolPermisoDetalle()
     {
-        return $this->hasMany(RolPermisoDetalle::class );
+        return $this->hasMany(RolPermisoDetalle::class);
     }
     
 }

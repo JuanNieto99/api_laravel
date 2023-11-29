@@ -27,8 +27,11 @@ return new class extends Migration
         Schema::create('recetas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 100);
+            $table->string('imagen', 70);
             $table->string('descripcion'); 
             $table->decimal('precio', 12, 2)->nullable(); 
+            $table->unsignedBigInteger('hotel_id')->nullable(false);
+            $table->foreign('hotel_id')->references('id')->on('hotels')->onUpdate('cascade')->onDelete('restrict');
             $table->unsignedTinyInteger('estado');            
             $table->timestamps();
         }); 
@@ -55,6 +58,8 @@ return new class extends Migration
             $table->id();
             $table->string('nombre', 50);  
             $table->unsignedTinyInteger('estado');
+            $table->unsignedBigInteger('hotel_id')->nullable(false);
+            $table->foreign('hotel_id')->references('id')->on('hotels')->onUpdate('cascade')->onDelete('restrict');
             $table->timestamps();
         });  
 
@@ -66,6 +71,13 @@ return new class extends Migration
         Schema::table('habitacions', function (Blueprint $table) { 
             $table->foreign('tipo')->references('id')->on('tipo_habitacion')->onUpdate('cascade')->onDelete('restrict');
         });
+
+        Schema::table('cajas', function (Blueprint $table) { 
+            $table->unsignedBigInteger('hotel_id')->nullable(false)->after('base');
+            $table->foreign('hotel_id')->references('id')->on('hotels')->onUpdate('cascade')->onDelete('restrict');
+        });
+
+
     }
 
     /**
@@ -73,6 +85,18 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('medidas');
+        Schema::dropIfExists('recetas');
+        Schema::dropIfExists('detalle_recetas');
+        Schema::dropIfExists('tipo_contribuyente');
+        Schema::table('habitacions', function (Blueprint $table) { 
+            $table->dropForeign('habitacions_tipo_foreign');
+        });
+        Schema::table('productos', function (Blueprint $table) { 
+            $table->dropForeign('productos_medida_id_foreign');
+        });
+        Schema::table('cajas', function (Blueprint $table) { 
+            $table->dropForeign('cajas_hotel_id_foreign');
+        });
     }
 };

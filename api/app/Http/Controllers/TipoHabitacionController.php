@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Caja;
-use App\Models\Cliente;
 use App\Models\Hotel;
+use App\Models\TiposHabitaciones;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
 
-class CajaController extends Controller
+class TipoHabitacionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $per_page = $request->query('per_page', 1);
+        $per_page = $request->query('per_page', 2);
 
-        $query = Caja::where('estado',1)->orderBy('nombre', 'asc');
+        $query = TiposHabitaciones::where('estado',1)->orderBy('nombre', 'asc');
 
-        return $per_page? $query->paginate($per_page) : $query->get();
+		return $per_page? $query->paginate($per_page) : $query->get();
+
     }
 
     /**
@@ -29,67 +29,50 @@ class CajaController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(),[
-                'nombre' => 'required|string|max:50|unique:rols',
-                'descripcion' => 'required|string|max:100', 
-                'base' => 'required|numeric', 
-                'estado' => 'required|integer',
+                'nombre' => 'required|string|max:50',
                 'hotel_id' => 'required|integer',
+                'estado' => 'required|integer',
             ], 
             [
                 'nombre.required' => "El campo es requerio",
-                'nombre.max' => "La cantidad maxima del campo es 50", 
-                'descripcion.required' => "El campo es requerido",
-                'descripcion.max' => "La cantidad maxima del campo es 100",
-                'estado.required' => "El campo es requerido",
-                'base.required' => "El campo es requerido",
+                'nombre.max' => "La cantidad maxima del campo es 50",
                 'hotel_id.required' => "El campo es requerido",
-            ]  
+                'estado.required' => "El campo es requerido",
+            ]    
         );
 
         if($validator->fails()){
             return response()->json($validator->errors());
         }
 
-        $caja = Caja::create([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'base' => $request->base,
-            'estado' => $request->estado,
-            'hotel_id' => $request->hotel_id,
-        ]);
+        $tipoHabitacion = TiposHabitaciones::insert(
+            [
+                'nombre' => $request->nombre,
+                'hotel_id' => $request->hotel_id,
+                'estado' => $request->estado,
+            ]
+        );
 
-        if($caja){
+        if($tipoHabitacion){
             return response()
             ->json([
-                'caja' => $caja,
+                'tipoHabitacion' => $tipoHabitacion,
                 'code' => "success"
             ], 201);
         } else {
             return response()->json(['error' => 'Erro al crear', 'code' => "error"], 404); 
         } 
-
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
-        $caja = Caja::where('estado',1)->find($id);
+        $tiposHabitaciones = TiposHabitaciones::where('estado',1)->find($id);
 
-        if(!$caja){
+        if(!$tiposHabitaciones){
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
-
-        return $caja;
+        
+        return $tiposHabitaciones;
     }
 
     /**
@@ -97,9 +80,9 @@ class CajaController extends Controller
      */
     public function edit($id)
     {
-        $caja = Caja::where('estado',1)->find($id);
+        $tiposHabitaciones = TiposHabitaciones::where('estado',1)->find($id);
 
-        if(!$caja){
+        if(!$tiposHabitaciones){
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
 
@@ -107,7 +90,7 @@ class CajaController extends Controller
         
         return [
             'hotel' => $hotel,
-            'caja' => $caja,
+            'tiposHabitaciones' => $tiposHabitaciones,
         ];
     }
 
@@ -117,39 +100,35 @@ class CajaController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(),[
-                'nombre' => 'required|string|max:50|unique:rols',
-                'descripcion' => 'required|string|max:100', 
-                'base' => 'required|numeric', 
-                'estado' => 'required|integer',
+                'nombre' => 'required|string|max:50',
                 'hotel_id' => 'required|integer',
+                'estado' => 'required|integer',
                 'id' => 'required|integer',
             ], 
             [
                 'nombre.required' => "El campo es requerio",
-                'nombre.max' => "La cantidad maxima del campo es 50", 
-                'descripcion.required' => "El campo es requerido",
-                'descripcion.max' => "La cantidad maxima del campo es 100",
-                'estado.required' => "El campo es requerido",
-                'base.required' => "El campo es requerido",
+                'nombre.max' => "La cantidad maxima del campo es 50",
                 'hotel_id.required' => "El campo es requerido",
+                'estado.required' => "El campo es requerido",
                 'id.required' => "El campo es requerido",
-            ]  
+            ]    
         );
 
         if($validator->fails()){
             return response()->json($validator->errors());
         }
 
-        $filasActualizadas = Caja::where('id', $request->id)
+        
+        $filasActualizadas = TiposHabitaciones::where('id', $request->id)
         ->update([
             'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'base' => $request->base,
-            'estado' => $request->estado,
             'hotel_id' => $request->hotel_id,
+            'estado' => $request->estado,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
-        if ($filasActualizadas > 0) { 
+
+        if ($filasActualizadas > 0) {
             // La actualización fue exitosa
             return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);
         } else {
@@ -163,7 +142,7 @@ class CajaController extends Controller
      */
     public function destroy(Request $request)
     {
-        $filasActualizadas = Caja::where('id', $request->id)
+        $filasActualizadas = TiposHabitaciones::where('id', $request->id)
         ->update([ 
             'estado' => 0,
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
