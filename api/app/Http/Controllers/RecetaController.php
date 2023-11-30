@@ -83,7 +83,7 @@ class RecetaController extends Controller
             $imagenData = base64_encode(file_get_contents($path)); 
         }
 
-        $receta = Receta::insert([
+        $receta = Receta::create([
             'nombre' => $request->nombre,
             'imagen'=>!empty($request->imagen)?explode('/', $ruta)[3]:'default.png',
             'descripcion' => $request->descripcion,
