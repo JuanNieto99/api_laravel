@@ -58,7 +58,7 @@ class RecetaController extends Controller
 
             $ruta = $imagen->store('public/imagenes/recetas');
     
-            $path =  "/app/storage/app/".$ruta;
+            $path =  storage_path('app/'.$ruta);
     
             // Carga la imagen original
             $imagine = new Imagine();
@@ -79,7 +79,7 @@ class RecetaController extends Controller
             $imagenData = base64_encode(file_get_contents($path));
 
         } else {
-            $path =  "/app/storage/app/public/config/default.png";
+            $path =  storage_path("app/public/config/default.png");
             $imagenData = base64_encode(file_get_contents($path)); 
         }
 
@@ -127,7 +127,7 @@ class RecetaController extends Controller
         return response()
         ->json([
             'receta' => $receta,
-            'imagen' => $receta->imagen=='default.png'?str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/config/default.png"))):str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/imagenes/recetas/".$receta->imagen))),
+            'imagen' => $receta->imagen=='default.png'?str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/default.png")))):str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/imagenes/recetas/".$receta->imagen)))),
             'code' => "success"
         ], 201);
     
@@ -149,7 +149,7 @@ class RecetaController extends Controller
         return [
             'hotel' => $hotel,
             'receta' => $receta,
-            'imagen' => $receta->imagen=='default.png'?str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/config/default.png"))):str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/imagenes/recetas/".$receta->imagen))),
+            'imagen' => $receta->imagen=='default.png'?str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/default.png")))):str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/imagenes/recetas/".$receta->imagen)))),
         ];
     }
 
@@ -189,7 +189,7 @@ class RecetaController extends Controller
 
         $ruta = $imagen->store('public/imagenes/recetas');
 
-        $path =  "/app/storage/app/".$ruta;
+        $path =  storage_path('app/'.$ruta);
 
         // Carga la imagen original
         $imagine = new Imagine();
@@ -225,7 +225,7 @@ class RecetaController extends Controller
         $receta = Receta::find($request->id);
         // La actualización fue exitosa
         return response()->json(['mensaje' => 'Actualización exitosa',            
-        'imagen' => $receta->imagen=='default.png'?str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/config/default.png"))):str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/imagenes/recetas/".$receta->imagen))),
+        'imagen' => $receta->imagen=='default.png'?str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/default.png")))):str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/imagenes/recetas/".$receta->imagen)))),
         'code' => "success"]);
     } else {
         // No se encontró un usuario con el ID proporcionado

@@ -30,7 +30,7 @@ class HotelSeeder extends Seeder
                 'email' => 'test@gmail.com',
                 'tipo_contribuyente' => 1,
                 'usuario_id' => 1, 
-                'imagen' => 'defaultHotel.png',
+                'imagen' => 'defaultHotel.jpg',
                 'estado' => '1', // activo = 1, inactivo = 0
             ], 
         ]);

@@ -75,7 +75,7 @@ class HotelController extends Controller
 
             $ruta = $imagen->store('public/imagenes/hoteles');
     
-            $path =  "/app/storage/app/".$ruta;
+            $path =  storage_path('app/'.$ruta);
     
             // Carga la imagen original
             $imagine = new Imagine();
@@ -96,7 +96,7 @@ class HotelController extends Controller
             $imagenData = base64_encode(file_get_contents($path));
 
         } else {
-            $path =  "/app/storage/app/public/config/defaultHotel.jpg";
+            $path = storage_path("app/public/config/defaultHotel.jpg");
             $imagenData = base64_encode(file_get_contents($path)); 
         }
 
@@ -145,7 +145,7 @@ class HotelController extends Controller
         return response()
         ->json([
             'hotel' => $hotel,
-            'imagen' => $hotel->imagen=='defaultHotel.jpg'?str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/config/defaultHotel.jpg"))):str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/imagenes/hoteles/".$hotel->imagen))),
+            'imagen' => $hotel->imagen=='defaultHotel.jpg'?str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/defaultHotel.jpg")))):str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/imagenes/hoteles/".$hotel->imagen)))),
             'code' => "success"
         ], 201);
     } 
@@ -219,7 +219,7 @@ class HotelController extends Controller
 
             $ruta = $imagen->store('public/imagenes/hoteles');
     
-            $path =  "/app/storage/app/".$ruta;
+            $path =  storage_path('app/'.$ruta);
     
             // Carga la imagen original
             $imagine = new Imagine();
@@ -265,7 +265,7 @@ class HotelController extends Controller
             $hotel = Hotel::where('estado',1)->find($request->id);
 
             return response()->json(['mensaje' => 'Actualización exitosa',
-            'imagen' => $hotel->imagen=='defaultHotel.jpg'?str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/config/defaultHotel.jpg"))):str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/imagenes/hoteles/".$hotel->imagen))),
+            'imagen' => $hotel->imagen=='defaultHotel.jpg'?str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/defaultHotel.jpg")))):str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/imagenes/hoteles/".$hotel->imagen)))),
             'code' => "success"]);
         } else {
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
@@ -289,7 +289,7 @@ class HotelController extends Controller
         return response()
         ->json([
             'hotel' => $hotel,
-            'imagen' => $hotel->imagen=='defaultHotel.jpg'?str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/config/defaultHotel.jpg"))):str_replace("\u005C",'',base64_encode(file_get_contents("/app/storage/app/public/imagenes/hoteles/".$hotel->imagen))),
+            'imagen' => $hotel->imagen=='defaultHotel.jpg'?str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/defaultHotel.jpg")))):str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/imagenes/hoteles/".$hotel->imagen)))),
             'pais' => $pais,
             'tipoContribuyente' => $tipoContribuyente,
             'code' => "success",
