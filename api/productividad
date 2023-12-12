@@ -2,9 +2,3 @@ tener en cuenta que la contraseña hay que volverla mas fuerte ya que estamos co
 al eliminar un dato que tenga ralacion con otro mandara error hay que hacerle una validacion para que diga que no se puede eliminar
 lso roles deben listar los permisos
  
- crear tabla metodos de pagos y relacionarlo con caja
- crear tabla tipo documento
- crear tabla estado civil
- crear tabla genero
- crear tabla nivel_estudio
- crear tabla metodos_pago

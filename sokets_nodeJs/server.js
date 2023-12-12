@@ -20,6 +20,10 @@ io.on('connection', async (socket) => {
     try { 
 
         redisClient.subscribe('channel-notificacion', (res, chanel) => {  
+          console.log("mensaje")
+          console.log("---------") 
+          console.log(res)
+          console.log("---------")
           io.to(socket.id).emit('message', res); 
         });  
         
