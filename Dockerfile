@@ -38,7 +38,6 @@ RUN docker-php-ext-install gettext intl pdo_mysql gd
 RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd
 
-#RUN composer install
 RUN chmod -R 755 /var/www/html/api
 
 COPY migracion-seed.sh  /var/www/html/api
@@ -46,6 +45,6 @@ COPY migracion-seed.sh  /var/www/html/api
 RUN chmod -R 755 /var/www/html/api/migracion-seed.sh  
 
 # Expone el puerto 80 para que pueda ser accesible desde el exterior
-EXPOSE 80
+EXPOSE 80 
 
 CMD ["apache2-foreground"]

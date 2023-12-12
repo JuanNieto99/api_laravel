@@ -1,5 +1,5 @@
 docker build -t api:1.0 .
-sudo docker run --name api80 -p 80:8098 -d api:1.0
+sudo docker run --name api -p 80:80 -d --network b99 api:1.0
 docker exec -it api62  /bin/bash
 docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nombre_del_contenedor
 
@@ -8,3 +8,9 @@ docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}
 docker volume create db_volumen
 
 docker run --name mariadb -e MYSQL_ROOT_PASSWORD=root_password_here -e MARIADB_PASSWORD=7654321 -e MARIADB_USER=user -e MARIADB_DATABASE=db -e TZ=America/Bogota -e ALLOW_EMPTY_PASSWORD=no -p 3306:3306  -v db_volumen:/var/lib/mysql  -d mariadb:11.1
+
+#sudo service apache2 stop
+#docker build -t echo:1.0 .
+#sudo docker run --name echo -p 6001:6001 --network b99 echo:1.0
+#f8e2df2b47cb   redis               "docker-entrypoint.s…"   6 days ago       Up 42 minutes   0.0.0.0:6379->6379/tcp, :::6379->6379/tcp   redis
+#docker run --name redis -p 6379:6379 -d --network b99 redis 

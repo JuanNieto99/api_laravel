@@ -1,5 +1,9 @@
 version: '2'
 
+networks:
+  my_network:
+    driver: bridge
+
 services:
   mariadb:
     image: docker.io/bitnami/mariadb:11.1
@@ -12,7 +16,10 @@ services:
       - TZ=America/Bogota
     ports:
       - '8940:3306'
-  api: 
+    networks:
+      - my_network
+ 
+  api:
     image: docker.io/bitnami/laravel:10
     ports:
       - '8000:8000'
@@ -21,11 +28,13 @@ services:
       DB_PORT: 3306
       DB_USERNAME: user
       DB_PASSWORD: 7654321
-      DB_DATABASE: db
+      DB_DATABASE: db 
     volumes:
       - './api:/app'
     depends_on:
-      - mariadb
+      - mariadb 
+    networks:
+      - my_network
     command: >
       bash -c "
       composer install && 

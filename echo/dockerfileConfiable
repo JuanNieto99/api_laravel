@@ -1,0 +1,8 @@
+# Utiliza la imagen base de mintopia/laravel-echo-server
+FROM mintopia/laravel-echo-server
+
+# Copia el archivo de configuración personalizado
+COPY laravel-echo-server.json /app/laravel-echo-server.json
+
+# Exponer el puerto 6001
+EXPOSE 6001

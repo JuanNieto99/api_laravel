@@ -1,0 +1,33 @@
+{
+	"authHost": "api_laravel-api-1",
+	"authEndpoint": "/broadcasting/auth",
+	"clients": [],	
+	"database": "redis",
+	"databaseConfig": {
+	  "redis": {
+		"host": "redis",  
+		"port": 6379,
+		"password": null
+	  }
+	},
+	"devMode": true,
+	"host": "127.0.0.1",
+	"port": "6001",
+	"protocol": "http",
+	"socketio": {},
+	"sslCertPath": "",
+	"sslKeyPath": "",
+	"sslCertChainPath": "",
+	"sslPassphrase": "",
+	"subscribers": {
+		"http": true,
+		"redis": true
+	},
+	"apiOriginAllow": {
+	  "allowCors": false,
+	  "allowOrigin": "",
+	  "allowMethods": "",
+	  "allowHeaders": ""
+	}
+  }
+  

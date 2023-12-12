@@ -1,0 +1,110 @@
+docker build -t server_nodejs:1.0 .
+
+sudo docker run --name server_js -p 3000:3000  --network b99 server_nodejs:1.0
+
+
+const express = require('express');
+const http = require('http');
+const socketIO = require('socket.io');
+const redis = require('redis');
+const socketIORedis = require('socket.io-redis');
+
+const app = express();
+const server = http.createServer(app);
+const io = socketIO(server);
+const activeConnections = {}; // Objeto para almacenar las conexiones activas
+
+// Configurar la conexión de Redis para Docker
+const redisHost = 'redis';  // Reemplaza con el nombre de tu contenedor Redis en Docker
+const redisPort = 6379;
+const redisClient = redis.createClient({ host: redisHost, port: redisPort });
+io.adapter(socketIORedis({ host: redisHost, port: redisPort }));
+console.log('esperando ...');
+/*
+// Manejar la conexión de WebSocket
+io.on('connection', (socket) => {
+ 
+    redisClient.subscribe('channel-notificacion');
+    redisClient.on('EventoNotificacion', (channel, message) => {
+        // Aquí puedes manejar todos los mensajes recibidos en el canal 'channel-notificacion'
+        console.log(`Mensaje recibido en el canal ${channel}: ${message}`);
+    
+        // Puedes emitir el mensaje a los clientes WebSocket
+        io.emit('nuevo-mensaje', message);
+    }); 
+});
+
+io.on('error', (error) => {
+    console.error('Error en el servidor de sockets:', error);
+});
+
+io.on('ready', () => {
+    console.log('Cliente de Redis listo para recibir comandos');
+});
+
+io.subscribe('channel-notificacion');
+io.on('EventoNotificacion', (channel, message) => {
+    console.log(`Mensaje en el canal ${channel}: ${message}`);
+});
+*/
+ 
+server.listen(3000, () => {
+    console.log('Servidor WebSocket en ejecución en http://localhost:3000');
+});
+
+function showActiveConnections() {
+    const activeConnectionIds = Object.keys(activeConnections);
+    console.log('Conexiones activas:', activeConnectionIds);
+}
+
+ 
+// Manejador de eventos de errores
+redisClient.on('error', function (err) {
+    console.error('Error de Redis:', err);
+});
+
+// Manejador de eventos de errores
+redisClient.on('error', function (err) {
+    console.error('Error de Redis:', err);
+});
+
+// Canal al que enviaremos el mensaje
+const canalRedis = 'miCanal';
+
+// Mensaje que enviaremos al canal
+const mensaje = 'Hola, mundo!';
+
+// Función para publicar el mensaje en Redis
+function publicarMensaje() {
+    return new Promise((resolve, reject) => {
+        redisClient.publish(canalRedis, mensaje, function (err, reply) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(reply);
+            }
+        });
+    });
+}
+
+// Lógica principal
+async function main() {
+    try {
+        const reply = await publicarMensaje();
+        console.log('Mensaje publicado en Redis:', reply);
+    } catch (error) {
+        console.error('Error al publicar el mensaje en Redis:', error);
+    } finally {
+        // Cerrar la conexión después de todas las operaciones
+        redisClient.quit(function (err, reply) {
+            if (err) {
+                console.error('Error al cerrar la conexión de Redis:', err);
+            } else {
+                console.log('Conexión de Redis cerrada correctamente.');
+            }
+        });
+    }
+}
+
+// Ejecutar la lógica principal
+main();

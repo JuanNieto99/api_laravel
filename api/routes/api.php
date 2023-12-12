@@ -25,6 +25,8 @@ use App\Http\Controllers\TipoDocumentoController;
 use App\Http\Controllers\TipoHabitacion;
 use App\Http\Controllers\TipoHabitacionController;
 use App\Models\TiposContribuyentes;
+use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Log;
 use Termwind\Components\Hr;
 
 /*
@@ -46,6 +48,7 @@ Route::get('/sinPermisos', function () {
 //inicio 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('recuperarContrasena', [AuthController::class, 'recuperarContrasena']); 
+Route::get('sokets', [AuthController::class, 'sokets']);
 
 
 
@@ -174,7 +177,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::post('desocuparHabitacionCliente', [HabitacionController::class, 'desocupar']); 
 
     //Tipo contribuyente
-    Route::post('tipoContribuyenteListar', [TipoContribuyenteController::class, 'index']); 
+   // Route::post('tipoContribuyenteListar', [TipoContribuyenteController::class, 'index']); 
     
     Route::group(['middleware'=>'permission:thb'],function(){
         //Tipo Habitacion 
@@ -214,5 +217,12 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::post('consumoCrear', [ConsumoController::class, 'create']);  
 
     Route::get('logout', [AuthController::class, 'logout']);  
+
+    Broadcast::event('EventoNotificacion', ['data' => 'informacion_del_evento']);
+    Broadcast::channel('channel-notificacion', function(){
+        Log::debug("entro");
+    });
+
+
 });
 

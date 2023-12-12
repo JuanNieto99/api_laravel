@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Usuario;
+use Illuminate\Http\Request; 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth; 
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Route;
-use App\Mail\EnviarCorreoContrasena;
+use Illuminate\Support\Facades\Mail; 
+use App\Mail\EnviarCorreoContrasena;  
+use Predis\Client;
+
 class AuthController extends Controller
 {
     
@@ -73,7 +73,35 @@ class AuthController extends Controller
             // No se encontró un usuario con el ID proporcionado
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
+    }
 
-      
+    public function sokets () {
+
+     //   event(new EventoNotificacion($actionId, $actionData));  
+        $menseje = [
+            'tipo' => 'validacion usuario cambio de contrasena',
+            'info' => 'Se ha cambiado la contraseña en 5 segundos se te cerrara la sesión',
+            'codigo' => 100,
+            'data' => ["id" => 0],
+        ]; 
+        Log::debug("sokets");
+
+      //  broadcast(new EventoNotificacion("1"));
+
+      // Crea una instancia de Redis
+        $redis = new Client([
+            'scheme' => 'tcp',
+            'host'   => 'redis',
+            'port'   => 6379,
+        ]);
+
+        // Nombre del canal al que quieres publicar el mensaje
+        $channel = 'channel-notificacion';
+
+        // Mensaje que deseas enviar 
+
+        // Publica el mensaje en el canal
+        $redis->publish($channel, json_encode($menseje));
+
     }
 }

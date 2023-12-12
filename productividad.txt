@@ -1,1 +1,10 @@
-y que al crear una receta esta debe de tener foto
+
+
+PRODUCTTOS
+stop minimo 
+visible en venta
+detalles tributarios
+valor base 
+valor de ventta
+
+trasferencia entre bodegas
