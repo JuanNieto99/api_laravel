@@ -18,10 +18,12 @@ return new class extends Migration
             $table->json('diseno_json');
             $table->unsignedTinyInteger('estado')->nullable(false); 
             $table->unsignedBigInteger('tipo')->nullable(false); 
+            $table->unsignedBigInteger('hotel_id')->nullable(false); 
             $table->unsignedBigInteger('capacidad_personas'); 
             $table->decimal('precio', 12, 2)->nullable();
             $table->unsignedBigInteger('usuario_modifica')->nullable(false); 
             $table->foreign('usuario_modifica')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('hotel_id')->references('id')->on('hotels')->onUpdate('cascade')->onDelete('restrict');
             $table->timestamps();
         });
     }

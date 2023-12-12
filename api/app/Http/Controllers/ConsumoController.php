@@ -12,9 +12,13 @@ class ConsumoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $per_page = $request->query('per_page', 1);
+
+        $query = Consumo::where('estado',1)->orderBy('nombre', 'asc');
+
+        return $per_page? $query->paginate($per_page) : $query->get();
     }
 
     /**
@@ -44,6 +48,7 @@ class ConsumoController extends Controller
             'tipo_consumido' => $request->tipo_consumido,
             'precio' => $request->precio,
             'cantidad' => $request->cantidad, 
+            'estado' => '1'
         ]);
         
 
@@ -56,24 +61,21 @@ class ConsumoController extends Controller
         } else {
             return response()->json(['error' => 'Erro al crear', 'code' => "error"], 404); 
         } 
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    } 
 
     /**
      * Display the specified resource.
      */
-    public function show(consumo $consumo)
+    public function show($id)
     {
-        //
+        $consumo = Consumo::where('estado',1)->find($id);
+        
+        if(!$consumo){
+            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
+        }
+        
+        return $consumo;
     }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -93,8 +95,20 @@ class ConsumoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(consumo $consumo)
+    public function destroy(Request $request)
     {
-        //
+        $filasActualizadas = Consumo::where('id', $request->id)
+        ->update([ 
+            'estado' => 0,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        if ($filasActualizadas > 0) {
+            // La actualización fue exitosa
+            return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);
+        } else {
+            // No se encontró un usuario con el ID proporcionado
+            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
+        }
     }
 }

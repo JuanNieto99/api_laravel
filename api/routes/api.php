@@ -7,6 +7,7 @@ use App\Http\Controllers\CiudadController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ConsumoController;
 use App\Http\Controllers\DepartamentoController;
+use App\Http\Controllers\DetalleHabitacionController;
 use App\Http\Controllers\EstadoCivilController;
 use App\Http\Controllers\NivelEstudioController;
 use App\Http\Controllers\RolController;
@@ -215,14 +216,13 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     });
 
     Route::post('consumoCrear', [ConsumoController::class, 'create']);  
+    Route::post('consumoListar', [ConsumoController::class, 'index']); 
+    Route::get('consumoMostrar/{id}', [ConsumoController::class, 'show']); 
+    Route::post('consumoEliminar', [ConsumoController::class, 'destroy']); 
 
-    Route::get('logout', [AuthController::class, 'logout']);  
+    Route::post('getReservasHabitacionesCalendario', [DetalleHabitacionController::class, 'getReservasCalendario']); 
+    Route::post('listatDetalleHabitaciones', [DetalleHabitacionController::class, 'index']); 
 
-    Broadcast::event('EventoNotificacion', ['data' => 'informacion_del_evento']);
-    Broadcast::channel('channel-notificacion', function(){
-        Log::debug("entro");
-    });
-
-
+    Route::get('logout', [AuthController::class, 'logout']);    
 });
 

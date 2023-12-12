@@ -35,14 +35,18 @@ class ProductosController extends Controller
                 'nombre' => 'required|string|max:50',
                 'descripcion' => 'required|string|max:200', 
                 'imagen' => 'image|mimes:jpeg,png,jpg,gif',
-                'precio' => 'required',
+                'precio' => 'required|integer',
                 'cantidad' => 'required|integer',
                 'estado' => 'required|integer',
                 'inventario_id' => 'required|integer', 
                 'limite_cantidad' =>  'required|integer', 
                 'medida_id' => 'required|integer', 
+                'stop_minimo' => 'required|integer', 
+                'precio_base' => 'required|integer', 
+                'tipo_producto' => 'required|integer', 
             ], 
-            [   'nombre.required' => "El campo es requerio",
+            [  
+                'nombre.required' => "El campo es requerio",
                 'nombre.max' => "La cantidad maxima del campo es 50", 
                 'descripcion.required' => "El campo es requerido",
                 'descripcion.max' => "La cantidad maxima del campo es 200", 
@@ -52,7 +56,6 @@ class ProductosController extends Controller
                 'inventario_id.required' =>  "El campo es requerido",
                 'limite_cantidad.required' =>  "El campo es requerido",
                 'medida_id.required' =>  "El campo es requerido",
-
             ]    
         );
 
@@ -101,7 +104,10 @@ class ProductosController extends Controller
             'estado' => $request->estado,
             'inventario_id' => $request->inventario_id,
             'sin_limite_cantidad' => $request->limite_cantidad,
-            'medida_id' => $request->medida_id
+            'medida_id' => $request->medida_id,
+            'stop_minimo' => $request->stop_minimo, 
+            'tipo_producto' => $request->tipo_producto,
+            'precio_base' => $request->precio_base,
         ]);
 
         if($producto){ 

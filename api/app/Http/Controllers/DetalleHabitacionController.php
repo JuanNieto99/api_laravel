@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\detalleHabitacion;
+use App\Models\DetalleHabitacion;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class DetalleHabitacionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $per_page = $request->query('per_page', 1);
+
+        $query = DetalleHabitacion::where('estado',1)->orderBy('nombre', 'asc');
+
+        return $per_page? $query->paginate($per_page) : $query->get();
     }
 
     /**
@@ -62,4 +67,24 @@ class DetalleHabitacionController extends Controller
     {
         //
     }
+
+    public function getReservasCalendario(Request $request)
+    {
+        $hotel_id = $request->hotel_id;
+        if($hotel_id){
+            $hoy = Carbon::now(); 
+            $dias_restar = 20; 
+            $detalle = DetalleHabitacion::with(['habitacion'=> function ($query) use ($hotel_id) {
+                $query->where('hotel_id',$hotel_id);
+            }])
+            ->where('estado',1) 
+            ->where('fecha_inicio','>=',$hoy->subDays($dias_restar));
+            
+            return [
+                'habitaciones' =>  $detalle
+            ];
+        }
+
+    }
+
 }

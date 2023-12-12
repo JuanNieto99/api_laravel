@@ -20,7 +20,8 @@ return new class extends Migration
             $table->unsignedTinyInteger('tipo_consumido');  // 1 -> receta  2 -> producto 
             $table->decimal('precio', 12, 2)->nullable();
             $table->unsignedBigInteger('cantidad'); 
-            $table->timestamp('created_at')->nullable();
+            $table->unsignedTinyInteger('estado'); // 1 -> activo  2 -> desactivado 
+            $table->timestamps();
             $table->foreign('usuario_id')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('cliente_id')->references('id')->on('clientes')->onUpdate('cascade')->onDelete('restrict');
             //$table->foreign('producto_id')->references('id')->on('productos')->onUpdate('cascade')->onDelete('restrict');

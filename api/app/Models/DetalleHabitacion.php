@@ -19,6 +19,11 @@ class DetalleHabitacion extends Model
         'checkin',
         'fecha_inicio',
         'fecha_salida',
-        
+        'estado'
     ];
+
+    public function habitacion()
+    {
+        return $this->belongsTo(Habitacion::class, 'habitacion_id','id');
+    }
 }

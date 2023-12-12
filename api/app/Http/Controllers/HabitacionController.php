@@ -38,7 +38,8 @@ class HabitacionController extends Controller
                 'tipo' => 'required|integer',
                 'capacidad_personas' => 'required|integer', 
                 'precio' => 'required',
-                'usuario_modifica' => 'required'
+                'usuario_modifica' => 'required',
+                'hotel_id'=> 'required'
             ], 
             [
                 'nombre.required' => "El campo es requerio",
@@ -67,6 +68,7 @@ class HabitacionController extends Controller
             'capacidad_personas'  =>  $request->capacidad_personas,
             'precio'  =>  $request->precio,
             'usuario_modifica'  =>  $request->usuario_modifica, 
+            'hotel_id'  =>  $request->hotel_id, 
         ]);
 
         if($habitacion){
@@ -107,7 +109,8 @@ class HabitacionController extends Controller
                 'tipo' => 'required|integer',
                 'capacidad_personas' => 'required|integer', 
                 'precio' => 'required',
-                'usuario_modifica' => 'required'
+                'usuario_modifica' => 'required',
+                'hotel_id'=> 'required'
             ], 
             [
                 'nombre.required' => "El campo es requerio",
@@ -138,6 +141,7 @@ class HabitacionController extends Controller
             'capacidad_personas'  =>  $request->capacidad_personas,
             'precio'  =>  $request->precio,
             'usuario_modifica'  =>  $request->usuario_modifica, 
+            'hotel_id'  =>  $request->hotel_id, 
         ]);
 
 

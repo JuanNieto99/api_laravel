@@ -21,5 +21,9 @@ class Productos extends Model
         'inventario_id',
         'sin_limite_cantidad',
         'medida_id',
+        'stop_minimo',
+        'visible_venta',
+        'precio_base',
+        'tipo_producto', 
     ];
 }

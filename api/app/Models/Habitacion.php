@@ -21,11 +21,17 @@ class Habitacion extends Model
         'capacidad_personas', 
         'precio', 
         'usuario_modifica',
+        'hotel_id',
         'estado'
     ];
 
     public function detalle()
     {
         return $this->belongsTo(DetalleHabitacion::class,'id','habitacion_id');
+    }
+
+    public function hotel() {
+    
+        return $this->belongsTo(Hotel::class,'hotel_id','id');
     }
 }
