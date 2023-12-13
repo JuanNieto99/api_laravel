@@ -8,3 +8,5 @@ valor base
 valor de ventta
 
 trasferencia entre bodegas
+
+hay que tener en cuanta que cuando hacemos una factura se puede mas de un medio de pago

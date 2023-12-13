@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
- 
 use App\Models\Consumo;
+use App\Models\ProductoDetalle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon; 
@@ -53,6 +53,27 @@ class ConsumoController extends Controller
         
 
         if($consumo){
+
+            switch ($request->tipo_consumido) {
+                case '2':
+                    //producto 
+                    ProductoDetalle::create([
+                        'producto_id' => $request->consumido_id,
+                        'cantidad' => $request->cantidad,
+                        'estado' => 1,
+                    ]);
+                   /* $cantidad_consumos_producto = Consumo::where('tipo_consumido',2)
+                    ->where('consumido_id',  $request->consumido_id)
+                    ->where('estado','1')
+                    ->count();*/
+                    
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+
             return response()
             ->json([
                 'consumo' => $consumo,

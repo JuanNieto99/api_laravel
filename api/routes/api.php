@@ -9,6 +9,7 @@ use App\Http\Controllers\ConsumoController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\DetalleHabitacionController;
 use App\Http\Controllers\EstadoCivilController;
+use App\Http\Controllers\FacturacionController;
 use App\Http\Controllers\NivelEstudioController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\PermisoController;
@@ -219,6 +220,10 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::post('consumoListar', [ConsumoController::class, 'index']); 
     Route::get('consumoMostrar/{id}', [ConsumoController::class, 'show']); 
     Route::post('consumoEliminar', [ConsumoController::class, 'destroy']); 
+
+    Route::post('facturaCrear', [FacturacionController::class, 'create']); 
+    Route::post('facturaListar', [FacturacionController::class, 'index']); 
+
 
     Route::post('getReservasHabitacionesCalendario', [DetalleHabitacionController::class, 'getReservasCalendario']); 
     Route::post('listatDetalleHabitaciones', [DetalleHabitacionController::class, 'index']); 

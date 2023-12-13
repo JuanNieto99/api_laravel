@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventario;
 use App\Models\Medidas;
+use App\Models\ProductoDetalle;
 use App\Models\Productos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
@@ -112,6 +113,13 @@ class ProductosController extends Controller
 
         if($producto){ 
             $imagenData = str_replace("\u005C",'',$imagenData);
+
+            ProductoDetalle::create([
+                'producto_id' => $producto->id,
+                'cantidad' => $request->cantidad,
+                'estado' => 2,
+            ]);
+
             return response()
             ->json([
                 'producto' => $producto,
@@ -152,7 +160,7 @@ class ProductosController extends Controller
             'descripcion' => 'required|string|max:200', 
             'imagen' => 'image|mimes:jpeg,png,jpg,gif',
             'precio' => 'required',
-            'cantidad' => 'required|integer',
+            //'cantidad' => 'required|integer',
             'estado' => 'required|integer',
             'inventario_id' => 'required|integer', 
             'limite_cantidad' =>  'required|integer', 
@@ -164,7 +172,7 @@ class ProductosController extends Controller
             'descripcion.required' => "El campo es requerido",
             'descripcion.max' => "La cantidad maxima del campo es 200", 
             'precio.required' =>  "El campo es requerido",
-            'cantidad.required' =>  "El campo es requerido",
+          //  'cantidad.required' =>  "El campo es requerido",
             'estado.required' =>  "El campo es requerido",
             'inventario_id.required' =>  "El campo es requerido",
             'limite_cantidad.required' =>  "El campo es requerido",
@@ -182,7 +190,7 @@ class ProductosController extends Controller
             'descripcion' => $request->descripcion,
             'imagen' => 'default.png',
             'precio' => $request->precio,
-            'cantidad' => $request->cantidad,
+           // 'cantidad' => $request->cantidad,
             'estado' => $request->estado,
             'inventario_id' => $request->inventario_id,
             'sin_limite_cantidad' => $request->limite_cantidad,

@@ -16,12 +16,13 @@ return new class extends Migration
             $table->string('concepto', 100);
             $table->json('descripcion');
             $table->decimal('total', 12, 2)->nullable(false);
+            $table->decimal('sub_total', 12, 2)->nullable(false); 
             $table->decimal('iva', 12, 2)->nullable(false); 
             $table->unsignedBigInteger('metodo_pago_id')->nullable(false); 
             $table->unsignedBigInteger('cliente_id')->nullable(false); 
             $table->unsignedBigInteger('porcentaje_descuento')->nullable(); 
             $table->string('cufe', 200)->nullable();
-            $table->unsignedTinyInteger('estado');
+            $table->unsignedTinyInteger('estado'); // 1-> facturado 0->factura anulada
             $table->timestamps();
             $table->foreign('metodo_pago_id')->references('id')->on('metodos_pagos')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('cliente_id')->references('id')->on('clientes')->onUpdate('cascade')->onDelete('restrict');
