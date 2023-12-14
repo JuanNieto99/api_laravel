@@ -18,4 +18,10 @@ class Caja extends Model
         'estado',
         'hotel_id'
     ];
+
+    public function control_caja()
+    {
+        return $this->belongsTo(ControlCaja::class,'id','caja_id');
+    }
+
 }

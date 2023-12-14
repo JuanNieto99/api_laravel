@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Historial;
 use App\Models\Permiso;
 use App\Models\Rol;
 use Illuminate\Http\Request;
@@ -54,6 +55,23 @@ class RolController extends Controller
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'estado' => $request->estado, 
+        ]);
+
+
+        $json = [
+            'asunto' => 'Rol Creado',
+            'adjunto' => [
+                'respuesta' => !empty($rol;,
+            ],
+        ];
+    
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 10,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,                
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),     
         ]);
 
         if($rol){
@@ -133,6 +151,21 @@ class RolController extends Controller
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
+        $json = [
+            'asunto' => 'Rol Actualizado',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+            ],
+        ];
+    
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 10,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,        
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),             
+        ]);
 
         if ($filasActualizadas > 0) {
 
@@ -169,6 +202,22 @@ class RolController extends Controller
         ->update([ 
             'estado' => 0,
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        
+        $json = [
+            'asunto' => 'Rol ELiminado',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+            ],
+        ];
+    
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 10,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,   
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                  
         ]);
 
         if ($filasActualizadas > 0) {

@@ -29,6 +29,6 @@ class Cliente extends Model
         'observacion',
         'usuario_create_id',
         'usuario_update_id',
-        'estado'
+        'estado',
     ];
 }

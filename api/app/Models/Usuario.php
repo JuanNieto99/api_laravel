@@ -19,6 +19,7 @@ class Usuario extends Model
         'password',
         'rol_id',
         'estado',
+        'updated_at',
     ];
 
     public function roles()

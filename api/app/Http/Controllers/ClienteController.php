@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cliente;
 use App\Models\EstadoCivil;
 use App\Models\Genero;
+use App\Models\Historial;
 use App\Models\NivelEstudio;
 use App\Models\Pais;
 use App\Models\TipoDocumento;
@@ -55,7 +56,8 @@ class ClienteController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors());
         }
-    
+        $usuario = auth()->user();
+
         $Cliente = Cliente::create([
             'nombres' => $request->nombres,
             'apellidos' => $request->apellidos,
@@ -73,9 +75,23 @@ class ClienteController extends Controller
             'nivel_studio_id' => $request->nivel_studio, 
             'correo' => $request->correo, 
             'observacion' => $request->observacion, 
-            'usuario_create_id' => $request->usuario_create_id, // Corregir esta línea
+            'usuario_create_id' => $usuario->id,
+        ]); 
+
+        $json = [
+            'asunto' => 'CLiente crear',
+            'adjunto' => [
+                'respuesta' => !empty($Cliente),
+            ],
+        ];
+
+
+        Historial::insert([
+            'tipo' => 4,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,            
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),         
         ]);
-        
 
         if($Cliente){
             return response()
@@ -86,6 +102,7 @@ class ClienteController extends Controller
         } else {
             return response()->json(['error' => 'Erro al crear', 'code' => "error"], 404); 
         } 
+
     }
 
     /**
@@ -185,8 +202,23 @@ class ClienteController extends Controller
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
+        $json = [
+            'asunto' => 'Actualizar cliente',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas)
+            ],
+        ];
+        
+        $usuario = auth()->user();
 
-        if ($filasActualizadas > 0) { 
+        Historial::insert([ 
+            'tipo' => 4,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                     
+        ]);
+
+        if ($filasActualizadas > 0) {  
             // La actualización fue exitosa
             return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);
         } else {
@@ -204,6 +236,22 @@ class ClienteController extends Controller
         ->update([ 
             'estado' => 0,
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        $json = [
+            'asunto' => 'Eliminar cliente',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+            ],
+        ];
+
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 4,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,             
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),        
         ]);
 
         if ($filasActualizadas > 0) {

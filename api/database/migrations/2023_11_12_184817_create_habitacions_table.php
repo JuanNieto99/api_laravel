@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('habitacions', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 50);
-            $table->json('descripcion');
+            $table->string('descripcion');
             $table->json('diseno_json');
-            $table->unsignedTinyInteger('estado')->nullable(false); 
+            $table->unsignedTinyInteger('estado')->nullable(false); //1->creado 0->eliminado 2->ocupado 3->disponible 4->limpieza
             $table->unsignedBigInteger('tipo')->nullable(false); 
             $table->unsignedBigInteger('hotel_id')->nullable(false); 
             $table->unsignedBigInteger('capacidad_personas'); 

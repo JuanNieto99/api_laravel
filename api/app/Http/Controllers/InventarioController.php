@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Historial;
 use App\Models\Inventario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
@@ -49,6 +50,22 @@ class InventarioController extends Controller
             'descripcion' => $request->descripcion,
             'hotel_id' => $request->hotel_id,
             'estado' => $request->estado, 
+        ]);
+
+        $json = [
+            'asunto' => 'Inventario Crear',
+            'adjunto' => [
+                'respuesta' => !empty($inventario),
+            ],
+        ];
+
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 6,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                     
         ]);
 
         if($inventario){
@@ -113,6 +130,21 @@ class InventarioController extends Controller
             ]
         );
 
+        $json = [
+            'asunto' => 'Inventario Actualizar',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+            ],
+        ];
+
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 6,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,                
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),     
+        ]);
 
         if ($filasActualizadas > 0) {
             // La actualización fue exitosa
@@ -136,6 +168,22 @@ class InventarioController extends Controller
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
+        $json = [
+            'asunto' => 'Inventario Eliminado',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+            ],
+        ];
+
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 6,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,  
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                   
+        ]);
+        
         if ($filasActualizadas > 0) {
             // La actualización fue exitosa
             return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Consumo;
 use App\Models\ProductoDetalle;
+use App\Models\Productos;
+use App\Models\Receta;
+use App\Models\RecetaDetalle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon; 
@@ -29,10 +32,9 @@ class ConsumoController extends Controller
         $validator = Validator::make($request->all(),[
             'usuario_id' => 'required|integer',
             'cliente_id' => 'required|integer',
-            'habitacion_id' => 'required|integer',
-            'consumido_id' => 'required|integer',
-            'tipo_consumido' => 'required|integer',
-            'precio' => 'required|numeric',
+            'detalle_habitacion_id' => 'required|integer',
+            'consumido_id' => 'required|integer', 
+            'tipo_consumido' => 'required|integer', 
             'cantidad' => 'required|integer',
         ]);
 
@@ -40,13 +42,32 @@ class ConsumoController extends Controller
             return response()->json($validator->errors());
         } 
 
+        $precio = 0;
+
+        switch ($request->tipo_consumido) {
+            case '1':
+                //receta 
+                $receta = Receta::where('id', $request->consumido_id)->select('precio')->first();
+                $precio = $receta['precio'];
+                
+            break;
+
+            case '2':
+                //producto 
+                $producto = Productos::where('id', $request->consumido_id)->select('precio')->first();
+                $precio = $producto['precio'];
+
+            break; 
+
+        }
+
         $consumo = Consumo::create([
             'usuario_id' => $request->usuario_id,
             'cliente_id' => $request->cliente_id,
-            'habitacion_id' => $request->habitacion_id,
+            'detalle_habitacion_id' => $request->detalle_habitacion_id,
             'consumido_id' => $request->consumido_id,
-            'tipo_consumido' => $request->tipo_consumido,
-            'precio' => $request->precio,
+            'tipo_consumido' => $request->tipo_consumido, 
+            'precio' => $precio,
             'cantidad' => $request->cantidad, 
             'estado' => '1'
         ]);
@@ -55,23 +76,40 @@ class ConsumoController extends Controller
         if($consumo){
 
             switch ($request->tipo_consumido) {
+                case '1':
+                    //receta 
+                    $productos = RecetaDetalle::where('receta_id', $request->consumido_id)
+                    ->where('estado', 1)
+                    ->select('producto_id','cantidad');
+
+                    $productos_dettalle_array = [];
+
+                    foreach ($productos as $key => $value) { 
+                        $productos_dettalle_array [] = [
+                            'producto_id' => $value['producto_id'],
+                            'cantidad' => $value['cantidad'],
+                            'estado' => 0,
+                        ];
+                    }
+
+                    RecetaDetalle::insert($productos_dettalle_array);
+                    
+                break;
+
                 case '2':
                     //producto 
                     ProductoDetalle::create([
                         'producto_id' => $request->consumido_id,
                         'cantidad' => $request->cantidad,
-                        'estado' => 1,
+                        'estado' => 0,
                     ]);
-                   /* $cantidad_consumos_producto = Consumo::where('tipo_consumido',2)
+                    /* $cantidad_consumos_producto = Consumo::where('tipo_consumido',2)
                     ->where('consumido_id',  $request->consumido_id)
                     ->where('estado','1')
                     ->count();*/
                     
-                    break;
-                
-                default:
-                    # code...
-                    break;
+                break; 
+
             }
 
             return response()
@@ -122,6 +160,12 @@ class ConsumoController extends Controller
         ->update([ 
             'estado' => 0,
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        ProductoDetalle::create([
+            'producto_id' => $request->id,
+            'cantidad' => 1,
+            'estado' => 1,
         ]);
 
         if ($filasActualizadas > 0) {

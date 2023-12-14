@@ -199,7 +199,10 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::post('cajaEliminar', [CajaController::class, 'destroy']); 
         Route::post('cajaActualizar', [CajaController::class, 'update']); 
         Route::get('cajaEditar/{id}', [CajaController::class, 'edit']); 
+        Route::post('cajaAbir', [CajaController::class, 'abrirCaja']); 
+        Route::post('cajaCerrar', [CajaController::class, 'cerrarCaja']); 
     });
+    
 
     Route::group(['middleware'=>'permission:rcta'],function(){
         //Recetas
@@ -223,6 +226,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
 
     Route::post('facturaCrear', [FacturacionController::class, 'create']); 
     Route::post('facturaListar', [FacturacionController::class, 'index']); 
+    Route::post('facturaAnular', [FacturacionController::class, 'destroy']); 
 
 
     Route::post('getReservasHabitacionesCalendario', [DetalleHabitacionController::class, 'getReservasCalendario']); 

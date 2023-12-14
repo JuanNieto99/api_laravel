@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Historial;
 use App\Models\Permiso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
@@ -50,6 +51,22 @@ class PermisoController extends Controller
             'nombre' => $request->nombre,
             'codigo' => $request->codigo,
             'id_padre'  => empty($request->id_padre)?0:$request->id_padre,
+        ]);
+
+        $json = [
+            'asunto' => 'Permiso Creado',
+            'adjunto' => [
+                'respuesta' =>!empty($permiso),
+            ],
+        ];
+
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 7,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,      
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),               
         ]);
 
         if($permiso){
@@ -113,6 +130,21 @@ class PermisoController extends Controller
         $filasActualizadas = Permiso::where('id', $request->id)
         ->update($update);
 
+        $json = [
+            'asunto' => 'Permiso Actualizar',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+            ],
+        ];
+
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 7,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,  
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                   
+        ]);
 
         if ($filasActualizadas > 0) {
             // La actualización fue exitosa
@@ -132,6 +164,22 @@ class PermisoController extends Controller
         ->update([ 
             'estado' => 0,
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        $json = [
+            'asunto' => 'Permiso Eliminar',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+            ],
+        ];
+
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 7,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,         
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),            
         ]);
 
         if ($filasActualizadas > 0) {

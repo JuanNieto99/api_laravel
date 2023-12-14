@@ -19,7 +19,8 @@ class DetalleHabitacion extends Model
         'checkin',
         'fecha_inicio',
         'fecha_salida',
-        'estado'
+        'estado',
+        'facturacion_id',
     ];
 
     public function habitacion()

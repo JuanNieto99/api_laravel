@@ -5,7 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class detalleCaja extends Model
+class DetalleCaja extends Model
 {
-    use HasFactory;
+    protected $primaryKey = 'id';
+
+    protected $table='detalle_cajas'; 
+
+    protected $fillable = [
+        'tipo', 
+        'estado',
+        'usuario_id',  
+        'facturacion_id',
+        'caja_id',
+        'precio',
+        'metodo_pago_id',
+        'created_at', 
+    ];
 }

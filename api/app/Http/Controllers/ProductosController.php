@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Historial;
 use App\Models\Inventario;
 use App\Models\Medidas;
 use App\Models\ProductoDetalle;
@@ -45,6 +46,7 @@ class ProductosController extends Controller
                 'stop_minimo' => 'required|integer', 
                 'precio_base' => 'required|integer', 
                 'tipo_producto' => 'required|integer', 
+                'visible_venta' => 'required|integer', 
             ], 
             [  
                 'nombre.required' => "El campo es requerio",
@@ -109,6 +111,23 @@ class ProductosController extends Controller
             'stop_minimo' => $request->stop_minimo, 
             'tipo_producto' => $request->tipo_producto,
             'precio_base' => $request->precio_base,
+            'visible_venta' => $request->visible_venta,
+        ]);
+
+        $json = [
+            'asunto' => 'Producto Crear',
+            'adjunto' => [
+                'respuesta' => !empty($producto),
+            ],
+        ];
+
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 8,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,     
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                
         ]);
 
         if($producto){ 
@@ -166,6 +185,10 @@ class ProductosController extends Controller
             'limite_cantidad' =>  'required|integer', 
             'medida_id' => 'required|integer', 
             'id' => 'required|integer', 
+            'stop_minimo' => 'required|integer', 
+            'precio_base' => 'required|integer', 
+            'tipo_producto' => 'required|integer', 
+            'visible_venta' => 'required|integer',
         ], 
         [   'nombre.required' => "El campo es requerio",
             'nombre.max' => "La cantidad maxima del campo es 50", 
@@ -194,7 +217,11 @@ class ProductosController extends Controller
             'estado' => $request->estado,
             'inventario_id' => $request->inventario_id,
             'sin_limite_cantidad' => $request->limite_cantidad,
-            'medida_id' => $request->medida_id
+            'medida_id' => $request->medida_id,
+            'stop_minimo' => $request->stop_minimo, 
+            'tipo_producto' => $request->tipo_producto,
+            'precio_base' => $request->precio_base,
+            'visible_venta' => $request->visible_venta,
         ];
 
         if(!empty($request->imagen)){
@@ -241,6 +268,22 @@ class ProductosController extends Controller
             $insert 
         );
 
+        $json = [
+            'asunto' => 'Producto Actualizar',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+            ],
+        ];
+
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 8,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,    
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                 
+        ]);
+
         if ($filasActualizadas > 0) {
             $producto = Productos::find($request->id);
             // La actualización fue exitosa
@@ -258,10 +301,27 @@ class ProductosController extends Controller
      */
     public function destroy(Request $request)
     {
+
         $filasActualizadas = Productos::where('id', $request->id)
         ->update([ 
             'estado' => 0,
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        $json = [
+            'asunto' => 'Producto Eliminar',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+            ],
+        ];
+
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 8,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,     
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                
         ]);
 
         if ($filasActualizadas > 0) {

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('usuario_id')->nullable(false); 
             $table->unsignedBigInteger('cliente_id')->nullable(false); 
-            $table->unsignedBigInteger('habitacion_id')->nullable(); 
+            $table->unsignedBigInteger('detalle_habitacion_id')->nullable(); 
             $table->unsignedBigInteger('consumido_id')->nullable(false); 
-            $table->unsignedBigInteger('factura_id')->nullable(); 
+            $table->unsignedBigInteger('facturacion_id')->nullable(); 
             $table->unsignedTinyInteger('tipo_consumido');  // 1 -> receta  2 -> producto 3-> habitacion 
             $table->decimal('precio', 12, 2)->nullable();
             $table->unsignedBigInteger('cantidad'); 

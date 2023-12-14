@@ -14,6 +14,7 @@ class RecetaDetalle extends Model
     protected $fillable = [
         'producto_id', 
         'receta_id',
+        'cantidad',
         'estado',  
     ];
 }

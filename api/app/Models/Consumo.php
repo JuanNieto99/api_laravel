@@ -14,11 +14,12 @@ class Consumo extends Model
     protected $fillable = [
         'usuario_id', 
         'cliente_id', 
-        'habitacion_id', 
+        'detalle_habitacion_id', 
         'consumido_id', 
         'tipo_consumido', 
         'precio',
         'cantidad',
         'estado'
     ];
+ 
 }

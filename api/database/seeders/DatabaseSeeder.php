@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use GuzzleHttp\Client;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -30,6 +32,7 @@ class DatabaseSeeder extends Seeder
             InventarioSeeder::class,
             TipoHabitacionSeeder::class,
             PermisosDetalleSeeder::class,
+            ClienteSeeder::class,
         ]);
     }
 }

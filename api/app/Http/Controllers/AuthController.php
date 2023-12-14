@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail; 
-use App\Mail\EnviarCorreoContrasena;  
+use App\Mail\EnviarCorreoContrasena;
+use App\Models\Historial;
 use Predis\Client;
 
 class AuthController extends Controller
@@ -21,13 +22,25 @@ class AuthController extends Controller
                 [
                     'message' => "No autorizado",
                 ], 401
-            );
+            ); 
         }
 
         $usuario = User::with(['roles.rolPermisoDetalle.permiso'])->where('email', '=', $request->email)->first();
         //        $usuario = User::join('rols','rols.id','=','usuarios')->where('email', '=', $request->email)->first();
 
         $token = $usuario->createToken("tokens")->plainTextToken;
+
+        $json = [
+            'asunto' => 'Autenticacion',
+            'adjunto' => [],
+        ];
+
+        Historial::insert([
+            'tipo' => 0,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,   
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),     
+        ]);
 
         return response()
         ->json([
@@ -44,7 +57,20 @@ class AuthController extends Controller
     }
 
     public function logout() {
+        $usuario = auth()->user();
         auth()->user()->tokens()->delete();
+
+        $json = [
+            'asunto' => 'logOut',
+            'adjunto' => [],
+        ];
+
+        Historial::insert([
+            'tipo' => 0,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,   
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                  
+        ]);
 
         return [
             'message' => "sesión cerrada"

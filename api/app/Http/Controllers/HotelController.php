@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Historial;
 use App\Models\Hotel;
 use App\Models\Pais;
 use App\Models\TiposContribuyentes;
@@ -101,6 +102,7 @@ class HotelController extends Controller
         }
 
 
+
         $hotel = Hotel::create([
             'nombre' => $request->nombre, 
             'direccion' => $request-> direccion,
@@ -118,6 +120,23 @@ class HotelController extends Controller
             'estado' => '1',
             'imagen' => !empty($request->imagen)?explode('/', $ruta)[3]:'defaultHotel.jpg',
         ]); 
+
+
+        $json = [
+            'asunto' => 'Hotel Crear',
+            'adjunto' => [
+                'respuesta' => !empty($hotel),
+            ],
+        ];
+
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 5,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,       
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),              
+        ]);
 
         if($hotel){
             return response()
@@ -261,6 +280,22 @@ class HotelController extends Controller
         $filasActualizadas = Hotel::where('id', $request->id)
         ->update($insert); 
         
+        $json = [
+            'asunto' => 'Hotel Actualizar',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+            ],
+        ];
+
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 5,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id, 
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                    
+        ]);
+
         if ($filasActualizadas > 0) {
             $hotel = Hotel::where('estado',1)->find($request->id);
 
@@ -306,6 +341,23 @@ class HotelController extends Controller
         ->update([ 
             'estado' => 0,
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+                
+        $json = [
+            'asunto' => 'Hotel Eliminar',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+            ],
+        ];
+
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 5,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                    
         ]);
 
         if ($filasActualizadas > 0) {

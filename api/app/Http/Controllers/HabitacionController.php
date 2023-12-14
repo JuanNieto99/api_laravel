@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DetalleHabitacion;
 use App\Models\Habitacion;
+use App\Models\Historial;
 use App\Models\TiposHabitaciones;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -69,6 +70,23 @@ class HabitacionController extends Controller
             'precio'  =>  $request->precio,
             'usuario_modifica'  =>  $request->usuario_modifica, 
             'hotel_id'  =>  $request->hotel_id, 
+        ]);
+
+
+        $json = [
+            'asunto' => 'Habitacion Cear',
+            'adjunto' => [
+                'respuesta' => !empty($habitacion),
+            ],
+        ];
+
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 1,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id, 
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                    
         ]);
 
         if($habitacion){
@@ -145,6 +163,22 @@ class HabitacionController extends Controller
         ]);
 
 
+        $json = [
+            'asunto' => 'Habitacion Actualizar',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+            ],
+        ];
+
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 1,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,     
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                
+        ]);
+
         if ($filasActualizadas > 0) {
             // La actualización fue exitosa
             return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);
@@ -163,6 +197,22 @@ class HabitacionController extends Controller
         ->update([ 
             'estado' => 0,
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        $json = [
+            'asunto' => 'Habitacion Eliminar',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+            ],
+        ];
+
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 1,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id, 
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                   
         ]);
 
         if ($filasActualizadas > 0) {
