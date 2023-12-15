@@ -118,12 +118,16 @@ class CajaController extends Controller
     {
         $caja = Caja::where('estado',1)->find($id);
 
+        $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
+
         if(!$caja){
-            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
+            $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
+
+            return [
+                'hotel' => $hotel, 
+            ];
         }
 
-        $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
-        
         return [
             'hotel' => $hotel,
             'caja' => $caja,

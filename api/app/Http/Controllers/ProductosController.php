@@ -335,14 +335,20 @@ class ProductosController extends Controller
 
     public function edit($id) {
         
-        $producto = Productos::where('estado',1)->find($id);
-        
-        if(!$producto){
-            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
-        }
+        $producto = Productos::where('estado',1)->find($id); 
 
         $medida = Medidas::select('id','nombre')->Where('estado',1)->get();
         $inventario = Inventario::select('id','nombre')->Where('estado',1)->get();
+        
+        if(!$producto){
+            return response()
+            ->json([ 
+                'inventario' => $inventario, 
+                'medida' => $medida,
+                'code' => "success"
+            ], 201);
+        }
+
 
         return response()
         ->json([

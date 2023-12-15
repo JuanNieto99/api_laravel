@@ -118,7 +118,6 @@ class InventarioController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors());
         }
- 
         
         $filasActualizadas = Inventario::where('id', $request->id)
         ->update(

@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Log;
 
 class UsuarioController extends Controller
 {
@@ -227,10 +227,10 @@ class UsuarioController extends Controller
     public function edit($id) {
         $usuario = Usuario::where('estado',1)->find($id);
 
-        if($usuario ){
-            $roles = Rol::where('estado',1)
-            ->get(); 
-            
+        $roles = Rol::where('estado',1)
+        ->get(); 
+
+        if($usuario ){ 
             return [
                 'roles' => $roles, 
                 'usuario' => $usuario->usuario,
@@ -240,7 +240,11 @@ class UsuarioController extends Controller
             ];
             
         } else {
-            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
+            Log::debug("casd");
+            return [
+                'roles' => $roles,  
+            ];
+           // return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         } 
     }
 

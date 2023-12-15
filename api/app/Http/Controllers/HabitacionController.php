@@ -305,11 +305,16 @@ class HabitacionController extends Controller
     public function edit($id) {
         $habitacion = Habitacion::where('estado','!=',0)->find($id);
 
-        if(!$habitacion){
-            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
+        $tipo_habitacion = TiposHabitaciones::select('id','nombre')->Where('estado',1)->get();
+
+        if(!$habitacion){ 
+
+            return [ 
+                'tipo_habitacion' => $tipo_habitacion,
+            ];
+            
         }
 
-        $tipo_habitacion = TiposHabitaciones::select('id','nombre')->Where('estado',1)->get();
 
         return [
             'habitacion' => $habitacion,

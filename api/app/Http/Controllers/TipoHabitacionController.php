@@ -83,7 +83,9 @@ class TipoHabitacionController extends Controller
         $tiposHabitaciones = TiposHabitaciones::where('estado',1)->find($id);
 
         if(!$tiposHabitaciones){
-            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
+            return [ 
+                'tiposHabitaciones' => $tiposHabitaciones,
+            ];
         }
 
         $hotel = Hotel::select('nombre','id')->where('estado','1')->get();

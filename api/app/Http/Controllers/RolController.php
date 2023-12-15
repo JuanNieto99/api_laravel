@@ -233,11 +233,14 @@ class RolController extends Controller
 
         $rol = Rol::where('estado',1)->find($id);
 
+        $permisos = Permiso::select('id','codigo', 'nombre','id_padre')->where('estado','2')->get();
+
         if(!$rol){
-            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
+            return [
+                'permisos' => $permisos, 
+            ];        
         } 
     
-        $permisos = Permiso::select('id','codigo', 'nombre','id_padre')->where('estado','2')->get();
         
         return [
             'permisos' => $permisos,

@@ -156,12 +156,15 @@ class RecetaController extends Controller
     public function edit($id)
     {
         $receta = Receta::where('estado',1)->find($id);
+        
+        $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
 
         if(!$receta){
-            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
+            return [
+                'hotel' => $hotel,
+            ]; 
         }
 
-        $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
         
         return [
             'hotel' => $hotel,

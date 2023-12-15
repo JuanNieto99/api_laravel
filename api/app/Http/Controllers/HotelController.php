@@ -314,12 +314,18 @@ class HotelController extends Controller
     { 
         $hotel = Hotel::where('estado',1)->find($id);
 
-        if(!$hotel){
-            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
-        }
-
         $pais = Pais::select('id','nombre','abreviatura')->Where('estado',1)->get();
         $tipoContribuyente = TiposContribuyentes::select('id','nombre')->Where('estado',1)->get();
+
+        if(!$hotel){
+
+            return response()
+            ->json([ 
+                'pais' => $pais,
+                'tipoContribuyente' => $tipoContribuyente,
+                'code' => "success",
+            ], 201);        
+        } 
 
         return response()
         ->json([
