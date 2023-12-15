@@ -58,7 +58,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         //Usuario
         Route::post('usuariosCrear', [UsuarioController::class, 'create']); 
         Route::post('usuariosListar', [UsuarioController::class, 'index']); //->middleware('permission:sa');
-        Route::post('usuarioMostrar/{id}', [UsuarioController::class, 'show']);
+        Route::get('usuarioMostrar/{id}', [UsuarioController::class, 'show']);
         Route::post('usuariosActualizar', [UsuarioController::class, 'update']);
         Route::post('usuariosEliminar', [UsuarioController::class, 'destroy']);  
         Route::get('usuariosEditar/{id}', [UsuarioController::class, 'edit']); 
@@ -219,15 +219,20 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::post('medidaListar', [MedidaController::class, 'index']);  
     });
 
-    Route::post('consumoCrear', [ConsumoController::class, 'create']);  
-    Route::post('consumoListar', [ConsumoController::class, 'index']); 
-    Route::get('consumoMostrar/{id}', [ConsumoController::class, 'show']); 
-    Route::post('consumoEliminar', [ConsumoController::class, 'destroy']); 
+    Route::group(['middleware'=>'permission:csmo'],function(){ 
 
-    Route::post('facturaCrear', [FacturacionController::class, 'create']); 
-    Route::post('facturaListar', [FacturacionController::class, 'index']); 
-    Route::post('facturaAnular', [FacturacionController::class, 'destroy']); 
+        Route::post('consumoCrear', [ConsumoController::class, 'create']);  
+        Route::post('consumoListar', [ConsumoController::class, 'index']); 
+        Route::get('consumoMostrar/{id}', [ConsumoController::class, 'show']); 
+        Route::post('consumoEliminar', [ConsumoController::class, 'destroy']); 
+    });
 
+    Route::group(['middleware'=>'permission:ftn'],function(){ 
+
+        Route::post('facturaCrear', [FacturacionController::class, 'create']); 
+        Route::post('facturaListar', [FacturacionController::class, 'index']); 
+        Route::post('facturaAnular', [FacturacionController::class, 'destroy']); 
+    });
 
     Route::post('getReservasHabitacionesCalendario', [DetalleHabitacionController::class, 'getReservasCalendario']); 
     Route::post('listatDetalleHabitaciones', [DetalleHabitacionController::class, 'index']); 

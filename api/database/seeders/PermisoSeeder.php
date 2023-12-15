@@ -262,8 +262,15 @@ class PermisoSeeder extends Seeder
                 'descripcion' => 'modulo para ver y administrar las unidades de medidas',
                 'id_padre' => 0,
                 'estado' => '1', // activo = 1, inactivo = 0
-            ]
-            
+            ],
+            [
+                'id' => '32',
+                'codigo' => 'csmo',
+                'nombre' => 'Consumos ',
+                'descripcion' => 'modulo para ver y administrar los consumos ',
+                'id_padre' => 0,
+                'estado' => '1', // activo = 1, inactivo = 0
+            ], 
             
         ]);
     }
