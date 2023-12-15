@@ -63,6 +63,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::post('usuarioMostrar/{id}', [UsuarioController::class, 'show']);
         Route::post('usuariosActualizar', [UsuarioController::class, 'update']);
         Route::post('usuariosEliminar', [UsuarioController::class, 'destroy']);  
+        Route::get('usuariosEditar/{id}', [UsuarioController::class, 'edit']); 
     }); 
     
     Route::group(['middleware'=>'permission:rol'],function(){

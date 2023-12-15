@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Historial;
+use App\Models\Rol;
 use App\Models\Usuario;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -221,6 +222,26 @@ class UsuarioController extends Controller
             // No se encontró un usuario con el ID proporcionado
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
+    }
+
+    public function edit($id) {
+        $usuario = Usuario::where('estado',1)->find($id);
+
+        if($usuario ){
+            $roles = Rol::where('estado',1)
+            ->get(); 
+            
+            return [
+                'roles' => $roles, 
+                'usuario' => $usuario->usuario,
+                'email' => $usuario->email,
+                'rol_id' => $usuario->rol_id,
+                'estado' => $usuario->estado,
+            ];
+            
+        } else {
+            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
+        } 
     }
 
 
