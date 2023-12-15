@@ -331,4 +331,58 @@ class CajaController extends Controller
             return response()->json(['mensaje' => 'Caja Cerrada', 'code' => "success"]);
         } 
     }
+
+    public function registroAdicionalCaja(Request $request) {
+        
+        $validator = Validator::make($request->all(),[ 
+                'valor' => 'required|integer', 
+                'tipo'  => 'required|integer', //1 ->ingreso
+                'concepto' => 'required|string',
+                'caja_id' => 'required|integer',
+                'metodos_pagos' => 'required|json'
+            ], 
+            [
+                'valor.required' => "El campo es requerio", 
+                'tipo.required' => "El campo es requerio", 
+                'caja_id.required' => "El campo es requerio", 
+                'concepto.required' => "El campo es requerio", 
+                'metodos_pagos.required' => "El campo es requerio", 
+            ]  
+        );
+
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        } 
+        $medios_pagos_array =  json_decode($request->metodos_pagos, true);
+
+        $controlCaja = ControlCaja::where('caja_id', $request->caja_id )
+        ->where('estado', 1) 
+        ->select('id')
+        ->first();
+
+        if(!$controlCaja){
+            return response()->json(['mensaje' => 'No hay ninguna caja abierta', 'code' => "warning"]);
+        }
+        $medios_pagos_caja_array = []; 
+        $usuario = auth()->user(); 
+
+        foreach ($medios_pagos_array  as $key => $value) {
+
+            $medios_pagos_caja_array[] = [
+                'facturacion_id' => null,
+                'metodo_pago_id' => $value['metodo_pago_id'],
+                'usuario_id' => $usuario->id,
+                'caja_id' => $request->caja_id,
+                'caja_control_id' => $controlCaja->id,
+                'precio' => $value['precio'],
+                'tipo' => $request->tipo,
+                'estado' => 1,  
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ];
+        } 
+            
+        DetalleCaja::insert($medios_pagos_caja_array);  
+
+        return response()->json(['mensaje' => 'Agregado correctamente ', 'code' => "success"]);
+    }
 }

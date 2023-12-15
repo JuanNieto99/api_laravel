@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('detalle_cajas', function (Blueprint $table) {
             $table->id();
             $table->unsignedTinyInteger('tipo'); // 1-> ingreso 2-> egreso
-            $table->unsignedTinyInteger('estado'); // 1-> abieto 2-> cerrado
+            $table->unsignedTinyInteger('estado'); // 1-> abieto 2-> cerrado candidato a eliminar porque es un dato redundate
             $table->unsignedBigInteger('usuario_id')->nullable(false); 
-            $table->unsignedBigInteger('facturacion_id')->nullable(false); 
+            $table->unsignedBigInteger('facturacion_id')->nullable(); 
             $table->unsignedBigInteger('caja_id')->nullable(false); 
             $table->unsignedBigInteger('caja_control_id')->nullable(false); 
             $table->decimal('precio', 12, 2)->nullable();

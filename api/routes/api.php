@@ -52,8 +52,6 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('recuperarContrasena', [AuthController::class, 'recuperarContrasena']); 
 Route::get('sokets', [AuthController::class, 'sokets']);
 
-
-
 Route::group(['middleware'=>['auth:sanctum']], function () {  
 
     Route::group(['middleware'=>'permission:pfl'],function(){
@@ -202,6 +200,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::get('cajaEditar/{id}', [CajaController::class, 'edit']); 
         Route::post('cajaAbir', [CajaController::class, 'abrirCaja']); 
         Route::post('cajaCerrar', [CajaController::class, 'cerrarCaja']); 
+        Route::post('cajaRegistroAdicional', [CajaController::class, 'registroAdicionalCaja']); 
     });
     
 
