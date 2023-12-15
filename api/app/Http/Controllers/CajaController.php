@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Caja;
 use App\Models\Cliente;
 use App\Models\ControlCaja;
+use App\Models\DetalleCaja;
 use App\Models\Historial;
 use App\Models\Hotel;
 use Illuminate\Http\Request;
@@ -291,19 +292,43 @@ class CajaController extends Controller
     }
 
     function cerrarCaja(Request $request) {
-        $caja_id =  $request->caja_id; 
+        $caja_id = $request->caja_id; 
 
-        ControlCaja::where('caja_id', $caja_id )
+        $controlCaja = ControlCaja::where('caja_id', $caja_id )
+        ->where('estado', 1) 
+        ->select('id','abrir_saldo')
+        ->first();
+
+        if(!$controlCaja){
+            return response()->json(['mensaje' => 'No hay ninguna caja abierta', 'code' => "warning"]);
+        }
+
+        $id_control_caja = $controlCaja->id;
+        $saldo_abrir =  $controlCaja->abrir_saldo;
+
+        $detalleCaja = DetalleCaja::where('caja_control_id', $id_control_caja)
+        ->selectRaw('SUM(precio) as total_precio')
+        ->first();
+
+        $detalle_caja_precio = $detalleCaja["total_precio"];
+
+        $usuario = auth()->user();
+
+        $updateControlCaja = ControlCaja::where('caja_id', $caja_id )
         ->where('estado', 1) 
         ->update(
             [
-                'cierre_caja' => 0,
-                'cierre_saldo' => 0,
-                'diferencia' => 0,
-                'usuario_id_cierra' => 0,
-                'updated_at' => 0, 
+                'cierre_caja' => Carbon::now()->format('Y-m-d H:i:s'),
+                'cierre_saldo' => $detalle_caja_precio,
+                'diferencia' => $saldo_abrir - $detalle_caja_precio,
+                'usuario_id_cierra' => $usuario->id,
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'), 
                 'estado' => 2,
             ]
         );  
+
+        if($updateControlCaja){
+            return response()->json(['mensaje' => 'Caja Cerrada', 'code' => "success"]);
+        } 
     }
 }

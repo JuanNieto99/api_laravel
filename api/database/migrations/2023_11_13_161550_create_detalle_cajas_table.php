@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('usuario_id')->nullable(false); 
             $table->unsignedBigInteger('facturacion_id')->nullable(false); 
             $table->unsignedBigInteger('caja_id')->nullable(false); 
+            $table->unsignedBigInteger('caja_control_id')->nullable(false); 
             $table->decimal('precio', 12, 2)->nullable();
             $table->unsignedBigInteger('metodo_pago_id')->nullable(false); 
             $table->foreign('usuario_id')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('restrict');

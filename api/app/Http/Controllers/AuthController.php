@@ -108,8 +108,7 @@ class AuthController extends Controller
             'info' => 'Se ha cambiado la contraseña en 5 segundos se te cerrara la sesión',
             'codigo' => 100,
             'data' => ["id" => 0],
-        ]; 
-        Log::debug("sokets");
+        ];  
 
       //  broadcast(new EventoNotificacion("1"));
 

@@ -26,6 +26,10 @@ return new class extends Migration
             $table->foreign('usuario_id_abre')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('caja_id')->references('id')->on('cajas')->onUpdate('cascade')->onDelete('restrict');
         });
+
+        Schema::table('detalle_cajas', function (Blueprint $table) {
+            $table->foreign('caja_control_id')->references('id')->on('cajas_control')->onUpdate('cascade')->onDelete('restrict');
+        }); 
     }
 
     /**

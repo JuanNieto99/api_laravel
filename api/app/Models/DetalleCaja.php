@@ -19,6 +19,7 @@ class DetalleCaja extends Model
         'caja_id',
         'precio',
         'metodo_pago_id',
+        'caja_control_id',
         'created_at', 
     ];
 }

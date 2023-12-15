@@ -54,7 +54,6 @@ class FacturacionController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors());
         }
- 
 
         $caja_abierta = Caja::with(['control_caja'=>function ($query) {
             $query->where('estado', 1);
@@ -79,7 +78,6 @@ class FacturacionController extends Controller
         $consumos = Consumo::where('cliente_id', $request->cliente_id)
         ->where('estado',1)
         ->get();
- 
         
         $detalle_habitacion = DetalleHabitacion::with(['habitacion'=>function($query){
             $query->where('estado', 2);
@@ -153,6 +151,7 @@ class FacturacionController extends Controller
                     'metodo_pago_id' => $value['metodo_pago_id'],
                     'usuario_id' => $usuario->id,
                     'caja_id' => $caja_abierta->id,
+                    'caja_control_id' => $caja_abierta->control_caja->id,
                     'precio' => $value['precio'],
                     'tipo' => 1,
                     'estado' => 1,  

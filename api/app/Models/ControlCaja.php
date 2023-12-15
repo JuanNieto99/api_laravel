@@ -22,4 +22,8 @@ class ControlCaja extends Model
         'usuario_id_cierra',
         'estado',
     ];
+
+    public function detalleCajas() {
+        return $this->belongsTo(DetalleCaja::class,'id','habitacion_id');
+    }
 }
