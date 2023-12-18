@@ -61,7 +61,7 @@ class RolController extends Controller
         $json = [
             'asunto' => 'Rol Creado',
             'adjunto' => [
-                'respuesta' => !empty($rol;,
+                'respuesta' => !empty($rol),
             ],
         ];
     
@@ -233,7 +233,7 @@ class RolController extends Controller
 
         $rol = Rol::where('estado',1)->find($id);
 
-        $permisos = Permiso::select('id','codigo', 'nombre','id_padre')->where('estado','2')->get();
+        $permisos = Permiso::select('id','codigo', 'nombre','id_padre')->where('estado',1)->get();
 
         if(!$rol){
             return [

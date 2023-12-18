@@ -81,14 +81,13 @@ class TipoHabitacionController extends Controller
     public function edit($id)
     {
         $tiposHabitaciones = TiposHabitaciones::where('estado',1)->find($id);
+        $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
 
         if(!$tiposHabitaciones){
             return [ 
-                'tiposHabitaciones' => $tiposHabitaciones,
+                'hotel' => $hotel,
             ];
         }
-
-        $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
         
         return [
             'hotel' => $hotel,

@@ -82,8 +82,8 @@ class AuthController extends Controller
         $fechaActual = Carbon::now()->format('YmdHis');
         $numeroAleatorioEnRango = mt_rand(0, 10000);  
 
-        $nueva_contrasena =  $numeroAleatorioEnRango.$fechaActual.'lam';
-        Log::debug(  $nueva_contrasena);
+        $nueva_contrasena =  $numeroAleatorioEnRango.$fechaActual.'lam'; 
+        
         $filasActualizadas = User::where('email', $request->email )
         ->update([ 
             'password' => bcrypt($nueva_contrasena),

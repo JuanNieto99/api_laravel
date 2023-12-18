@@ -128,12 +128,14 @@ class ClienteController extends Controller
 
         $cliente = Cliente::where('estado',1)->find($id);
 
+        $pais = Pais::select('id','nombre','abreviatura')->Where('estado',1)->get();
+        $tipo_documento = TipoDocumento::select('id','nombre')->Where('estado',1)->get();
+        $genero = Genero::select('id','nombre')->Where('estado',1)->get();
+        $estado_civil = EstadoCivil::select('id','nombre')->Where('estado',1)->get();
+        $nivel_estudio = NivelEstudio::select('id','nombre')->Where('estado',1)->get();
+        
         if(!$cliente){
-            $pais = Pais::select('id','nombre','abreviatura')->Where('estado',1)->get();
-            $tipo_documento = TipoDocumento::select('id','nombre')->Where('estado',1)->get();
-            $genero = Genero::select('id','nombre')->Where('estado',1)->get();
-            $estado_civil = EstadoCivil::select('id','nombre')->Where('estado',1)->get();
-            $nivel_estudio = NivelEstudio::select('id','nombre')->Where('estado',1)->get();
+
     
             return [ 
                 'pais' => $pais,
@@ -143,13 +145,7 @@ class ClienteController extends Controller
                 'nivel_estudio' => $nivel_estudio,
             ]; 
     
-        }
-
-        $pais = Pais::select('id','nombre','abreviatura')->Where('estado',1)->get();
-        $tipo_documento = TipoDocumento::select('id','nombre')->Where('estado',1)->get();
-        $genero = Genero::select('id','nombre')->Where('estado',1)->get();
-        $estado_civil = EstadoCivil::select('id','nombre')->Where('estado',1)->get();
-        $nivel_estudio = NivelEstudio::select('id','nombre')->Where('estado',1)->get();
+        } 
 
         return [
             'cliente' => $cliente,

@@ -62,6 +62,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::post('usuariosActualizar', [UsuarioController::class, 'update']);
         Route::post('usuariosEliminar', [UsuarioController::class, 'destroy']);  
         Route::get('usuariosEditar/{id}', [UsuarioController::class, 'edit']); 
+        Route::get('usuariosGenerarContrasena/{id}', [UsuarioController::class, 'generarContrasena']); 
     }); 
     
     Route::group(['middleware'=>'permission:rol'],function(){
@@ -130,7 +131,6 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         //metodos pago
         Route::post('mediosPagoListar', [MetodosPagoController::class, 'index']); 
     });
-
     
     //pais
     Route::post('paisListar', [PaisController::class, 'index']); 

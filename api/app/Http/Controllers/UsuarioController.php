@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Log; 
 
 class UsuarioController extends Controller
 {
@@ -133,7 +133,7 @@ class UsuarioController extends Controller
         $validator = Validator::make($request->all(),[
                 'id' => 'required|integer', 
                 'usuario' => 'required|string|max:50',
-                'email' => 'required|string|email|max:50|unique:usuarios,email'.$request->input('id'),
+                'email' => 'required|string|email|max:50|unique:usuarios,email,'.$request->input('id'),
                 'rol_id' => 'required|integer', 
             ], 
             [
@@ -156,8 +156,7 @@ class UsuarioController extends Controller
         ->update([
             'usuario' => $request->usuario,
             'email' => $request->email, 
-            'rol_id' => $request->rol_id,
-            'estado' => $request->estado,
+            'rol_id' => $request->rol_id, 
             'superadmin' =>  $request->superadmin,
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
@@ -239,8 +238,8 @@ class UsuarioController extends Controller
                 'estado' => $usuario->estado,
             ];
             
-        } else {
-            Log::debug("casd");
+        } else { 
+
             return [
                 'roles' => $roles,  
             ];
@@ -248,5 +247,27 @@ class UsuarioController extends Controller
         } 
     }
 
+    public function generarContrasena($id) { 
+        $numero_aleatorio_en_laravel = (int) rand(0,100000);
+        
+        $nueva_contrasena =  Carbon::now()->format('YmdHis').'_'.$numero_aleatorio_en_laravel; 
+        $filasActualizadas = User::where('id', $id )
+        ->update([ 
+            'password' => bcrypt($nueva_contrasena),
+        ]);
+
+        if ($filasActualizadas > 0) {
+            // La actualización fue exitosa
+            return response()->json(
+                [
+                    'mensaje' => 'Actualización exitosa',
+                    'code' => "success",
+                    'contrasena' => $nueva_contrasena,
+                ]);
+        } else {
+            // No se encontró un usuario con el ID proporcionado
+            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
+        } 
+    }
 
 }
