@@ -1,6 +1,8 @@
 # Utiliza una imagen base con Apache y PHP
 FROM phpmyadmin/phpmyadmin:latest
 
+RUN apt-get update -y && apt-get install -y \
+    nano 
 # Copia el archivo de configuración personalizado de Apache
 COPY apache2.conf /etc/apache2/apache2.conf
 
@@ -10,5 +12,5 @@ CMD ["apache2-foreground"]
 #docker build -t mi_phpmyadmin .
 
 # Ejecutar el contenedor
-#docker run -d --name mi_phpmyadmin --network mi_red -p 8081:80 mi_phpmyadmin
+#docker run -d --name mi_phpmyadmin --network 6283b2377e41 -p 8081:80 mi_phpmyadmin
 
