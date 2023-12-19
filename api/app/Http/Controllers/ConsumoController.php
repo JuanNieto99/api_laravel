@@ -36,6 +36,7 @@ class ConsumoController extends Controller
             'consumido_id' => 'required|integer', 
             'tipo_consumido' => 'required|integer', 
             'cantidad' => 'required|integer',
+            'hotel_id' => 'required|integer',
         ]);
 
         if($validator->fails()){
@@ -69,6 +70,7 @@ class ConsumoController extends Controller
             'tipo_consumido' => $request->tipo_consumido, 
             'precio' => $precio,
             'cantidad' => $request->cantidad, 
+            'hotel_id' => $request->hotel_id, 
             'estado' => '1'
         ]);
         
@@ -103,10 +105,7 @@ class ConsumoController extends Controller
                         'cantidad' => $request->cantidad,
                         'estado' => 0,
                     ]);
-                    /* $cantidad_consumos_producto = Consumo::where('tipo_consumido',2)
-                    ->where('consumido_id',  $request->consumido_id)
-                    ->where('estado','1')
-                    ->count();*/
+                    
                     
                 break; 
 

@@ -63,8 +63,12 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::post('usuariosEliminar', [UsuarioController::class, 'destroy']);  
         Route::get('usuariosEditar/{id}', [UsuarioController::class, 'edit']); 
         Route::get('usuariosGenerarContrasena/{id}', [UsuarioController::class, 'generarContrasena']); 
+        Route::get('usuariosInactivar/{id}', [UsuarioController::class, 'inactivar']);  
     }); 
     
+    Route::get('usuarioHotel/{id}', [UsuarioController::class, 'usuarioHotel']); 
+
+
     Route::group(['middleware'=>'permission:rol'],function(){
         //Roles
         Route::post('rolListar', [RolController::class, 'index']);
@@ -220,7 +224,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     });
 
     Route::group(['middleware'=>'permission:csmo'],function(){ 
-
+        //Consumo
         Route::post('consumoCrear', [ConsumoController::class, 'create']);  
         Route::post('consumoListar', [ConsumoController::class, 'index']); 
         Route::get('consumoMostrar/{id}', [ConsumoController::class, 'show']); 
@@ -228,7 +232,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     });
 
     Route::group(['middleware'=>'permission:ftn'],function(){ 
-
+        //Facturar
         Route::post('facturaCrear', [FacturacionController::class, 'create']); 
         Route::post('facturaListar', [FacturacionController::class, 'index']); 
         Route::post('facturaAnular', [FacturacionController::class, 'destroy']); 
@@ -236,6 +240,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
 
     Route::post('getReservasHabitacionesCalendario', [DetalleHabitacionController::class, 'getReservasCalendario']); 
     Route::post('listatDetalleHabitaciones', [DetalleHabitacionController::class, 'index']); 
+    Route::post('registrarReserva', [DetalleHabitacionController::class, 'index']);
 
     Route::get('logout', [AuthController::class, 'logout']);    
 });

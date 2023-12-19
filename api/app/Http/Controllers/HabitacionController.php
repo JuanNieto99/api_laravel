@@ -230,6 +230,7 @@ class HabitacionController extends Controller
                 'usuario_id' => 'required|integer', 
                 'cliente_id' => 'required|integer', 
                 'habitacion_id' => 'required|integer',  
+                'hotel_id' => 'required|integer',  
             ], 
             [
                 'nombre.required' => "El campo es requerio",
@@ -247,6 +248,7 @@ class HabitacionController extends Controller
             'cliente_id' => $request->cliente_id,
             'habitacion_id' => $request->habitacion_id, 
             'checkin' =>  Carbon::now()->format('Y-m-d H:i:s'), 
+            'hotel_id' => $request->hotel_id,
         ]); 
 
         if($ocupar){

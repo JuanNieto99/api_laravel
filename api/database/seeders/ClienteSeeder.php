@@ -33,6 +33,7 @@ class ClienteSeeder extends Seeder
                 'correo' => 'jgnieto99@gmail.com',
                 'observacion' => 'ninguna',
                 'usuario_create_id' => 1,  
+                'hotel_id' => 1,
             ],
         
         ]);

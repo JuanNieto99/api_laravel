@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DetalleHabitacion;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;   
 
 class DetalleHabitacionController extends Controller
 {
@@ -23,9 +24,34 @@ class DetalleHabitacionController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+
+        $validator = Validator::make($request->all(),[  
+            'fecha_inicio' => 'required|string',
+            'fecha_salida' => 'required|string',
+            'cliente_id' => 'required|integer',
+            'habitacion_id' => 'required|integer',
+            'hotel_id' => 'required|integer',
+        ]   
+        );
+
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+
+        $usuario = auth()->user();
+        
+        DetalleHabitacion::create(
+        [
+            'fecha_inicio' => $request->fecha_inicio,
+            'fecha_salida' => $request->fecha_salida,
+            'cliente_id' => $request->cliente_id,
+            'habitacion_id' => $request->habitacion_id,
+            'usuario_id' => $usuario->id,
+            'hotel_id' => $request->hotel_id,
+        ]
+        );
     }
 
     /**

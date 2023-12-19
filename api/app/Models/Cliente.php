@@ -29,6 +29,7 @@ class Cliente extends Model
         'observacion',
         'usuario_create_id',
         'usuario_update_id',
+        'hotel_id',
         'estado',
     ];
 }

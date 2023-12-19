@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('inventarios', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 50);
-            $table->string('descripcion');
+            $table->string('descripcion'); 
             $table->timestamps();
         });
     }

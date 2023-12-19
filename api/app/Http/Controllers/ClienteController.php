@@ -6,6 +6,7 @@ use App\Models\Cliente;
 use App\Models\EstadoCivil;
 use App\Models\Genero;
 use App\Models\Historial;
+use App\Models\Hotel;
 use App\Models\NivelEstudio;
 use App\Models\Pais;
 use App\Models\TipoDocumento;
@@ -51,11 +52,13 @@ class ClienteController extends Controller
             'correo' => 'required|string|max:50', 
             'observacion' => 'required|string|max:200', 
             'usuario_create_id' => 'required|integer',
+            'hotel_id' => 'required|integer',
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors());
         }
+
         $usuario = auth()->user();
 
         $Cliente = Cliente::create([
@@ -76,6 +79,7 @@ class ClienteController extends Controller
             'correo' => $request->correo, 
             'observacion' => $request->observacion, 
             'usuario_create_id' => $usuario->id,
+            'hotel_id' => $request->hotel_id,
         ]); 
 
         $json = [
@@ -133,16 +137,17 @@ class ClienteController extends Controller
         $genero = Genero::select('id','nombre')->Where('estado',1)->get();
         $estado_civil = EstadoCivil::select('id','nombre')->Where('estado',1)->get();
         $nivel_estudio = NivelEstudio::select('id','nombre')->Where('estado',1)->get();
-        
-        if(!$cliente){
+        $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
 
-    
+        if(!$cliente){ 
+            
             return [ 
                 'pais' => $pais,
                 'tipo_documento' => $tipo_documento,
                 'genero' => $genero,
                 'estado_civil' => $estado_civil,
                 'nivel_estudio' => $nivel_estudio,
+                'hotel' => $hotel,
             ]; 
     
         } 
@@ -154,6 +159,7 @@ class ClienteController extends Controller
             'genero' => $genero,
             'estado_civil' => $estado_civil,
             'nivel_estudio' => $nivel_estudio,
+            'hotel' => $hotel,
         ]; 
 
     }
@@ -181,6 +187,7 @@ class ClienteController extends Controller
             'nivel_studio' => 'required|integer', 
             'correo' => 'required|string|max:50', 
             'observacion' => 'required|string|max:200',  
+            'hotel_id' => 'required|integer',
             'usuario_update_id' => 'required|integer',
             'id'  => 'required|integer',
         ]);
@@ -207,6 +214,7 @@ class ClienteController extends Controller
             'nivel_studio_id' => $request->nivel_studio, 
             'correo' => $request->correo, 
             'observacion' => $request->observacion, 
+            'hotel_id' => $request->hotel_id,
             'usuario_update_id' => $request->usuario_update_id, 
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);

@@ -21,10 +21,12 @@ return new class extends Migration
             $table->unsignedTinyInteger('tipo_consumido');  // 1 -> receta  2 -> producto 3-> habitacion 
             $table->decimal('precio', 12, 2)->nullable();
             $table->unsignedBigInteger('cantidad'); 
+            $table->unsignedBigInteger('hotel_id')->nullable(false);
             $table->unsignedTinyInteger('estado'); // 1 -> activo  2 -> desactivado 3-> facturada  
             $table->timestamps();
             $table->foreign('usuario_id')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('cliente_id')->references('id')->on('clientes')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('hotel_id')->references('id')->on('hotels')->onUpdate('cascade')->onDelete('restrict'); 
             //$table->foreign('producto_id')->references('id')->on('productos')->onUpdate('cascade')->onDelete('restrict');
         });
     }

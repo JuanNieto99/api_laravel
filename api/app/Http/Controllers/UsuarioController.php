@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Historial;
+use App\Models\Hotel;
 use App\Models\Rol;
 use App\Models\Usuario;
 use App\Models\User;
@@ -19,8 +20,8 @@ class UsuarioController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->query('per_page', 1);
-
-        $query = Usuario::where('estado',1)->orderBy('usuario', 'asc');
+        $estados = [1,2];
+        $query = Usuario::whereIn('estado', $estados)->orderBy('usuario', 'asc');
 
 		return $per_page? $query->paginate($per_page) : $query->get();
 
@@ -165,6 +166,7 @@ class UsuarioController extends Controller
             'asunto' => 'Usuario Actualizado',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id_usuario_update' => $request->id,
             ],
         ];
     
@@ -201,6 +203,7 @@ class UsuarioController extends Controller
             'asunto' => 'Usuario Eliminar',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id_usuario_eliminar' => $request->id,
             ],
         ];
     
@@ -269,5 +272,52 @@ class UsuarioController extends Controller
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         } 
     }
+
+
+    public function inactivar(Request $request)
+    {
+        $filasActualizadas = User::where('id', $request->id)
+        ->update([ 
+            'estado' => 2,
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        $json = [
+            'asunto' => 'Usuario Inactivar',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+                'id_usuario_inactivar' => $request->id,
+            ],
+        ];
+    
+        $usuario = auth()->user();
+        
+        Historial::insert([
+            'tipo' => 11,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,   
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                  
+        ]);
+
+
+        if ($filasActualizadas > 0) {
+            // La actualización fue exitosa
+            return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);
+        } else {
+            // No se encontró un usuario con el ID proporcionado
+            return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
+        }
+    }
+
+    public function usuarioHotel ($id) {
+        
+        $hoteles = Hotel::where('usuario_id', $id)->get();
+        
+        return  [
+            'hoteles' => $hoteles,
+        ];
+    
+    }
+
 
 }

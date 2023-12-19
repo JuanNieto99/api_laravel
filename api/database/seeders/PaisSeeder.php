@@ -26,7 +26,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 13,
                 "nombre" => "MÉXICO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MEX",
                 "extension" => '',
                 "codigo_telefono" => "52",
@@ -35,7 +35,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 14,
                 "nombre" => "CANADÁ",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "CAN",
                 "extension" => '',
                 "codigo_telefono" => "1",
@@ -44,7 +44,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 15,
                 "nombre" => "PERÚ",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "PER",
                 "extension" => '',
                 "codigo_telefono" => "51",
@@ -53,7 +53,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 16,
                 "nombre" => "ARGENTINA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ARG",
                 "extension" => '',
                 "codigo_telefono" => "74",
@@ -62,7 +62,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 18,
                 "nombre" => "BRASIL",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BRA",
                 "extension" => '',
                 "codigo_telefono" => "55",
@@ -71,7 +71,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 19,
                 "nombre" => "ITALIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ITA",
                 "extension" => '',
                 "codigo_telefono" => "39",
@@ -80,7 +80,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 20,
                 "nombre" => "CHINA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "CHN",
                 "extension" => '',
                 "codigo_telefono" => "86",
@@ -89,7 +89,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 21,
                 "nombre" => "CHILE",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "CHL",
                 "extension" => '',
                 "codigo_telefono" => "56",
@@ -98,7 +98,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 22,
                 "nombre" => "ECUADOR",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ECU",
                 "extension" => '',
                 "codigo_telefono" => "593",
@@ -107,7 +107,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 23,
                 "nombre" => "CUBA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "CUB",
                 "extension" => '',
                 "codigo_telefono" => "53",
@@ -116,7 +116,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 26,
                 "nombre" => "COSTA RICA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "CRI",
                 "extension" => '',
                 "codigo_telefono" => "506",
@@ -125,7 +125,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 27,
                 "nombre" => "ALEMANIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "DEU",
                 "extension" => '',
                 "codigo_telefono" => "49",
@@ -134,7 +134,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 29,
                 "nombre" => "ARUBA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ABW",
                 "extension" => '',
                 "codigo_telefono" => "297",
@@ -143,7 +143,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 31,
                 "nombre" => "AUSTRALIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "AUS",
                 "extension" => '',
                 "codigo_telefono" => "61",
@@ -152,7 +152,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 32,
                 "nombre" => "AUSTRIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "AUT",
                 "extension" => '',
                 "codigo_telefono" => "43",
@@ -161,7 +161,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 33,
                 "nombre" => "BAHAMAS",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BHS",
                 "extension" => '',
                 "codigo_telefono" => "1002",
@@ -170,7 +170,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 34,
                 "nombre" => "BELGICA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BEL",
                 "extension" => '',
                 "codigo_telefono" => "32",
@@ -179,7 +179,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 35,
                 "nombre" => "BELICE",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BLZ",
                 "extension" => '',
                 "codigo_telefono" => "501",
@@ -188,7 +188,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 36,
                 "nombre" => "BOLIVIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BOL",
                 "extension" => '',
                 "codigo_telefono" => "591",
@@ -197,7 +197,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 38,
                 "nombre" => "EGIPTO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "EGY",
                 "extension" => '',
                 "codigo_telefono" => "20",
@@ -206,7 +206,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 39,
                 "nombre" => "EL SALVADOR",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SLV",
                 "extension" => '',
                 "codigo_telefono" => "503",
@@ -215,7 +215,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 40,
                 "nombre" => "ESPAÑA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ESP",
                 "extension" => '',
                 "codigo_telefono" => "34",
@@ -224,7 +224,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 41,
                 "nombre" => "ESTADOS UNIDOS (USA)",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "USA",
                 "extension" => '',
                 "codigo_telefono" => "1",
@@ -233,7 +233,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 42,
                 "nombre" => "FILIPINAS",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "PHL",
                 "extension" => '',
                 "codigo_telefono" => "63",
@@ -242,7 +242,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 43,
                 "nombre" => "FRANCIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "FRA",
                 "extension" => '',
                 "codigo_telefono" => "33",
@@ -251,7 +251,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 44,
                 "nombre" => "GRECIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GRC",
                 "extension" => '',
                 "codigo_telefono" => "30",
@@ -260,7 +260,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 45,
                 "nombre" => "GUATEMALA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GTM",
                 "extension" => '',
                 "codigo_telefono" => "502",
@@ -269,7 +269,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 46,
                 "nombre" => "GUAYANA FRANCESA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GUF",
                 "extension" => '',
                 "codigo_telefono" => "594",
@@ -278,7 +278,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 47,
                 "nombre" => "HAITI",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "HTI",
                 "extension" => '',
                 "codigo_telefono" => "509",
@@ -287,7 +287,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 50,
                 "nombre" => "JAMAICA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "JAM",
                 "extension" => '',
                 "codigo_telefono" => "1010",
@@ -296,7 +296,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 51,
                 "nombre" => "JAPON",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "JPN",
                 "extension" => '',
                 "codigo_telefono" => "81",
@@ -305,7 +305,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 53,
                 "nombre" => "MONACO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MCO",
                 "extension" => '',
                 "codigo_telefono" => "377",
@@ -314,7 +314,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 54,
                 "nombre" => "NORUEGA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "NOR",
                 "extension" => '',
                 "codigo_telefono" => "47",
@@ -323,7 +323,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 55,
                 "nombre" => "PANAMA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "PAN",
                 "extension" => '',
                 "codigo_telefono" => "507",
@@ -332,7 +332,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 56,
                 "nombre" => "PARAGUAY",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "PRY",
                 "extension" => '',
                 "codigo_telefono" => "595",
@@ -341,7 +341,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 58,
                 "nombre" => "PORTUGAL",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "PRT",
                 "extension" => '',
                 "codigo_telefono" => "351",
@@ -350,7 +350,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 59,
                 "nombre" => "REPUBLICA CHECA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "CZE",
                 "extension" => '',
                 "codigo_telefono" => "42",
@@ -359,7 +359,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 60,
                 "nombre" => "SUECIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SWE",
                 "extension" => '',
                 "codigo_telefono" => "46",
@@ -368,7 +368,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 61,
                 "nombre" => "TURQUIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "TUR",
                 "extension" => '',
                 "codigo_telefono" => "90",
@@ -377,7 +377,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 62,
                 "nombre" => "VENEZUELA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "VEN",
                 "extension" => '',
                 "codigo_telefono" => "58",
@@ -386,7 +386,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 63,
                 "nombre" => "AFGANISTAN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "AFG",
                 "extension" => '',
                 "codigo_telefono" => "93",
@@ -395,7 +395,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 64,
                 "nombre" => "ANGOLA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "AGO",
                 "extension" => '',
                 "codigo_telefono" => "244",
@@ -404,7 +404,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 65,
                 "nombre" => "ALBANIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ALB",
                 "extension" => '',
                 "codigo_telefono" => "355",
@@ -413,7 +413,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 66,
                 "nombre" => "ANDORRA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => '',
                 "extension" => '',
                 "codigo_telefono" => "376",
@@ -422,7 +422,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 67,
                 "nombre" => "ANTILLAS HOLANDESAS",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ANT",
                 "extension" => '',
                 "codigo_telefono" => "599",
@@ -431,7 +431,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 68,
                 "nombre" => "EMIRATOS ARABES UNIDOS",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ARE",
                 "extension" => '',
                 "codigo_telefono" => "971",
@@ -440,7 +440,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 69,
                 "nombre" => "ARMENIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ARM",
                 "codigo_telefono" => "374",
                 "extension" => '',
@@ -449,7 +449,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 70,
                 "nombre" => "ANTIGUA Y BARBUDA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ATG",
                 "extension" => '',
                 "codigo_telefono" => "1001",
@@ -458,7 +458,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 71,
                 "nombre" => "BURUNDI",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BDI",
                 "extension" => '',
                 "codigo_telefono" => "257",
@@ -467,7 +467,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 72,
                 "nombre" => "BENIN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BEN",
                 "extension" => '',
                 "codigo_telefono" => "229",
@@ -476,7 +476,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 73,
                 "nombre" => "BANGLADESH",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BGD",
                 "extension" => '',
                 "codigo_telefono" => "880",
@@ -485,7 +485,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 74,
                 "nombre" => "BULGARIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BGR",
                 "extension" => '',
                 "codigo_telefono" => "359",
@@ -494,7 +494,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 75,
                 "nombre" => "BERMUDAS",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BMU",
                 "extension" => '',
                 "codigo_telefono" => "1004",
@@ -503,7 +503,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 76,
                 "nombre" => "BARBADOS",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BRB",
                 "extension" => '',
                 "codigo_telefono" => "1003",
@@ -512,7 +512,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 77,
                 "nombre" => "BUTAN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BTN",
                 "extension" => '',
                 "codigo_telefono" => "975",
@@ -521,7 +521,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 78,
                 "nombre" => "SUIZA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "CHE",
                 "extension" => '',
                 "codigo_telefono" => "41",
@@ -530,7 +530,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 79,
                 "nombre" => "COSTA DE MARFIL",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "CIV",
                 "extension" => '',
                 "codigo_telefono" => "225",
@@ -539,7 +539,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 80,
                 "nombre" => "CAMERUN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "CMR",
                 "extension" => '',
                 "codigo_telefono" => "237",
@@ -548,7 +548,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 81,
                 "nombre" => "ISLAS COOK",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "COK",
                 "extension" => '',
                 "codigo_telefono" => "682",
@@ -557,7 +557,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 82,
                 "nombre" => "COMORAS",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "COM",
                 "extension" => '',
                 "codigo_telefono" => "269",
@@ -566,7 +566,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 83,
                 "nombre" => "CABO VERDE",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "CPV",
                 "extension" => '',
                 "codigo_telefono" => "238",
@@ -575,7 +575,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 84,
                 "nombre" => "ISLAS CAIMAN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "CYM",
                 "extension" => '',
                 "codigo_telefono" => "1006",
@@ -584,7 +584,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 85,
                 "nombre" => "CHIPRE",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "CYP",
                 "extension" => '',
                 "codigo_telefono" => "357",
@@ -593,7 +593,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 86,
                 "nombre" => "DOMINICA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "DMA",
                 "extension" => '',
                 "codigo_telefono" => "1007",
@@ -602,7 +602,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 87,
                 "nombre" => "DINAMARCA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "DNK",
                 "extension" => '',
                 "codigo_telefono" => "45",
@@ -611,7 +611,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 88,
                 "nombre" => "REPUBLICA DOMINICANA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "DOM",
                 "extension" => '',
                 "codigo_telefono" => "1008",
@@ -620,7 +620,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 89,
                 "nombre" => "ARGELIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "DZA",
                 "extension" => '',
                 "codigo_telefono" => "213",
@@ -629,7 +629,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 90,
                 "nombre" => "ERITREA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ERI",
                 "extension" => '',
                 "codigo_telefono" => "291",
@@ -638,7 +638,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 91,
                 "nombre" => "SAHARA OCCIDENTAL",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ESH",
                 "extension" => '',
                 "codigo_telefono" => "212",
@@ -647,7 +647,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 92,
                 "nombre" => "ESTONIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "EST",
                 "extension" => '',
                 "codigo_telefono" => "372",
@@ -656,7 +656,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 93,
                 "nombre" => "ETIOPIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ETH",
                 "extension" => '',
                 "codigo_telefono" => "251",
@@ -665,7 +665,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 94,
                 "nombre" => "FINLANDIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "FIN",
                 "extension" => '',
                 "codigo_telefono" => "358",
@@ -674,7 +674,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 95,
                 "nombre" => "FIJI",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "FJI",
                 "extension" => '',
                 "codigo_telefono" => "679",
@@ -683,7 +683,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 96,
                 "nombre" => "MICRONESIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "FSM",
                 "extension" => '',
                 "codigo_telefono" => "691",
@@ -692,7 +692,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 97,
                 "nombre" => "GABON",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GAB",
                 "extension" => '',
                 "codigo_telefono" => "241",
@@ -701,7 +701,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 98,
                 "nombre" => "REINO UNIDO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GBR",
                 "extension" => '',
                 "codigo_telefono" => "44",
@@ -710,7 +710,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 99,
                 "nombre" => "GEORGIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GEO",
                 "extension" => '',
                 "codigo_telefono" => "995",
@@ -719,7 +719,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 100,
                 "nombre" => "GHANA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GHA",
                 "extension" => '',
                 "codigo_telefono" => "233",
@@ -728,7 +728,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 101,
                 "nombre" => "GIBRALTAR",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GIB",
                 "extension" => '',
                 "codigo_telefono" => "350",
@@ -737,7 +737,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 102,
                 "nombre" => "GUINEA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GIN",
                 "extension" => '',
                 "codigo_telefono" => "224",
@@ -746,7 +746,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 103,
                 "nombre" => "GUADALUPE",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GLP",
                 "extension" => '',
                 "codigo_telefono" => "590",
@@ -755,7 +755,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 104,
                 "nombre" => "GAMBIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GMB",
                 "extension" => '',
                 "codigo_telefono" => "220",
@@ -764,7 +764,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 105,
                 "nombre" => "GUINEA ECUATORIAL",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GNQ",
                 "extension" => '',
                 "codigo_telefono" => "240",
@@ -773,7 +773,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 106,
                 "nombre" => "GRANADA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GRD",
                 "extension" => '',
                 "codigo_telefono" => "1009",
@@ -782,7 +782,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 107,
                 "nombre" => "GROENLANDIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GRL",
                 "extension" => '',
                 "codigo_telefono" => "299",
@@ -791,7 +791,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 108,
                 "nombre" => "GUAM",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GUM",
                 "extension" => '',
                 "codigo_telefono" => "1671",
@@ -800,7 +800,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 109,
                 "nombre" => "HONG KONG",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "HKG",
                 "extension" => '',
                 "codigo_telefono" => "852",
@@ -809,7 +809,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 110,
                 "nombre" => "HONDURAS",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "HND",
                 "extension" => '',
                 "codigo_telefono" => "504",
@@ -818,7 +818,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 111,
                 "nombre" => "CROACIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "HRV",
                 "extension" => '',
                 "codigo_telefono" => "385",
@@ -827,7 +827,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 112,
                 "nombre" => "HUNGRIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "HUN",
                 "extension" => '',
                 "codigo_telefono" => "36",
@@ -836,7 +836,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 113,
                 "nombre" => "INDONESIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "IDN",
                 "extension" => '',
                 "codigo_telefono" => "62",
@@ -845,7 +845,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 114,
                 "nombre" => "INDIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "IND",
                 "extension" => '',
                 "codigo_telefono" => "91",
@@ -854,7 +854,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 115,
                 "nombre" => "IRLANDA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "IRL",
                 "extension" => '',
                 "codigo_telefono" => "353",
@@ -863,7 +863,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 116,
                 "nombre" => "IRAN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "IRN",
                 "extension" => '',
                 "codigo_telefono" => "98",
@@ -872,7 +872,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 117,
                 "nombre" => "ISLANDIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ISL",
                 "extension" => '',
                 "codigo_telefono" => "354",
@@ -881,7 +881,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 118,
                 "nombre" => "ISRAEL",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ISR",
                 "extension" => '',
                 "codigo_telefono" => "972",
@@ -890,7 +890,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 119,
                 "nombre" => "JORDANIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "JOR",
                 "extension" => '',
                 "codigo_telefono" => "962",
@@ -899,7 +899,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 120,
                 "nombre" => "KENIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "KEN",
                 "extension" => '',
                 "codigo_telefono" => "254",
@@ -908,7 +908,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 121,
                 "nombre" => "KIRIBATI",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "KIR",
                 "extension" => '',
                 "codigo_telefono" => "686",
@@ -917,7 +917,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 122,
                 "nombre" => "SAN CRISTOBAL Y NIEVES",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "KNA",
                 "extension" => '',
                 "codigo_telefono" => "1869",
@@ -926,7 +926,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 123,
                 "nombre" => "COREA DEL SUR",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "KOR",
                 "extension" => '',
                 "codigo_telefono" => "82",
@@ -935,7 +935,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 124,
                 "nombre" => "KUWAIT",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "KWT",
                 "extension" => '',
                 "codigo_telefono" => "965",
@@ -944,7 +944,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 125,
                 "nombre" => "LAOS",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "LAO",
                 "extension" => '',
                 "codigo_telefono" => "856",
@@ -953,7 +953,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 126,
                 "nombre" => "LIBANO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "LBN",
                 "extension" => '',
                 "codigo_telefono" => "961",
@@ -962,7 +962,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 127,
                 "nombre" => "LIBERIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "LBR",
                 "extension" => '',
                 "codigo_telefono" => "231",
@@ -971,7 +971,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 128,
                 "nombre" => "SANTA LUCIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "LCA",
                 "extension" => '',
                 "codigo_telefono" => "1014",
@@ -980,7 +980,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 129,
                 "nombre" => "LIECHTENSTEIN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "LIE",
                 "extension" => '',
                 "codigo_telefono" => "417",
@@ -989,7 +989,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 130,
                 "nombre" => "SRI LANKA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "LKA",
                 "extension" => '',
                 "codigo_telefono" => "94",
@@ -998,7 +998,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 131,
                 "nombre" => "LITUANIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "LTU",
                 "extension" => '',
                 "codigo_telefono" => "370",
@@ -1007,7 +1007,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 132,
                 "nombre" => "LUXEMBURGO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "LUX",
                 "extension" => '',
                 "codigo_telefono" => "352",
@@ -1016,7 +1016,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 133,
                 "nombre" => "LETONIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "LVA",
                 "extension" => '',
                 "codigo_telefono" => "371",
@@ -1025,7 +1025,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 134,
                 "nombre" => "MACAO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MAC",
                 "extension" => '',
                 "codigo_telefono" => "853",
@@ -1034,7 +1034,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 135,
                 "nombre" => "MARRUECOS",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MAR",
                 "extension" => '',
                 "codigo_telefono" => "212",
@@ -1043,7 +1043,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 136,
                 "nombre" => "MOLDAVIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MDA",
                 "extension" => '',
                 "codigo_telefono" => "373",
@@ -1052,7 +1052,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 137,
                 "nombre" => "MADAGASCAR",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MDG",
                 "extension" => '',
                 "codigo_telefono" => "261",
@@ -1061,7 +1061,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 138,
                 "nombre" => "MALDIVAS",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MDV",
                 "extension" => '',
                 "codigo_telefono" => "960",
@@ -1070,7 +1070,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 139,
                 "nombre" => "ISLAS MARSHALL",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MHL",
                 "extension" => '',
                 "codigo_telefono" => "692",
@@ -1079,7 +1079,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 140,
                 "nombre" => "MACEDONIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MKD",
                 "extension" => '',
                 "codigo_telefono" => "389",
@@ -1088,7 +1088,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 141,
                 "nombre" => "MALI",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MLI",
                 "extension" => '',
                 "codigo_telefono" => "223",
@@ -1097,7 +1097,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 142,
                 "nombre" => "MALTA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MLT",
                 "extension" => '',
                 "codigo_telefono" => "356",
@@ -1106,7 +1106,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 143,
                 "nombre" => "MAURITANIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MRT",
                 "extension" => '',
                 "codigo_telefono" => "222",
@@ -1115,7 +1115,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 144,
                 "nombre" => "MARTINICA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MTQ",
                 "extension" => '',
                 "codigo_telefono" => "596",
@@ -1124,7 +1124,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 145,
                 "nombre" => "NUEVA CALEDONIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "NCL",
                 "extension" => '',
                 "codigo_telefono" => "687",
@@ -1133,7 +1133,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 146,
                 "nombre" => "NIGER",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "NER",
                 "extension" => '',
                 "codigo_telefono" => "227",
@@ -1142,7 +1142,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 147,
                 "nombre" => "NIGERIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "NGA",
                 "extension" => '',
                 "codigo_telefono" => "234",
@@ -1151,7 +1151,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 148,
                 "nombre" => "NICARAGUA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "NIC",
                 "extension" => '',
                 "codigo_telefono" => "505",
@@ -1160,7 +1160,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 149,
                 "nombre" => "OMAN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "OMN",
                 "extension" => '',
                 "codigo_telefono" => "968",
@@ -1169,7 +1169,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 150,
                 "nombre" => "PAKISTAN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "PAK",
                 "extension" => '',
                 "codigo_telefono" => "92",
@@ -1178,7 +1178,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 151,
                 "nombre" => "POLONIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "POL",
                 "extension" => '',
                 "codigo_telefono" => "48",
@@ -1187,7 +1187,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 152,
                 "nombre" => "PUERTO RICO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "PRI",
                 "extension" => '',
                 "codigo_telefono" => "1787",
@@ -1196,7 +1196,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 153,
                 "nombre" => "COREA DEL NORTE",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "PRK",
                 "extension" => '',
                 "codigo_telefono" => "850",
@@ -1205,7 +1205,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 154,
                 "nombre" => "POLINESIA FRANCESA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "PYF",
                 "extension" => '',
                 "codigo_telefono" => "689",
@@ -1214,7 +1214,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 155,
                 "nombre" => "RUMANIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ROU",
                 "extension" => '',
                 "codigo_telefono" => "40",
@@ -1223,7 +1223,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 156,
                 "nombre" => "RUSIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "RUS",
                 "extension" => '',
                 "codigo_telefono" => "7",
@@ -1232,7 +1232,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 157,
                 "nombre" => "RUANDA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "RWA",
                 "extension" => '',
                 "codigo_telefono" => "250",
@@ -1241,7 +1241,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 158,
                 "nombre" => "SUDAN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SDN",
                 "extension" => '',
                 "codigo_telefono" => "249",
@@ -1250,7 +1250,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 159,
                 "nombre" => "SENEGAL",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SEN",
                 "extension" => '',
                 "codigo_telefono" => "221",
@@ -1259,7 +1259,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 160,
                 "nombre" => "SINGAPUR",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SGP",
                 "extension" => '',
                 "codigo_telefono" => "65",
@@ -1268,7 +1268,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 161,
                 "nombre" => "ISLAS SALOMON",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SLB",
                 "extension" => '',
                 "codigo_telefono" => "677",
@@ -1277,7 +1277,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 162,
                 "nombre" => "SIERRA LEONA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SLE",
                 "extension" => '',
                 "codigo_telefono" => "232",
@@ -1286,7 +1286,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 163,
                 "nombre" => "SAN MARINO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SMR",
                 "extension" => '',
                 "codigo_telefono" => "378",
@@ -1295,7 +1295,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 164,
                 "nombre" => "SOMALIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SOM",
                 "extension" => '',
                 "codigo_telefono" => "252",
@@ -1304,7 +1304,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 165,
                 "nombre" => "SANTO TOME Y PRINCIPE",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "STP",
                 "extension" => '',
                 "codigo_telefono" => "239",
@@ -1313,7 +1313,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 166,
                 "nombre" => "SURINAM",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SUR",
                 "extension" => '',
                 "codigo_telefono" => "597",
@@ -1322,7 +1322,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 167,
                 "nombre" => "ESLOVENIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SVN",
                 "extension" => '',
                 "codigo_telefono" => "386",
@@ -1331,7 +1331,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 168,
                 "nombre" => "SIRIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SYR",
                 "extension" => '',
                 "codigo_telefono" => "963",
@@ -1340,7 +1340,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 169,
                 "nombre" => "CHAD",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "TCD",
                 "extension" => '',
                 "codigo_telefono" => "235",
@@ -1349,7 +1349,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 170,
                 "nombre" => "TAILANDIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "THA",
                 "extension" => '',
                 "codigo_telefono" => "66",
@@ -1358,7 +1358,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 171,
                 "nombre" => "TURKMENISTAN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "TKM",
                 "extension" => '',
                 "codigo_telefono" => "993",
@@ -1367,7 +1367,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 172,
                 "nombre" => "TRINIDAD Y TOBAGO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "TTO",
                 "extension" => '',
                 "codigo_telefono" => "1016",
@@ -1376,7 +1376,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 173,
                 "nombre" => "TUVALU",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "TUV",
                 "extension" => '',
                 "codigo_telefono" => "688",
@@ -1385,7 +1385,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 174,
                 "nombre" => "TANZANIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "TZA",
                 "extension" => '',
                 "codigo_telefono" => "255",
@@ -1394,7 +1394,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 175,
                 "nombre" => "UGANDA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "UGA",
                 "extension" => '',
                 "codigo_telefono" => "256",
@@ -1403,7 +1403,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 176,
                 "nombre" => "UCRANIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "UKR",
                 "extension" => '',
                 "codigo_telefono" => "380",
@@ -1412,7 +1412,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 177,
                 "nombre" => "URUGUAY",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "URY",
                 "extension" => '',
                 "codigo_telefono" => "598",
@@ -1421,7 +1421,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 178,
                 "nombre" => "UZBEKISTAN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "UZB",
                 "extension" => '',
                 "codigo_telefono" => "737",
@@ -1430,7 +1430,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 179,
                 "nombre" => "SAN VICENTE Y LAS GRANADINAS",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "VCT",
                 "extension" => '',
                 "codigo_telefono" => "1015",
@@ -1439,7 +1439,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 180,
                 "nombre" => "VIETNAM",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "VNM",
                 "extension" => '',
                 "codigo_telefono" => "84",
@@ -1448,7 +1448,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 181,
                 "nombre" => "VANUATU",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "VUT",
                 "extension" => '',
                 "codigo_telefono" => "7377",
@@ -1457,7 +1457,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 182,
                 "nombre" => "YEMEN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "YEM",
                 "extension" => '',
                 "codigo_telefono" => "967",
@@ -1466,7 +1466,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 183,
                 "nombre" => "SUDAFRICA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ZAF",
                 "extension" => '',
                 "codigo_telefono" => "27",
@@ -1475,7 +1475,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 184,
                 "nombre" => "ANGUILLA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "AIA",
                 "extension" => '',
                 "codigo_telefono" => "1000",
@@ -1484,7 +1484,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 185,
                 "nombre" => "ARABIA SAUDITA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SAU",
                 "extension" => '',
                 "codigo_telefono" => "966",
@@ -1493,7 +1493,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 186,
                 "nombre" => "AZERBAIJAN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "AZE",
                 "extension" => '',
                 "codigo_telefono" => "994",
@@ -1502,7 +1502,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 187,
                 "nombre" => "BAHREIN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BHR",
                 "extension" => '',
                 "codigo_telefono" => "973",
@@ -1511,7 +1511,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 188,
                 "nombre" => "BELARUS",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BLR",
                 "extension" => '',
                 "codigo_telefono" => "375",
@@ -1520,7 +1520,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 189,
                 "nombre" => "BIRMANIA (MYANMAR)",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MMR",
                 "extension" => '',
                 "codigo_telefono" => "95",
@@ -1529,7 +1529,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 190,
                 "nombre" => "BOSNIA-HERZEGOVINA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BIH",
                 "extension" => '',
                 "codigo_telefono" => "387",
@@ -1538,7 +1538,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 191,
                 "nombre" => "BOTSWANA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BWA",
                 "extension" => '',
                 "codigo_telefono" => "267",
@@ -1547,7 +1547,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 192,
                 "nombre" => "BRUNEI DARUSSALAM",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BRN",
                 "extension" => '',
                 "codigo_telefono" => "673",
@@ -1556,7 +1556,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 193,
                 "nombre" => "BURKINA FASSO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "BFA",
                 "extension" => '',
                 "codigo_telefono" => "226",
@@ -1565,7 +1565,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 194,
                 "nombre" => "CAMBOYA (KAMPUCHEA)",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "KHM",
                 "extension" => '',
                 "codigo_telefono" => "855",
@@ -1574,7 +1574,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 195,
                 "nombre" => "CONGO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "COG",
                 "extension" => '',
                 "codigo_telefono" => "242",
@@ -1583,7 +1583,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 196,
                 "nombre" => "DJIBOUTI",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "DJI",
                 "extension" => '',
                 "codigo_telefono" => "253",
@@ -1592,7 +1592,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 197,
                 "nombre" => "ESLOVAQUIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SVK",
                 "extension" => '',
                 "codigo_telefono" => "421",
@@ -1601,7 +1601,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 198,
                 "nombre" => "GUAYANA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GUY",
                 "extension" => '',
                 "codigo_telefono" => "592",
@@ -1610,7 +1610,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 199,
                 "nombre" => "GUINEA-BISSAU",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "GNB",
                 "extension" => '',
                 "codigo_telefono" => "245",
@@ -1619,7 +1619,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 200,
                 "nombre" => "HOLANDA (PAISES BAJOS)",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "NLD",
                 "extension" => '',
                 "codigo_telefono" => "31",
@@ -1628,7 +1628,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 201,
                 "nombre" => "IRAQ",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "IRQ",
                 "extension" => '',
                 "codigo_telefono" => "964",
@@ -1637,7 +1637,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 202,
                 "nombre" => "ISLA NAVIDAD",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "CXR",
                 "extension" => '',
                 "codigo_telefono" => "6724",
@@ -1646,7 +1646,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 203,
                 "nombre" => "ISLA NIUE",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "NIU",
                 "extension" => '',
                 "codigo_telefono" => "683",
@@ -1655,7 +1655,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 204,
                 "nombre" => "ISLA NORFORLK",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "NFK",
                 "extension" => '',
                 "codigo_telefono" => "6723",
@@ -1664,7 +1664,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 205,
                 "nombre" => "ISLA PITCAIRN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "PCN",
                 "extension" => '',
                 "codigo_telefono" => "870",
@@ -1673,7 +1673,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 206,
                 "nombre" => "ISLA REUNION",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "REU",
                 "extension" => '',
                 "codigo_telefono" => "262",
@@ -1682,7 +1682,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 207,
                 "nombre" => "ISLA SEYCHELLES",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SYC",
                 "extension" => '',
                 "codigo_telefono" => "248",
@@ -1691,7 +1691,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 208,
                 "nombre" => "ISLAS COCOS (KEELING)",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "CCK",
                 "extension" => '',
                 "codigo_telefono" => "61",
@@ -1700,7 +1700,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 209,
                 "nombre" => "ISLAS FEROE",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "FRO",
                 "extension" => '',
                 "codigo_telefono" => "298",
@@ -1709,7 +1709,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 210,
                 "nombre" => "ISLAS MARIANAS DEL NORTE",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MNP",
                 "extension" => '',
                 "codigo_telefono" => "1670",
@@ -1718,7 +1718,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 211,
                 "nombre" => "ISLAS MAURICIO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MUS",
                 "extension" => '',
                 "codigo_telefono" => "230",
@@ -1727,7 +1727,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 212,
                 "nombre" => "ISLAS PACIFICO (USA)",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "PUS",
                 "extension" => '',
                 "codigo_telefono" => "295",
@@ -1736,7 +1736,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 213,
                 "nombre" => "ISLAS PALAU",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "PLW",
                 "extension" => '',
                 "codigo_telefono" => "680",
@@ -1745,7 +1745,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 214,
                 "nombre" => "ISLAS TONGA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "TON",
                 "extension" => '',
                 "codigo_telefono" => "676",
@@ -1754,7 +1754,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 215,
                 "nombre" => "ISLAS TURCAS Y CAICOS",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "TCA",
                 "extension" => '',
                 "codigo_telefono" => "1",
@@ -1763,7 +1763,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 216,
                 "nombre" => "ISLAS VIRGENES (BRITANICAS)",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "VGB",
                 "extension" => '',
                 "codigo_telefono" => "284",
@@ -1772,7 +1772,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 217,
                 "nombre" => "ISLAS VIRGENES AMERICANAS",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "VIR",
                 "extension" => '',
                 "codigo_telefono" => "340",
@@ -1781,7 +1781,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 218,
                 "nombre" => "KASAJSTAN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "KAZ",
                 "extension" => '',
                 "codigo_telefono" => "7",
@@ -1790,7 +1790,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 219,
                 "nombre" => "KIRGUIZISTAN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "KGZ",
                 "extension" => '',
                 "codigo_telefono" => "996",
@@ -1799,7 +1799,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 220,
                 "nombre" => "LESOTHO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "LSO",
                 "extension" => '',
                 "codigo_telefono" => "266",
@@ -1808,7 +1808,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 221,
                 "nombre" => "LIBIA (INCLUYE FEZZAN)",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "LBY",
                 "extension" => '',
                 "codigo_telefono" => "218",
@@ -1817,7 +1817,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 222,
                 "nombre" => "MALAWI",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MWI",
                 "extension" => '',
                 "codigo_telefono" => "265",
@@ -1826,7 +1826,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 223,
                 "nombre" => "MALAYSIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MYS",
                 "extension" => '',
                 "codigo_telefono" => "60",
@@ -1835,7 +1835,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 224,
                 "nombre" => "MONGOLIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MNG",
                 "extension" => '',
                 "codigo_telefono" => "976",
@@ -1844,7 +1844,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 225,
                 "nombre" => "MONSERRAT",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MSR",
                 "extension" => '',
                 "codigo_telefono" => "1011",
@@ -1853,7 +1853,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 226,
                 "nombre" => "MOZAMBIQUE",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "MOZ",
                 "extension" => '',
                 "codigo_telefono" => "258",
@@ -1862,7 +1862,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 227,
                 "nombre" => "NAMIBIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "NAM",
                 "extension" => '',
                 "codigo_telefono" => "264",
@@ -1871,7 +1871,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 228,
                 "nombre" => "NAURU",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "NRU",
                 "extension" => '',
                 "codigo_telefono" => "674",
@@ -1880,7 +1880,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 229,
                 "nombre" => "NEPAL",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "NPL",
                 "extension" => '',
                 "codigo_telefono" => "977",
@@ -1889,7 +1889,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 230,
                 "nombre" => "NUEVA ZELANDIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "NZL",
                 "extension" => '',
                 "codigo_telefono" => "64",
@@ -1898,7 +1898,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 231,
                 "nombre" => "PALESTINA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "PSE",
                 "extension" => '',
                 "codigo_telefono" => "970",
@@ -1907,7 +1907,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 232,
                 "nombre" => "PAPUASIA NUEVA GUINEA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "PNG",
                 "extension" => '',
                 "codigo_telefono" => "675",
@@ -1916,7 +1916,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 233,
                 "nombre" => "QATAR",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "QAT",
                 "extension" => '',
                 "codigo_telefono" => "974",
@@ -1925,7 +1925,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 234,
                 "nombre" => "REPUBLICA CENTROAFRICANA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "CAF",
                 "extension" => '',
                 "codigo_telefono" => "236",
@@ -1934,7 +1934,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 235,
                 "nombre" => "SAMOA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "WSM",
                 "extension" => '',
                 "codigo_telefono" => "685",
@@ -1943,7 +1943,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 236,
                 "nombre" => "SAMOA NORTEAMERICANA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ASM",
                 "extension" => '',
                 "codigo_telefono" => "684",
@@ -1952,7 +1952,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 237,
                 "nombre" => "SAN PEDRO Y MIGUELON",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SPM",
                 "extension" => '',
                 "codigo_telefono" => "508",
@@ -1961,7 +1961,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 238,
                 "nombre" => "SANTA ELENA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SHN",
                 "extension" => '',
                 "codigo_telefono" => "290",
@@ -1970,7 +1970,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 239,
                 "nombre" => "VATICANO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "VAT",
                 "extension" => '',
                 "codigo_telefono" => "379",
@@ -1979,7 +1979,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 240,
                 "nombre" => "SWAZILANDIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "SWZ",
                 "extension" => '',
                 "codigo_telefono" => "268",
@@ -1988,7 +1988,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 241,
                 "nombre" => "TADJIKISTAN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "TJK",
                 "extension" => '',
                 "codigo_telefono" => "73",
@@ -1997,7 +1997,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 242,
                 "nombre" => "TAIWAN",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "TWN",
                 "extension" => '',
                 "codigo_telefono" => "886",
@@ -2006,7 +2006,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 243,
                 "nombre" => "TERRITORIO BRITANICO DEL OCEANO INDICO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "IOT",
                 "extension" => '',
                 "codigo_telefono" => "246",
@@ -2015,7 +2015,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 244,
                 "nombre" => "TIMOR DEL ESTE (ORIENTAL)",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "TLS",
                 "extension" => '',
                 "codigo_telefono" => "670",
@@ -2024,7 +2024,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 245,
                 "nombre" => "TOGO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "TGO",
                 "extension" => '',
                 "codigo_telefono" => "228",
@@ -2033,7 +2033,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 246,
                 "nombre" => "TOKELAU",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "TKL",
                 "extension" => '',
                 "codigo_telefono" => "690",
@@ -2042,7 +2042,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 247,
                 "nombre" => "TUNICIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "TUN",
                 "extension" => '',
                 "codigo_telefono" => "216",
@@ -2051,7 +2051,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 248,
                 "nombre" => "WALLIS Y FORTUNA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "WLF",
                 "extension" => '',
                 "codigo_telefono" => "681",
@@ -2060,7 +2060,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 249,
                 "nombre" => "YUGOSLAVIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "YUG",
                 "extension" => '',
                 "codigo_telefono" => "381",
@@ -2069,7 +2069,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 250,
                 "nombre" => "REPUBLICA DEMOCRATICA CONGO (ZAIRE)",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "COD",
                 "extension" => '',
                 "codigo_telefono" => "243",
@@ -2078,7 +2078,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 251,
                 "nombre" => "ZAMBIA",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ZMB",
                 "extension" => '',
                 "codigo_telefono" => "260",
@@ -2087,7 +2087,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 252,
                 "nombre" => "ZIMBABWE",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "ZWE",
                 "extension" => '',
                 "codigo_telefono" => "263",
@@ -2096,7 +2096,7 @@ class PaisSeeder extends Seeder
             array(
                 "id" => 253,
                 "nombre" => "EJEMPLO",
-                "estado" => 1,
+                "estado" => 0,
                 "abreviatura" => "EJ",
                 "extension" => '',
                 "codigo_telefono" => "01",
