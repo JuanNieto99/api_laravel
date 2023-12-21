@@ -271,7 +271,22 @@ class PermisoSeeder extends Seeder
                 'id_padre' => 0,
                 'estado' => '1', // activo = 1, inactivo = 0
             ], 
-            
+            [
+                'id' => '33',
+                'codigo' => 'sce',
+                'nombre' => 'Secuencia Externa ',
+                'descripcion' => 'modulo para ver y administrar las secuencias externas ',
+                'id_padre' => 0,
+                'estado' => '1', // activo = 1, inactivo = 0
+            ], 
+            [
+                'id' => '34',
+                'codigo' => 'sci',
+                'nombre' => 'Secuencia Interna ',
+                'descripcion' => 'modulo para ver y administrar las secuencias ineternas',
+                'id_padre' => 0,
+                'estado' => '1', // activo = 1, inactivo = 0
+            ], 
         ]);
     }
 }

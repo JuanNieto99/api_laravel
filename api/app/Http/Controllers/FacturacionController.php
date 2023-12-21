@@ -10,6 +10,8 @@ use App\Models\Facturacion;
 use App\Models\FacturacionMedioPago;
 use App\Models\Habitacion;
 use App\Models\Historial;
+use App\Models\secuenciaExterna;
+use App\Models\secuenciaInterna;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
@@ -66,6 +68,19 @@ class FacturacionController extends Controller
             return response()->json(['mensaje' => 'No hay caja abierta','code' => "warning"]);
         }
 
+        $secuencia =  $this->getSecuenciasFactura($request->hotel_id, 'interna');
+
+        $secuencia_interna_data = $secuencia['secuencia'];
+
+        if(!$secuencia_interna_data){
+            return response()->json(['mensaje' => 'Secuencia interna no creada','code' => "warning"]);
+        } 
+
+        if(!$secuencia_interna_data <= 0){
+            return response()->json(['mensaje' => 'Secuencia interna debe ser mator a 0','code' => "warning"]);
+        } 
+
+        $secuencia_interna = $secuencia_interna_data->secuensia_actual; 
 
         $usuario = auth()->user(); 
         $medios_pagos_array =  json_decode($request->metodos_pagos, true);
@@ -129,6 +144,7 @@ class FacturacionController extends Controller
             'iva' => $iva_total, 
             'cliente_id' => $request->cliente_id, 
             'porcentaje_descuento' => $descuento,
+            'secuencia_externa' => $secuencia_interna,
             'hotel_id' => $request->hotel_id, 
             'estado' => 1,
         ];
@@ -285,5 +301,41 @@ class FacturacionController extends Controller
             // No se encontró un usuario con el ID proporcionado
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
+    }
+
+    public function getSecuenciasFactura($hotel_id, $opcion) {
+
+        $secuencia = [];
+        switch ($opcion) {
+            case 'interna':
+                $secuencia = secuenciaInterna::select('secuensia_actual','id')
+                ->where('hotel_id', $hotel_id)
+                ->where('estado','1')
+                ->first();
+                
+                $secuencia = $secuencia->secuensia_actual + 1;
+                $id = $secuencia->id;
+
+                secuenciaInterna::where('id', $id)
+                ->update('secuensia_actual', $secuencia);
+                
+            case 'externa':
+                $secuencia = secuenciaExterna::select('secuensia_actual','id')
+                ->where('hotel_id', $hotel_id)
+                ->where('estado','1')
+                ->first();
+
+                $secuencia = $secuencia->secuensia_actual + 1;
+                $id = $secuencia->id;
+
+                secuenciaInterna::where('id', $id)
+                ->update('secuensia_actual', $secuencia);
+        
+        }
+
+
+        return [
+            'secuencia' => $secuencia,
+        ]; 
     }
 }

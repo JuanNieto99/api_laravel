@@ -23,6 +23,8 @@ use App\Http\Controllers\MetodosPagoController;
 use App\Http\Controllers\PaisController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\RecetaController;
+use App\Http\Controllers\SecuenciaExternaController;
+use App\Http\Controllers\SecuenciaInternaController;
 use App\Http\Controllers\TipoDocumentoController;
 use App\Http\Controllers\TipoHabitacion;
 use App\Http\Controllers\TipoHabitacionController;
@@ -237,6 +239,21 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::post('facturaListar', [FacturacionController::class, 'index']); 
         Route::post('facturaAnular', [FacturacionController::class, 'destroy']); 
     });
+
+    //secuencia externa
+    Route::post('secuenciaExternaCrear', [SecuenciaExternaController::class, 'create']); 
+    Route::post('secuenciaExternaListar', [SecuenciaExternaController::class, 'index']); 
+    Route::get('secuenciaExternaMostrar/{id}', [SecuenciaExternaController::class, 'show']); 
+    Route::post('secuenciaExternaEliminar', [SecuenciaExternaController::class, 'destroy']); 
+    Route::get('secuenciaExternaEditar/{id}', [SecuenciaExternaController::class, 'edit']); 
+    Route::post('secuenciaExternaActualizar', [SecuenciaExternaController::class, 'update']); 
+
+    Route::post('secuenciaInternaCrear', [SecuenciaInternaController::class, 'create']); 
+    Route::post('secuenciaInternaListar', [SecuenciaInternaController::class, 'index']); 
+    Route::get('secuenciaInternaMostrar/{id}', [SecuenciaInternaController::class, 'show']); 
+    Route::post('secuenciaInternaEliminar', [SecuenciaInternaController::class, 'destroy']); 
+    Route::get('secuenciaInternaEditar/{id}', [SecuenciaInternaController::class, 'edit']); 
+    Route::post('secuenciaInternaActualizar', [SecuenciaInternaController::class, 'update']); 
 
     Route::post('getReservasHabitacionesCalendario', [DetalleHabitacionController::class, 'getReservasCalendario']); 
     Route::post('listatDetalleHabitaciones', [DetalleHabitacionController::class, 'index']); 
