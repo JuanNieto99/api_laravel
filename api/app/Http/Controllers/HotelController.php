@@ -126,6 +126,7 @@ class HotelController extends Controller
             'asunto' => 'Hotel Crear',
             'adjunto' => [
                 'respuesta' => !empty($hotel),
+                'id' => $hotel->id,
             ],
         ];
 
@@ -284,6 +285,7 @@ class HotelController extends Controller
             'asunto' => 'Hotel Actualizar',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
 
@@ -354,6 +356,7 @@ class HotelController extends Controller
             'asunto' => 'Hotel Eliminar',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
 

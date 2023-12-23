@@ -19,7 +19,8 @@ class Consumo extends Model
         'tipo_consumido', 
         'precio',
         'cantidad',
-        'estado'
+        'estado',
+        'hotel_id',
     ];
  
 }

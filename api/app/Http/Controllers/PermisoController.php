@@ -57,6 +57,7 @@ class PermisoController extends Controller
             'asunto' => 'Permiso Creado',
             'adjunto' => [
                 'respuesta' =>!empty($permiso),
+                'id' => $permiso->id,
             ],
         ];
 
@@ -134,6 +135,7 @@ class PermisoController extends Controller
             'asunto' => 'Permiso Actualizar',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
 
@@ -170,6 +172,7 @@ class PermisoController extends Controller
             'asunto' => 'Permiso Eliminar',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
 

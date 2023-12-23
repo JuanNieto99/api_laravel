@@ -73,6 +73,7 @@ class UsuarioController extends Controller
             'asunto' => 'Usuario Creado',
             'adjunto' => [
                 'respuesta' => !empty($usuario),
+                'id' => $usuario->id,
             ],
         ];
     
@@ -166,7 +167,7 @@ class UsuarioController extends Controller
             'asunto' => 'Usuario Actualizado',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
-                'id_usuario_update' => $request->id,
+                'id' => $request->id,
             ],
         ];
     
@@ -203,7 +204,7 @@ class UsuarioController extends Controller
             'asunto' => 'Usuario Eliminar',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
-                'id_usuario_eliminar' => $request->id,
+                'id' => $request->id,
             ],
         ];
     
@@ -286,7 +287,7 @@ class UsuarioController extends Controller
             'asunto' => 'Usuario Inactivar',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
-                'id_usuario_inactivar' => $request->id,
+                'id' => $request->id,
             ],
         ];
     

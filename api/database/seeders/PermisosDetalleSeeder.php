@@ -167,7 +167,7 @@ class PermisosDetalleSeeder extends Seeder
                 'id' => 31,
                 'rol_id' => '1',
                 'permiso_id' => '31', 
-            ]/*, 
+            ], 
             [   
                 'id' => 32,
                 'rol_id' => '1',
@@ -182,7 +182,7 @@ class PermisosDetalleSeeder extends Seeder
                 'id' => 34,
                 'rol_id' => '1',
                 'permiso_id' => '34', 
-            ], 
+            ]/*, 
             [   
                 'id' => 35,
                 'rol_id' => '1',

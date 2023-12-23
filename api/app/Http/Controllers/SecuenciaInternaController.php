@@ -7,7 +7,7 @@ use App\Models\Hotel;
 use Illuminate\Http\Request;
 use Carbon\Carbon; 
 use Illuminate\Support\Facades\Validator;   
-use App\Models\secuenciaInterna;
+use App\Models\SecuenciaInterna;
 
 class SecuenciaInternaController extends Controller
 {
@@ -16,7 +16,7 @@ class SecuenciaInternaController extends Controller
         
         $per_page = $request->query('per_page', 1);
 
-        $query = secuenciaInterna::where('estado',1)->orderBy('nombre', 'asc');
+        $query = SecuenciaInterna::where('estado',1)->orderBy('nombre', 'asc');
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }
@@ -36,13 +36,14 @@ class SecuenciaInternaController extends Controller
 
         $usuario = auth()->user(); 
 
-        $creado = secuenciaInterna::create(
+        $creado = SecuenciaInterna::create(
             [
                 'hotel_id' => $request->hotel_id,
                 'descripcion_secuencia' => $request->descripcion_secuencia, 
                 'secuencia_final' => $request->secuencia_final,
                 'secuensia_incial' => $request->secuensia_incial,
                 'usuario_id_crea' => $usuario->id,
+                'secuensia_actual' => 0,
                 'estado' => 1,
             ]
         ); 
@@ -76,7 +77,7 @@ class SecuenciaInternaController extends Controller
     public function edit($id) {
         $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
 
-        $secuencia_interna = secuenciaInterna::where('id', $id)
+        $secuencia_interna = SecuenciaInterna::where('id', $id)
         ->where('estado', 1)
         ->first();
         
@@ -93,7 +94,7 @@ class SecuenciaInternaController extends Controller
     }
 
     public function show($id) {
-        $secuencia = secuenciaInterna::where('id', $id)
+        $secuencia = SecuenciaInterna::where('id', $id)
         ->where('estado', 1)
         ->first();
         
@@ -124,7 +125,7 @@ class SecuenciaInternaController extends Controller
 
         $usuario = auth()->user();
 
-        $update = secuenciaInterna::where('id',$request->id)
+        $update = SecuenciaInterna::where('id',$request->id)
         ->update(
             [
                 'hotel_id' =>  $request->hotel_id,
@@ -162,7 +163,7 @@ class SecuenciaInternaController extends Controller
 
     public function destroy (Request $request) { 
         
-        $filasActualizadas = secuenciaInterna::where('id', $request->id)
+        $filasActualizadas = SecuenciaInterna::where('id', $request->id)
         ->update([ 
             'estado' => 0,
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),

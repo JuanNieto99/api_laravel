@@ -21,6 +21,7 @@ class DetalleHabitacion extends Model
         'fecha_salida',
         'estado',
         'facturacion_id',
+        'hotel_id'
     ];
 
     public function habitacion()

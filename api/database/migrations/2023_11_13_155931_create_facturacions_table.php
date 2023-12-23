@@ -15,16 +15,15 @@ return new class extends Migration
             $table->id(); 
             $table->string('concepto', 30);
             $table->string('secuencia_factura_interna');
-            $table->string('secuencia_factura_externa');
+            $table->string('secuencia_factura_externa')->nullable();
             $table->decimal('total', 12, 2)->nullable(false);
             $table->decimal('sub_total', 12, 2)->nullable(false); 
             $table->decimal('iva', 12, 2)->nullable(false); 
             $table->unsignedBigInteger('hotel_id')->nullable(false); 
             $table->unsignedBigInteger('cliente_id')->nullable(false); 
             $table->unsignedBigInteger('porcentaje_descuento')->nullable(); 
-            $table->unsignedBigInteger('hotel_id')->nullable(false); 
             $table->unsignedBigInteger('secuencia_interna')->nullable(false); 
-            $table->unsignedBigInteger('secuencia_externa')->nullable(false); 
+            $table->unsignedBigInteger('secuencia_externa')->nullable(); 
             $table->string('cufe', 200)->nullable();
             $table->unsignedTinyInteger('estado'); // 1-> facturado 0->factura anulada
             $table->timestamps();

@@ -118,6 +118,7 @@ class ProductosController extends Controller
             'asunto' => 'Producto Crear',
             'adjunto' => [
                 'respuesta' => !empty($producto),
+                'id' => $producto->id,
             ],
         ];
 
@@ -272,6 +273,7 @@ class ProductosController extends Controller
             'asunto' => 'Producto Actualizar',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
 
@@ -312,6 +314,7 @@ class ProductosController extends Controller
             'asunto' => 'Producto Eliminar',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
 

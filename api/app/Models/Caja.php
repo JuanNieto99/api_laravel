@@ -16,7 +16,8 @@ class Caja extends Model
         'descripcion',
         'base',  
         'estado',
-        'hotel_id'
+        'hotel_id',
+        'tipo',
     ];
 
     public function control_caja()

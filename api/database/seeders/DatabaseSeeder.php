@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             TipoHabitacionSeeder::class,
             PermisosDetalleSeeder::class,
             ClienteSeeder::class,
+            TipoCajaSeeder::class,
         ]);
     }
 }

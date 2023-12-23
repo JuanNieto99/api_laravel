@@ -77,6 +77,7 @@ class HabitacionController extends Controller
             'asunto' => 'Habitacion Cear',
             'adjunto' => [
                 'respuesta' => !empty($habitacion),
+                'id' => $habitacion->id,
             ],
         ];
 
@@ -167,6 +168,7 @@ class HabitacionController extends Controller
             'asunto' => 'Habitacion Actualizar',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
 
@@ -203,6 +205,7 @@ class HabitacionController extends Controller
             'asunto' => 'Habitacion Eliminar',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
 

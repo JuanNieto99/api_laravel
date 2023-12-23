@@ -18,7 +18,7 @@ return new class extends Migration
                 $table->unsignedBigInteger('secuensia_incial')->nullable(false); 
                 $table->unsignedBigInteger('secuensia_actual')->nullable(false); 
                 $table->unsignedBigInteger('usuario_id_crea')->nullable(false); 
-                $table->unsignedBigInteger('usuario_id_actualiza')->nullable(false); 
+                $table->unsignedBigInteger('usuario_id_actualiza')->nullable(); 
                 $table->unsignedTinyInteger('estado');
                 $table->foreign('hotel_id')->references('id')->on('hotels')->onUpdate('cascade')->onDelete('restrict'); 
                 $table->foreign('usuario_id_crea')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('restrict');

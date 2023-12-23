@@ -8,6 +8,7 @@ use App\Models\ControlCaja;
 use App\Models\DetalleCaja;
 use App\Models\Historial;
 use App\Models\Hotel;
+use App\Models\TipoCaja;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
@@ -37,6 +38,7 @@ class CajaController extends Controller
                 'base' => 'required|numeric', 
                 'estado' => 'required|integer',
                 'hotel_id' => 'required|integer',
+                'tipo' => 'required|integer',
             ], 
             [
                 'nombre.required' => "El campo es requerio",
@@ -46,6 +48,7 @@ class CajaController extends Controller
                 'estado.required' => "El campo es requerido",
                 'base.required' => "El campo es requerido",
                 'hotel_id.required' => "El campo es requerido",
+                'tipo.required' => "El campo es requerido",
             ]  
         );
 
@@ -59,12 +62,14 @@ class CajaController extends Controller
             'base' => $request->base,
             'estado' => $request->estado,
             'hotel_id' => $request->hotel_id,
+            'tipo' => $request->tipo,
         ]);
 
         $json = [
             'asunto' => 'Caja Crear',
             'adjunto' => [
                 'respuesta' => !empty($caja),
+                'id' => $caja->id,
             ],
         ];
 
@@ -119,17 +124,18 @@ class CajaController extends Controller
         $caja = Caja::where('estado',1)->find($id);
 
         $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
+        $tipo_caja = TipoCaja::select('nombre','id')->where('estado','1')->get();
 
         if(!$caja){
-            $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
-
             return [
                 'hotel' => $hotel, 
+                'tipo_caja' => $tipo_caja,
             ];
         }
 
         return [
             'hotel' => $hotel,
+            'tipo_caja' => $tipo_caja,
             'caja' => $caja,
         ];
     }
@@ -146,6 +152,7 @@ class CajaController extends Controller
                 'estado' => 'required|integer',
                 'hotel_id' => 'required|integer',
                 'id' => 'required|integer',
+                'tipo' => 'required|integer',
             ], 
             [
                 'nombre.required' => "El campo es requerio",
@@ -156,6 +163,7 @@ class CajaController extends Controller
                 'base.required' => "El campo es requerido",
                 'hotel_id.required' => "El campo es requerido",
                 'id.required' => "El campo es requerido",
+                'tipo.required' => 'required|integer', 
             ]  
         );
 
@@ -171,12 +179,14 @@ class CajaController extends Controller
             'base' => $request->base,
             'estado' => $request->estado,
             'hotel_id' => $request->hotel_id,
+            'tipo' => $request->tipo,
         ]);
 
         $json = [
             'asunto' => 'Caja Actualizar',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
 
@@ -213,6 +223,7 @@ class CajaController extends Controller
             'asunto' => 'Caja Eliminada',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' =>  $request->id,
             ],
         ];
 
@@ -276,6 +287,7 @@ class CajaController extends Controller
             'asunto' => 'Abrir caja',
             'adjunto' => [
                 'respuesta' => !empty($controlCaja),
+                'id' => $request->caja_id,
             ],
         ];
 

@@ -10,8 +10,8 @@ use App\Models\Facturacion;
 use App\Models\FacturacionMedioPago;
 use App\Models\Habitacion;
 use App\Models\Historial;
-use App\Models\secuenciaExterna;
-use App\Models\secuenciaInterna;
+use App\Models\SecuenciaExterna;
+use App\Models\SecuenciaInterna;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
@@ -37,8 +37,7 @@ class FacturacionController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(),[  
-                'concepto' => 'required|string',
-                'descripcion' => 'string',
+                'concepto' => 'required|string', 
                 'metodos_pagos' => 'required|json',
                 'cliente_id' => 'required|integer',
                 'porcentaje_descuento' => 'required|integer',
@@ -51,7 +50,7 @@ class FacturacionController extends Controller
                 'porcentaje_descuento.required' => "El campo es requerio",
                 'hotel_id.required' => "El campo es requerio",      
             ]    
-        );
+        ); 
 
         if($validator->fails()){
             return response()->json($validator->errors());
@@ -59,9 +58,10 @@ class FacturacionController extends Controller
 
         $caja_abierta = Caja::with(['control_caja'=>function ($query) {
             $query->where('estado', 1);
-            $query->where('abrir_caja', Carbon::now()->format('Y-m-d'));
+            $query->whereDate('abrir_caja', Carbon::now()->format('Y-m-d'));
         }])
         ->where('estado',1) 
+        ->where('tipo', 1) 
         ->first();  
 
         if(!$caja_abierta) {
@@ -74,13 +74,14 @@ class FacturacionController extends Controller
 
         if(!$secuencia_interna_data){
             return response()->json(['mensaje' => 'Secuencia interna no creada','code' => "warning"]);
-        } 
+        }  
 
-        if(!$secuencia_interna_data <= 0){
-            return response()->json(['mensaje' => 'Secuencia interna debe ser mator a 0','code' => "warning"]);
+        if($secuencia_interna_data['secuensia_actual'] <= 0){
+            return response()->json(['mensaje' => 'Secuencia interna debe ser mayor a 0','code' => "warning"]);
         } 
+        $secuensia_actual_padded_number = str_pad($secuencia_interna_data['secuensia_actual'], 6, '0', STR_PAD_LEFT);
 
-        $secuencia_interna = $secuencia_interna_data->secuensia_actual; 
+        $secuencia_interna = $request->hotel_id."-".$secuensia_actual_padded_number; 
 
         $usuario = auth()->user(); 
         $medios_pagos_array =  json_decode($request->metodos_pagos, true);
@@ -121,7 +122,7 @@ class FacturacionController extends Controller
         } 
 
         if($sub_total<=0){
-            return response()->json(['mensaje' => 'El valor a pagar para este cliente no debe estar por debajo de 0' ,'code' => "warning"]); 
+            return response()->json(['mensaje' => 'Este cliente no tiene ningun valora a pagar' ,'code' => "warning"]); 
         }
 
         //validacion que el total de metodos de pago sea al total de la deuda
@@ -137,20 +138,20 @@ class FacturacionController extends Controller
         }
 
         $factura_insert = [
-            'concepto' => $request->concepto,
-            'descripcion' => $request->descripcion,
+            'concepto' => $request->concepto, 
             'sub_total' => $sub_total,
             'total' => $total,
             'iva' => $iva_total, 
             'cliente_id' => $request->cliente_id, 
             'porcentaje_descuento' => $descuento,
-            'secuencia_externa' => $secuencia_interna,
-            'hotel_id' => $request->hotel_id, 
+            'secuencia_factura_interna' => $secuencia_interna,
+            'secuencia_interna' => $secuencia_interna_data['id'],
+            'hotel_id' => $request->hotel_id,  
             'estado' => 1,
         ];
 
-        $factura = Facturacion::create( $factura_insert ); 
-        
+        $factura = Facturacion::create( $factura_insert );  
+
         if($factura){
             $medios_pagos_detalle_array = [];
 
@@ -209,6 +210,7 @@ class FacturacionController extends Controller
             'asunto' => 'Facturacion Crear',
             'adjunto' => [
                 'respuesta' => !empty($factura),
+                'id' => $factura->id,
             ],
         ]; 
         
@@ -282,6 +284,7 @@ class FacturacionController extends Controller
             'asunto' => 'Anular Facturacion',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
 
@@ -308,29 +311,46 @@ class FacturacionController extends Controller
         $secuencia = [];
         switch ($opcion) {
             case 'interna':
-                $secuencia = secuenciaInterna::select('secuensia_actual','id')
+                $secuencia = SecuenciaInterna::select('secuensia_actual','id')
                 ->where('hotel_id', $hotel_id)
                 ->where('estado','1')
-                ->first();
-                
-                $secuencia = $secuencia->secuensia_actual + 1;
+                ->first(); 
+
+ 
+                if(empty($secuencia)){
+                    $secuencia = null;
+                    break;
+                }   
+
                 $id = $secuencia->id;
 
-                secuenciaInterna::where('id', $id)
-                ->update('secuensia_actual', $secuencia);
-                
+                $secuencia_aumenta = $secuencia->secuensia_actual + 1; 
+
+                SecuenciaInterna::where('id', $id)
+                ->update(
+                    [
+                        'secuensia_actual' => $secuencia_aumenta
+                    ]
+                );
+                break;
             case 'externa':
-                $secuencia = secuenciaExterna::select('secuensia_actual','id')
+                $secuencia = SecuenciaExterna::select('secuensia_actual','id')
                 ->where('hotel_id', $hotel_id)
                 ->where('estado','1')
                 ->first();
 
-                $secuencia = $secuencia->secuensia_actual + 1;
-                $id = $secuencia->id;
+                if(empty($secuencia)){
+                    $secuencia = null;
+                    break;
+                }       
 
-                secuenciaInterna::where('id', $id)
-                ->update('secuensia_actual', $secuencia);
-        
+                $id = $secuencia->id;
+                $secuencia_aumenta = $secuencia->secuensia_actual + 1; 
+
+                SecuenciaInterna::where('id', $id)
+                ->update('secuensia_actual', $secuencia_aumenta);
+            break;
+
         }
 
 

@@ -62,6 +62,7 @@ class RolController extends Controller
             'asunto' => 'Rol Creado',
             'adjunto' => [
                 'respuesta' => !empty($rol),
+                'id' => $rol->id,
             ],
         ];
     
@@ -155,6 +156,7 @@ class RolController extends Controller
             'asunto' => 'Rol Actualizado',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
     
@@ -208,6 +210,7 @@ class RolController extends Controller
             'asunto' => 'Rol ELiminado',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
     

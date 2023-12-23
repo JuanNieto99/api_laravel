@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class secuenciaInterna extends Model
+class SecuenciaInterna extends Model
 {
     public $timestamps = false;
 

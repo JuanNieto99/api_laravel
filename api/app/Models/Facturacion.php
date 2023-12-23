@@ -12,8 +12,7 @@ class Facturacion extends Model
     protected $table='facturacions'; 
 
     protected $fillable = [ 
-        'concepto',
-        'descripcion',
+        'concepto', 
         'total',
         'sub_total',
         'iva', 
@@ -22,6 +21,10 @@ class Facturacion extends Model
         'cufe',
         'hotel_id',
         'estado',  
+        'secuencia_factura_interna',
+        'secuencia_factura_externa',
+        'secuencia_externa',
+        'secuencia_interna'
     ];
 
     public function facturacion_medio_pago(){

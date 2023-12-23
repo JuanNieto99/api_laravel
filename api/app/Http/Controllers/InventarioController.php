@@ -56,6 +56,7 @@ class InventarioController extends Controller
             'asunto' => 'Inventario Crear',
             'adjunto' => [
                 'respuesta' => !empty($inventario),
+                'id' => $inventario->id,
             ],
         ];
 
@@ -133,6 +134,7 @@ class InventarioController extends Controller
             'asunto' => 'Inventario Actualizar',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
 
@@ -171,6 +173,7 @@ class InventarioController extends Controller
             'asunto' => 'Inventario Eliminado',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
 

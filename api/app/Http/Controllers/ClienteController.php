@@ -86,6 +86,7 @@ class ClienteController extends Controller
             'asunto' => 'CLiente crear',
             'adjunto' => [
                 'respuesta' => !empty($Cliente),
+                'id' => $Cliente->id,
             ],
         ];
 
@@ -222,7 +223,8 @@ class ClienteController extends Controller
         $json = [
             'asunto' => 'Actualizar cliente',
             'adjunto' => [
-                'respuesta' => !empty($filasActualizadas)
+                'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
         
@@ -259,6 +261,7 @@ class ClienteController extends Controller
             'asunto' => 'Eliminar cliente',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
 

@@ -97,6 +97,7 @@ class RecetaController extends Controller
             'asunto' => 'Receta Crear',
             'adjunto' => [
                 'respuesta' =>!empty($receta),
+                'id' => $receta->id,
             ],
         ];
 
@@ -245,6 +246,7 @@ class RecetaController extends Controller
         'asunto' => 'Receta Actualizar',
         'adjunto' => [
             'respuesta' => !empty($filasActualizadas),
+            'id' => $request->id,
         ],
     ];
 
@@ -285,6 +287,7 @@ class RecetaController extends Controller
             'asunto' => 'Receta Eliminar',
             'adjunto' => [
                 'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
             ],
         ];
     
