@@ -22,5 +22,17 @@ class Consumo extends Model
         'estado',
         'hotel_id',
     ];
- 
+
+    function usuario() {
+        return $this->belongsTo(Usuario::class);    
+    }
+
+
+    function cliente() {
+        return $this->belongsTo(Cliente::class);    
+    }
+
+    public function hotel() {
+        return $this->belongsTo(Hotel::class);    
+    }
 }

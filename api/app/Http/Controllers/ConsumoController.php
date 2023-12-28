@@ -19,7 +19,18 @@ class ConsumoController extends Controller
     {
         $per_page = $request->query('per_page', 1);
 
-        $query = Consumo::where('estado',1)->orderBy('nombre', 'asc');
+        $query = Consumo::with([
+            'usuario'=> function ($query) {
+                $query->select('id', 'usuario');
+            },
+            'cliente'=> function ($query) {
+                $query->select('id', 'nombres', 'apellidos');
+            },
+            'hotel'=> function ($query) {
+                $query->select('id', 'nombre');
+            }
+        ])
+        ->where('estado','!=',0)->orderBy('id', 'asc');
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }

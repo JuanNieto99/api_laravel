@@ -12,11 +12,12 @@ use App\Models\Habitacion;
 use App\Models\Historial;
 use App\Models\SecuenciaExterna;
 use App\Models\SecuenciaInterna;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
-
+use PDF;
 class FacturacionController extends Controller
 {
     /**
@@ -26,7 +27,14 @@ class FacturacionController extends Controller
     {
         $per_page = $request->query('per_page', 1);
 
-        $query = Facturacion::orderBy('id', 'desc');
+        $query = Facturacion::with([
+        'cliente'=>function ($query) {
+            $query->select('id', 'nombres', 'apellidos');
+        },
+        'hotel'=>function ($query) {
+            $query->select('id', 'nombre' );
+        },]) 
+        ->orderBy('id', 'desc');
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }
@@ -316,7 +324,6 @@ class FacturacionController extends Controller
                 ->where('estado','1')
                 ->first(); 
 
- 
                 if(empty($secuencia)){
                     $secuencia = null;
                     break;
@@ -357,5 +364,13 @@ class FacturacionController extends Controller
         return [
             'secuencia' => $secuencia,
         ]; 
+    }
+
+    public function facturaPdf($id) { 
+        $factura = Facturacion::find($id)->first();
+        
+        $pdf = PDF::loadView('PDF/facturaInicail');
+        return $pdf->stream('archivo.pdf');
+
     }
 }

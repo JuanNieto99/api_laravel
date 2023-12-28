@@ -30,4 +30,12 @@ class Facturacion extends Model
     public function facturacion_medio_pago(){
         return $this->belongsTo(FacturacionMedioPago::class, 'id','facturacion_id');
     }
+
+    public function cliente() {
+        return $this->belongsTo(Cliente::class); 
+    }
+
+    public function hotel() {
+        return $this->belongsTo(Hotel::class); 
+    }
 }

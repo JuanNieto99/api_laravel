@@ -22,7 +22,13 @@ class CajaController extends Controller
     {
         $per_page = $request->query('per_page', 1);
 
-        $query = Caja::where('estado',1)->orderBy('nombre', 'asc');
+        $query = Caja::with([
+        'tipoCajas' => function($query){
+            $query->select('nombre','id');
+        },'hotel'=> function ($query){
+            $query->select('nombre','id');
+        }]) 
+        ->where('estado',1)->orderBy('nombre', 'asc');
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }

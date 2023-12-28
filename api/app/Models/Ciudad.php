@@ -7,5 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ciudad extends Model
 {
-    use HasFactory;
+    protected $primaryKey = 'id';
+
+    protected $table='ciudads'; 
+
+    protected $fillable = [
+        'nombre', 
+        'departamento_id',
+        'codigo_dane', 
+        'ciudad_id',  
+        'estado',
+    ];
 }

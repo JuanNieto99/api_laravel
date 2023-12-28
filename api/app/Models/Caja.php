@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Termwind\Components\Hr;
 
 class Caja extends Model
 {
@@ -25,4 +26,13 @@ class Caja extends Model
         return $this->belongsTo(ControlCaja::class,'id','caja_id');
     }
 
+    public function hotel()
+    {
+        return $this->belongsTo(Hotel::class, 'hotel_id', 'id');
+    }
+
+    public function tipoCajas()
+    {
+        return $this->belongsTo(TipoCaja::class, 'tipo', 'id');
+    }
 }

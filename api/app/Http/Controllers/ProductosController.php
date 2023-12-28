@@ -24,7 +24,14 @@ class ProductosController extends Controller
     {
         $per_page = $request->query('per_page', 1);
 
-        $query = Productos::where('estado',1)->orderBy('nombre', 'asc');
+        $query = Productos::with(['inventario' => function ($query)  {
+            $query->select('id','nombre');
+        },
+        'medida' => function ($query)  {
+            $query->select('id','nombre');
+        }
+        ])
+        ->where('estado',1)->orderBy('nombre', 'asc');
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }

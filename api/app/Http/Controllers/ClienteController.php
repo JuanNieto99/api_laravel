@@ -24,7 +24,24 @@ class ClienteController extends Controller
     {
         $per_page = $request->query('per_page', 1);
 
-        $query = Cliente::where('estado',1)->orderBy('nombre', 'asc');
+        $query = Cliente::with([
+            'ciudad' => function ($query) {
+                $query->select('id', 'nombre');
+            },
+            'tipoDocumento' => function ($query) {
+                $query->select('id', 'nombre');
+            },
+            'genero' => function ($query) {
+                $query->select('id', 'nombre');
+            },
+            'estadoCivil' => function ($query) {
+                $query->select('id', 'nombre');
+            },
+            'hotel' => function ($query) {
+                $query->select('id', 'nombre');
+            }
+        ])
+        ->where('estado',1)->orderBy('nombres', 'asc');
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }

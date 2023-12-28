@@ -32,4 +32,24 @@ class Cliente extends Model
         'hotel_id',
         'estado',
     ];
+
+    public function ciudad () {
+        return $this->belongsTo(Ciudad::class);
+    }
+
+    public function tipoDocumento() {
+        return $this->belongsTo(TipoDocumento::class);
+    }
+
+    public function genero() {
+        return $this->belongsTo(Genero::class);
+    }
+
+    public function estadoCivil() {
+        return $this->belongsTo(EstadoCivil::class);
+    }
+
+    public function hotel() {
+        return $this->belongsTo(Hotel::class);    
+    }
 }

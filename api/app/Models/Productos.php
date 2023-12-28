@@ -26,4 +26,12 @@ class Productos extends Model
         'precio_base',
         'tipo_producto', 
     ];
+
+    public function inventario() {
+        return $this->belongsTo(Inventario::class);
+    }
+
+    public function medida() {
+        return $this->belongsTo(Medidas::class);
+    }
 }

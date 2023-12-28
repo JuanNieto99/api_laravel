@@ -238,7 +238,11 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::post('facturaCrear', [FacturacionController::class, 'create']); 
         Route::post('facturaListar', [FacturacionController::class, 'index']); 
         Route::post('facturaAnular', [FacturacionController::class, 'destroy']); 
+
     });
+
+    Route::get('facturaPdf/{id}', [FacturacionController::class, 'facturaPdf']); 
+
 
     //secuencia externa
     Route::post('secuenciaExternaCrear', [SecuenciaExternaController::class, 'create']); 
