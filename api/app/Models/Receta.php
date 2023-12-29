@@ -19,4 +19,8 @@ class Receta extends Model
         'estado',  
         'hotel_id',    
     ];
+
+    public function hotel() { 
+        return $this->belongsTo(Hotel::class,'hotel_id','id');
+    }
 }

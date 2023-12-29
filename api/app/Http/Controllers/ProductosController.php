@@ -23,6 +23,7 @@ class ProductosController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->query('per_page', 1);
+        $search = $request->query('search',false);
 
         $query = Productos::with(['inventario' => function ($query)  {
             $query->select('id','nombre');
@@ -30,8 +31,21 @@ class ProductosController extends Controller
         'medida' => function ($query)  {
             $query->select('id','nombre');
         }
-        ])
-        ->where('estado',1)->orderBy('nombre', 'asc');
+        ]) 
+        ->join('inventarios','inventarios.id', 'productos.inventario_id')
+        ->select('productos.*')
+        ->where('productos.estado',1)
+        ->orderBy('productos.nombre', 'asc');
+
+        if(!empty($search) && $search!=null){ 
+            Log::debug($search);
+            $query->where(function ($query) use ($search) {
+                $query->where('productos.nombre', 'like', "%{$search}%"); 
+                $query->orWhere('productos.cantidad', 'like', "%{$search}%"); 
+                $query->orWhere('productos.precio', 'like', "%{$search}%");   
+                $query->orWhere('inventarios.nombre', 'like', "%{$search}%");   
+            });
+        }
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }
@@ -349,12 +363,51 @@ class ProductosController extends Controller
 
         $medida = Medidas::select('id','nombre')->Where('estado',1)->get();
         $inventario = Inventario::select('id','nombre')->Where('estado',1)->get();
-        
+
+        $visible = [
+            [
+                'id' => 1,
+                'nombre' => 'Si'
+            ],
+            [
+                'id' => 0,
+                'nombre' => 'No'
+            ]
+        ];
+
+        $sin_limite = [
+            [
+                'id' => 1,
+                'nombre' => 'Si'
+            ],
+            [
+                'id' => 0,
+                'nombre' => 'No'
+            ]
+        ];
+
+        $tipo = [
+            [
+                'id' => 1,
+                'nombre' => 'Producto'
+            ],
+            [
+                'id' => 2,
+                'nombre' => 'Servicio'
+            ]
+        ];
         if(!$producto){
+
+
+
             return response()
             ->json([ 
                 'inventario' => $inventario, 
                 'medida' => $medida,
+                'visible_venta' => $visible,
+                'sin_limite' => $sin_limite,
+               // 'imagen' => str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/default.png")))),
+                'tipo' => $tipo,
                 'code' => "success"
             ], 201);
         }
@@ -365,6 +418,9 @@ class ProductosController extends Controller
             'medida' => $medida,
             'inventario' => $inventario,
             'producto' => $producto,
+            'visible_venta' => $visible,
+            'sin_limite' => $sin_limite,
+            'tipo' => $tipo,
             'imagen' => $producto->imagen=='default.png'?str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/default.png")))):str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/imagenes/productos/".$producto->imagen)))),
             'code' => "success"
         ], 201);

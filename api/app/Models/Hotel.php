@@ -28,4 +28,18 @@ class Hotel extends Model
         'imagen',
         'estado'
     ];
+
+
+    public function ciudad () {
+        return $this->belongsTo(Ciudad::class);
+    }
+
+    public function tipoContribuyente() {
+        return $this->belongsTo(TiposContribuyentes::class);
+    }
+
+
+    public function usuario(){
+        return $this->belongsTo(Usuario::class); 
+    }
 }

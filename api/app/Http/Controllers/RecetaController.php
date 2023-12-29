@@ -277,7 +277,10 @@ class RecetaController extends Controller
      */
     public function destroy(Request $request)
     {
-        $filasActualizadas = Receta::where('id', $request->id)
+        $filasActualizadas = Receta::with(['hotel'=> function($query){
+            $query->select('id','nombre');
+        }])
+        ->where('id', $request->id)
         ->update([ 
             'estado' => 0,
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),

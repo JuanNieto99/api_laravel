@@ -34,4 +34,8 @@ class Habitacion extends Model
     
         return $this->belongsTo(Hotel::class,'hotel_id','id');
     }
+
+    public function tipoHabitacion() {
+        return $this->belongsTo(TiposHabitaciones::class,'tipo','id');
+    }
 }

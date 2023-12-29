@@ -22,7 +22,13 @@ class HotelController extends Controller
     {
         $per_page = $request->query('per_page', 1);
 
-        $query = Hotel::where('estado',1)->orderBy('nombre', 'asc');
+        $query = Hotel::with(['ciudad' => function ($query) {
+            $query->select('id','nombre');
+        },
+        'tipoContribuyente'=> function ($query) {
+            $query->select('id','nombre');
+        },]) 
+        ->where('estado',1)->orderBy('nombre', 'asc');
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }

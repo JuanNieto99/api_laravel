@@ -17,4 +17,9 @@ class Inventario extends Model
         'hotel_id',
         'estado', 
     ];
+
+    public function hotel() {
+    
+        return $this->belongsTo(Hotel::class,'hotel_id','id');
+    }
 }

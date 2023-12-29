@@ -21,7 +21,17 @@ class HabitacionController extends Controller
     { 
         $per_page = $request->query('per_page', 1);
 
-        $query = Habitacion::with(['detalle'])->where('estado','!=',0)->orderBy('nombre', 'asc');
+        $query = Habitacion::with(['detalle',
+        'hotel'=> function ($query) {
+            $query->select('id','nombre');
+        },
+        'tipoHabitacion'=> function ($query) {
+            $query->select('id','nombre');
+        },
+        'usuario'=> function ($query) {
+            $query->select('id','usuario');
+        },
+        ])->where('estado','!=',0)->orderBy('nombre', 'asc');
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }

@@ -16,7 +16,10 @@ class InventarioController extends Controller
     { 
         $per_page = $request->query('per_page', 1);
 
-        $query = Inventario::where('estado','!=',0)->orderBy('nombre', 'asc');
+        $query = Inventario::with(['hotel'=> function ($query) {
+            $query->select('id','nombre');
+        }])
+        ->where('estado','!=',0)->orderBy('nombre', 'asc');
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }

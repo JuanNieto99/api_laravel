@@ -21,7 +21,10 @@ class UsuarioController extends Controller
     {
         $per_page = $request->query('per_page', 1);
         $estados = [1,2];
-        $query = Usuario::whereIn('estado', $estados)->orderBy('usuario', 'asc');
+        $query = Usuario::with(['roles'=> function ($query) {
+            $query->select('id','nombre');
+        }])
+        ->whereIn('estado', $estados)->orderBy('usuario', 'asc');
 
 		return $per_page? $query->paginate($per_page) : $query->get();
 
