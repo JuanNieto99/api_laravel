@@ -33,6 +33,7 @@ class ProductosController extends Controller
         }
         ]) 
         ->join('inventarios','inventarios.id', 'productos.inventario_id')
+        ->join('medidas','medidas.id', 'productos.medida_id')
         ->select('productos.*')
         ->where('productos.estado',1)
         ->orderBy('productos.nombre', 'asc');
@@ -44,6 +45,7 @@ class ProductosController extends Controller
                 $query->orWhere('productos.cantidad', 'like', "%{$search}%"); 
                 $query->orWhere('productos.precio', 'like', "%{$search}%");   
                 $query->orWhere('inventarios.nombre', 'like', "%{$search}%");   
+                $query->orWhere('medidas.nombre', 'like', "%{$search}%");    
             });
         }
 
@@ -208,7 +210,7 @@ class ProductosController extends Controller
             'medida_id' => 'required|integer', 
             'id' => 'required|integer', 
             'stop_minimo' => 'required|integer', 
-            'precio_base' => 'required|integer', 
+            'precio_base' => 'required', 
             'tipo_producto' => 'required|integer', 
             'visible_venta' => 'required|integer',
         ], 
@@ -406,7 +408,7 @@ class ProductosController extends Controller
                 'medida' => $medida,
                 'visible_venta' => $visible,
                 'sin_limite' => $sin_limite,
-               // 'imagen' => str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/default.png")))),
+                'imagen' => str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/default.png")))),
                 'tipo' => $tipo,
                 'code' => "success"
             ], 201);

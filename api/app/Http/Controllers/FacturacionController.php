@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Abono;
 use App\Models\Caja;
 use App\Models\Consumo;
 use App\Models\DetalleCaja;
@@ -49,7 +50,7 @@ class FacturacionController extends Controller
                 'metodos_pagos' => 'required|json',
                 'cliente_id' => 'required|integer',
                 'porcentaje_descuento' => 'required|integer',
-                'hotel_id' => 'required|integer', 
+                'hotel_id' => 'required|integer',                
             ], 
             [ 
                 'concepto.required' => "El campo es requerio", 
@@ -62,19 +63,19 @@ class FacturacionController extends Controller
 
         if($validator->fails()){
             return response()->json($validator->errors());
-        }
-
+        }  
+        
         $caja_abierta = Caja::with(['control_caja'=>function ($query) {
             $query->where('estado', 1);
             $query->whereDate('abrir_caja', Carbon::now()->format('Y-m-d'));
         }])
         ->where('estado',1) 
         ->where('tipo', 1) 
-        ->first();  
+        ->first();   
 
         if(!$caja_abierta) {
             return response()->json(['mensaje' => 'No hay caja abierta','code' => "warning"]);
-        }
+        } 
 
         $secuencia =  $this->getSecuenciasFactura($request->hotel_id, 'interna');
 
@@ -98,7 +99,6 @@ class FacturacionController extends Controller
         $iva_total = 0;
         $descuento = $request->porcentaje_descuento;  
 
-
         $consumos = Consumo::where('cliente_id', $request->cliente_id)
         ->where('estado',1)
         ->get();
@@ -110,6 +110,20 @@ class FacturacionController extends Controller
         ->where('cliente_id', $request->cliente_id) 
         ->get();
 
+        $abono_data = Abono::where('hotel_id',$request->hotel_id)
+        ->where('habitacion_id', $detalle_habitacion[0]["habitacion_id"] )
+        ->where('cliente_id', $request->cliente_id)
+        ->select('valor','id')
+        ->get();
+
+        $valor_abonado = 0;
+        $id_abonos = [];
+        foreach ($abono_data as $key => $value) {  
+            $valor_abonado = $valor_abonado + $abono_data['valor'];
+            $id_abonos [] = $abono_data['id'] ;
+        }
+
+
         if($detalle_habitacion){
             $actualizar_detalle_habitacion = [];
 
@@ -117,17 +131,19 @@ class FacturacionController extends Controller
                 $sub_total = empty($value->habitacion)?0:$value->habitacion->precio;
                 $actualizar_detalle_habitacion [] = $value->id;
             } 
-        } 
+        }   
 
         foreach ($consumos as $key => $value) { 
             $sub_total = $sub_total +  $value->precio; 
         } 
         
         $total = $sub_total;
+        $total = $total - $valor_abonado;
 
         if($descuento >0){
             $total =  $sub_total * $descuento /100; 
         } 
+        
 
         if($sub_total<=0){
             return response()->json(['mensaje' => 'Este cliente no tiene ningun valora a pagar' ,'code' => "warning"]); 
@@ -202,6 +218,12 @@ class FacturacionController extends Controller
                         'estado' => 4,
                     ]
                 ); 
+
+                Abono::whereIn('id', $id_abonos)
+                ->update([
+                    'estado' => 2,
+                    'factura_id' => $factura->id,
+                ]);
             }
             
             //pasa el consumo a estado facturado

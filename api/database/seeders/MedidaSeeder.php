@@ -30,6 +30,11 @@ class MedidaSeeder extends Seeder
                 'nombre' => 'gramo', 
                 'estado' => '1', // activo = 1, inactivo = 0
             ], 
+            [
+                'id' => '4',
+                'nombre' => 'Sin medida', 
+                'estado' => '1', // activo = 1, inactivo = 0
+            ], 
         ]);
         
     }

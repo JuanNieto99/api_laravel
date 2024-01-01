@@ -6,6 +6,7 @@ use App\Http\Controllers\CajaController;
 use App\Http\Controllers\CiudadController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ConsumoController;
+use App\Http\Controllers\ControllerAbonos;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\DetalleHabitacionController;
 use App\Http\Controllers\EstadoCivilController;
@@ -243,6 +244,10 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
 
     Route::get('facturaPdf/{id}', [FacturacionController::class, 'facturaPdf']); 
 
+
+    Route::post('abonoCrear', [ControllerAbonos::class, 'create']); 
+    Route::post('abonoListar', [ControllerAbonos::class, 'index']); 
+    Route::post('abonoEliminar', [ControllerAbonos::class, 'destroy']); 
 
     //secuencia externa
     Route::post('secuenciaExternaCrear', [SecuenciaExternaController::class, 'create']); 
