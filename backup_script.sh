@@ -5,6 +5,7 @@ DB_USER="user"
 DB_PASSWORD="7654321"
 DB_NAME="db"
 BACKUP_DIR="/home/ubuntu/api_laravel/copias_seguridad"
+CONTENEDOR="mariadb"
 
 # Nombre del archivo de respaldo con la marca de tiempo
 BACKUP_FILE="$BACKUP_DIR/backup_$(date +\%Y\%m\%d_\%H\%M\%S).sql"
@@ -15,7 +16,10 @@ if [ ! -d "$BACKUP_DIR" ]; then
 fi
 
 # Comando mysqldump para realizar la copia de seguridad
-docker exec -i mariadb mysqldump -u$DB_USER -p$DB_PASSWORD $DB_NAME > $BACKUP_FILE 
+DUMP_COMMAND="docker exec -i $CONTENEDOR mysqldump -u$DB_USER -p$DB_PASSWORD $DB_NAME"
+echo "$DUMP_COMMAND > $BACKUP_FILE"
+docker exec -i $CONTENEDOR mysqldump -u$DB_USER -p$DB_PASSWORD $DB_NAME > $BACKUP_FILE 
+
 
 # Verifica si el comando de copia de seguridad fue exitoso
 if [ $? -eq 0 ]; then
