@@ -250,19 +250,25 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::post('abonoEliminar', [ControllerAbonos::class, 'destroy']); 
 
     //secuencia externa
-    Route::post('secuenciaExternaCrear', [SecuenciaExternaController::class, 'create']); 
-    Route::post('secuenciaExternaListar', [SecuenciaExternaController::class, 'index']); 
-    Route::get('secuenciaExternaMostrar/{id}', [SecuenciaExternaController::class, 'show']); 
-    Route::post('secuenciaExternaEliminar', [SecuenciaExternaController::class, 'destroy']); 
-    Route::get('secuenciaExternaEditar/{id}', [SecuenciaExternaController::class, 'edit']); 
-    Route::post('secuenciaExternaActualizar', [SecuenciaExternaController::class, 'update']); 
+    Route::group(['middleware'=>'permission:sce'],function(){ 
+        Route::post('secuenciaExternaCrear', [SecuenciaExternaController::class, 'create']); 
+        Route::post('secuenciaExternaListar', [SecuenciaExternaController::class, 'index']); 
+        Route::get('secuenciaExternaMostrar/{id}', [SecuenciaExternaController::class, 'show']); 
+        Route::post('secuenciaExternaEliminar', [SecuenciaExternaController::class, 'destroy']); 
+        Route::get('secuenciaExternaEditar/{id}', [SecuenciaExternaController::class, 'edit']); 
+        Route::post('secuenciaExternaActualizar', [SecuenciaExternaController::class, 'update']); 
+    });
 
-    Route::post('secuenciaInternaCrear', [SecuenciaInternaController::class, 'create']); 
-    Route::post('secuenciaInternaListar', [SecuenciaInternaController::class, 'index']); 
-    Route::get('secuenciaInternaMostrar/{id}', [SecuenciaInternaController::class, 'show']); 
-    Route::post('secuenciaInternaEliminar', [SecuenciaInternaController::class, 'destroy']); 
-    Route::get('secuenciaInternaEditar/{id}', [SecuenciaInternaController::class, 'edit']); 
-    Route::post('secuenciaInternaActualizar', [SecuenciaInternaController::class, 'update']); 
+    Route::group(['middleware'=>'permission:sci'],function(){ 
+
+        Route::post('secuenciaInternaCrear', [SecuenciaInternaController::class, 'create']); 
+        Route::post('secuenciaInternaListar', [SecuenciaInternaController::class, 'index']); 
+        Route::get('secuenciaInternaMostrar/{id}', [SecuenciaInternaController::class, 'show']); 
+        Route::post('secuenciaInternaEliminar', [SecuenciaInternaController::class, 'destroy']); 
+        Route::get('secuenciaInternaEditar/{id}', [SecuenciaInternaController::class, 'edit']); 
+        Route::post('secuenciaInternaActualizar', [SecuenciaInternaController::class, 'update']); 
+    });
+
 
     Route::post('getReservasHabitacionesCalendario', [DetalleHabitacionController::class, 'getReservasCalendario']); 
     Route::post('listatDetalleHabitaciones', [DetalleHabitacionController::class, 'index']); 
