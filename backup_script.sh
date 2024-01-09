@@ -23,7 +23,10 @@ docker exec -i $CONTENEDOR mysqldump -u$DB_USER -p$DB_PASSWORD $DB_NAME > $BACKU
 
 # Verifica si el comando de copia de seguridad fue exitoso
 if [ $? -eq 0 ]; then
+    chmod +w $BACKUP_FILE
     echo "Copia de seguridad exitosa en $BACKUP_FILE"
+    
+    ls -t $BACKUP_DIR | tail -n +6 | xargs -I {} rm -- "$BACKUP_DIR/{}"
 else
     echo "Error al realizar la copia de seguridad"
 fi
