@@ -33,6 +33,7 @@ class PermisoController extends Controller
                 'nombre' => 'required|string|max:50|unique:permisos',
                 'codigo' => 'required|string|max:100', 
                 'id_padre' => 'integer',
+                'descripcion' => 'required|string',
             ], 
             [
                 'nombre.required' => "El campo es requerio",
@@ -50,7 +51,9 @@ class PermisoController extends Controller
         $permiso = Permiso::create([
             'nombre' => $request->nombre,
             'codigo' => $request->codigo,
+            'descripcion' => $request->descripcion,
             'id_padre'  => empty($request->id_padre)?0:$request->id_padre,
+            'estado' => 1,
         ]);
 
         $json = [
@@ -102,7 +105,7 @@ class PermisoController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'nombre' => 'required|string|max:50|unique:permisos,nombre'.$request->input('id'),
+            'nombre' => 'required|string|max:50|unique:permisos,nombre,'.$request->input('id'),
             'id_padre' => 'integer',
         ], 
         [

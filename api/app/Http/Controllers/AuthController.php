@@ -53,6 +53,7 @@ class AuthController extends Controller
                 'estado' => $usuario->estado,
                 'rol' => $usuario->roles,
             ],
+            'version' => '1.0.0'
         ]);
     }
 

@@ -109,6 +109,7 @@ class InventarioController extends Controller
                 'descripcion' => 'required|string|max:200', 
                 'hotel_id' => 'required|integer',
                 'estado' => 'required|integer',
+                'id' => 'required|integer',
             ], 
             [
                 'nombre.required' => "El campo es requerio",

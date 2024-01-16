@@ -1,0 +1,3 @@
+se debe ejecutar el archivo "backup_script.sh" este archivo generara una copia de seguridad de la base de datos todos los dias a las 12 am y dejara solo los 5 copias mas recientes 
+
+ejecutamos "crontab -e" y agregamos "0 0 * * * /home/ubuntu/api_laravel/backup_script.sh"

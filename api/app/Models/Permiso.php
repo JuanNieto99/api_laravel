@@ -14,6 +14,8 @@ class Permiso extends Model
         'nombre', 
         'codigo',
         'id_padre', 
+        'descripcion',
+        'estado',
     ];
 
     public function roles()

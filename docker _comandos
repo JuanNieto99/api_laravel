@@ -1,17 +1,20 @@
 docker build -t api:1.0 .
-sudo docker run --name api -p 80:80 -d --network 8a72f5ef2751 api:1.0
+sudo docker run --name api -p 8086:80 -d --network 3d12ca174 api:1.0
 docker exec -it api  /bin/bash
-docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mariadb
+docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 6cbb3e7aa661
 
-#levantar la base de datos 
+docker network create hotelapp_network
 
+#levantar la base de datos  
 docker volume create db_volumen
 
-docker run --name mariadb -e MYSQL_ROOT_PASSWORD=root_password_here -e MARIADB_PASSWORD=7654321 -e MARIADB_USER=user -e MARIADB_DATABASE=db -e TZ=America/Bogota -e ALLOW_EMPTY_PASSWORD=no -p 3306:3306  -v db_volumen:/var/lib/mysql --network 8a72  -d mariadb:10
+docker run --name mariadb -e MYSQL_ROOT_PASSWORD=root_password_here -e MARIADB_PASSWORD=7654321 -e MARIADB_USER=user -e MARIADB_DATABASE=db -e TZ=America/Bogota -e ALLOW_EMPTY_PASSWORD=no -p 3306:3306  -v db_volumen:/var/lib/mysql --network 3d12ca174  -d mariadb:10
 
 #sudo service apache2 stop
 
 #f8e2df2b47cb   redis               "docker-entrypoint.s…"   6 days ago       Up 42 minutes   0.0.0.0:6379->6379/tcp, :::6379->6379/tcp   redis
-#docker run --name redis -p 6379:6379 -d --network 8a72f5ef2751 redis 
+#docker run --name redis -p 6379:6379 -d --network 3d12ca174 redis 
 #docker build -t server_nodejs:1.0 .
-#sudo docker run --name server_js -p 3000:3000 -d --network 6283 server_nodejs:1.0
+#sudo docker run --name server_js -p 3000:3000 -d --network 3d12ca174 server_nodejs:1.0
+#sudo timedatectl set-timezone America/Bogota
+docker rm redis

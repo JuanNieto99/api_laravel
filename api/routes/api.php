@@ -27,7 +27,6 @@ use App\Http\Controllers\RecetaController;
 use App\Http\Controllers\SecuenciaExternaController;
 use App\Http\Controllers\SecuenciaInternaController;
 use App\Http\Controllers\TipoDocumentoController;
-use App\Http\Controllers\TipoHabitacion;
 use App\Http\Controllers\TipoHabitacionController;
 use App\Models\TiposContribuyentes;
 use Illuminate\Support\Facades\Broadcast;
@@ -239,30 +238,34 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::post('facturaCrear', [FacturacionController::class, 'create']); 
         Route::post('facturaListar', [FacturacionController::class, 'index']); 
         Route::post('facturaAnular', [FacturacionController::class, 'destroy']); 
+        Route::get('facturaPdf/{id}', [FacturacionController::class, 'facturaPdf']);  
 
-    });
-
-    Route::get('facturaPdf/{id}', [FacturacionController::class, 'facturaPdf']); 
-
+    }); 
 
     Route::post('abonoCrear', [ControllerAbonos::class, 'create']); 
     Route::post('abonoListar', [ControllerAbonos::class, 'index']); 
     Route::post('abonoEliminar', [ControllerAbonos::class, 'destroy']); 
 
-    //secuencia externa
-    Route::post('secuenciaExternaCrear', [SecuenciaExternaController::class, 'create']); 
-    Route::post('secuenciaExternaListar', [SecuenciaExternaController::class, 'index']); 
-    Route::get('secuenciaExternaMostrar/{id}', [SecuenciaExternaController::class, 'show']); 
-    Route::post('secuenciaExternaEliminar', [SecuenciaExternaController::class, 'destroy']); 
-    Route::get('secuenciaExternaEditar/{id}', [SecuenciaExternaController::class, 'edit']); 
-    Route::post('secuenciaExternaActualizar', [SecuenciaExternaController::class, 'update']); 
+    Route::group(['middleware'=>'permission:sce'],function(){ 
 
-    Route::post('secuenciaInternaCrear', [SecuenciaInternaController::class, 'create']); 
-    Route::post('secuenciaInternaListar', [SecuenciaInternaController::class, 'index']); 
-    Route::get('secuenciaInternaMostrar/{id}', [SecuenciaInternaController::class, 'show']); 
-    Route::post('secuenciaInternaEliminar', [SecuenciaInternaController::class, 'destroy']); 
-    Route::get('secuenciaInternaEditar/{id}', [SecuenciaInternaController::class, 'edit']); 
-    Route::post('secuenciaInternaActualizar', [SecuenciaInternaController::class, 'update']); 
+        //secuencia externa
+        Route::post('secuenciaExternaCrear', [SecuenciaExternaController::class, 'create']); 
+        Route::post('secuenciaExternaListar', [SecuenciaExternaController::class, 'index']); 
+        Route::get('secuenciaExternaMostrar/{id}', [SecuenciaExternaController::class, 'show']); 
+        Route::post('secuenciaExternaEliminar', [SecuenciaExternaController::class, 'destroy']); 
+        Route::get('secuenciaExternaEditar/{id}', [SecuenciaExternaController::class, 'edit']); 
+        Route::post('secuenciaExternaActualizar', [SecuenciaExternaController::class, 'update']); 
+    });
+
+    Route::group(['middleware'=>'permission:sci'],function(){ 
+
+        Route::post('secuenciaInternaCrear', [SecuenciaInternaController::class, 'create']); 
+        Route::post('secuenciaInternaListar', [SecuenciaInternaController::class, 'index']); 
+        Route::get('secuenciaInternaMostrar/{id}', [SecuenciaInternaController::class, 'show']); 
+        Route::post('secuenciaInternaEliminar', [SecuenciaInternaController::class, 'destroy']); 
+        Route::get('secuenciaInternaEditar/{id}', [SecuenciaInternaController::class, 'edit']); 
+        Route::post('secuenciaInternaActualizar', [SecuenciaInternaController::class, 'update']); 
+    });
 
     Route::post('getReservasHabitacionesCalendario', [DetalleHabitacionController::class, 'getReservasCalendario']); 
     Route::post('listatDetalleHabitaciones', [DetalleHabitacionController::class, 'index']); 

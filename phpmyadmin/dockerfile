@@ -12,5 +12,5 @@ CMD ["apache2-foreground"]
 #docker build -t mi_phpmyadmin .
 
 # Ejecutar el contenedor
-# docker run -d --name mi_phpmyadmin -e PMA_HOST=mariadb --network 6283b2377e41 -p 8081:80 mi_phpmyadmin
+# docker run -d --name mi_phpmyadmin -e PMA_HOST=mariadb --network 3d12ca174 -p 8081:80 mi_phpmyadmin
 

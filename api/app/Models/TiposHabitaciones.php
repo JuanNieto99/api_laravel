@@ -13,6 +13,12 @@ class TiposHabitaciones extends Model
 
     protected $fillable = [
         'nombre',  
+        'hotel_id',  
         'estado', 
     ];
+
+    public function hotel()
+    {
+        return $this->belongsTo(Hotel::class,'hotel_id','id');
+    }
 }

@@ -123,9 +123,8 @@ class RolController extends Controller
     {
         $validator = Validator::make($request->all(),[
                 'id' => 'required|integer', 
-                'nombre' => 'required|string|max:50|unique:rols,nombre'.$request->input('id'),
-                'descripcion' => 'required|string|max:100', 
-                'estado' => 'required|integer',
+                'nombre' => 'required|string|max:50|unique:rols,nombre,'.$request->input('id'),
+                'descripcion' => 'required|string|max:100',  
             ], 
             [
                 'id.required' => "El campo es requerio",
@@ -133,9 +132,7 @@ class RolController extends Controller
                 'nombre.max' => "La cantidad maxima del campo es 50",
                 'nombre.unique' =>  "El nombre ya existe",
                 'descripcion.required' => "El campo es requerido",
-                'descripcion.max' => "La cantidad maxima del campo es 100",
-                'estado.required' => "El campo es requerido",
-                
+                'descripcion.max' => "La cantidad maxima del campo es 100",  
             ]    
         );
 
@@ -147,8 +144,7 @@ class RolController extends Controller
         $filasActualizadas = Rol::where('id', $request->id)
         ->update([
             'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'estado' => $request->estado, 
+            'descripcion' => $request->descripcion, 
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 

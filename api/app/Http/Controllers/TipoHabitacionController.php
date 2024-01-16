@@ -17,7 +17,10 @@ class TipoHabitacionController extends Controller
     {
         $per_page = $request->query('per_page', 2);
 
-        $query = TiposHabitaciones::where('estado',1)->orderBy('nombre', 'asc');
+        $query = TiposHabitaciones::with(['hotel'=>function($query){
+            $query->select('id','nombre');
+        }])
+        ->where('estado',1)->orderBy('nombre', 'asc');
 
 		return $per_page? $query->paginate($per_page) : $query->get();
 
