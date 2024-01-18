@@ -129,12 +129,11 @@ class SecuenciaInternaController extends Controller
         $update = SecuenciaInterna::where('id',$request->id)
         ->update(
             [
-                'hotel_id' =>  $request->hotel_id, 
-                'fecha_inicio' =>  $request->fecha_inicio,
-                'fecha_final' => $request->fecha_final,
+                'hotel_id' =>  $request->hotel_id,  
                 'secuensia_incial' => $request->secuensia_incial,
                 'secuencia_actual' => $request->secuencia_actual,
                 'usuario_id_actualiza' => $usuario->id,
+                'descripcion_secuencia' => $usuario->descripcion_secuencia,
             ]
         );
 
