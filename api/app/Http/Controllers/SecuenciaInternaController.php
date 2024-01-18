@@ -131,7 +131,7 @@ class SecuenciaInternaController extends Controller
             [
                 'hotel_id' =>  $request->hotel_id,  
                 'secuensia_incial' => $request->secuensia_incial,
-                'secuencia_actual' => $request->secuencia_actual,
+                'secuensia_actual' => $request->secuencia_actual,
                 'usuario_id_actualiza' => $usuario->id,
                 'descripcion_secuencia' => $usuario->descripcion_secuencia,
             ]
