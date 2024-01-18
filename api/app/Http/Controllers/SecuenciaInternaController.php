@@ -16,7 +16,9 @@ class SecuenciaInternaController extends Controller
         
         $per_page = $request->query('per_page', 1);
 
-        $query = SecuenciaInterna::where('estado',1)->orderBy('descripcion_secuencia', 'asc');
+        $query = SecuenciaInterna::with(['hotel'=> function($query){
+            $query->select('nombre','id');
+        }])-> where('estado',1)->orderBy('descripcion_secuencia', 'asc');
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }
