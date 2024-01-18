@@ -16,5 +16,4 @@ docker run --name mariadb -e MYSQL_ROOT_PASSWORD=root_password_here -e MARIADB_P
 #docker run --name redis -p 6379:6379 -d --network 3d12ca174 redis 
 #docker build -t server_nodejs:1.0 .
 #sudo docker run --name server_js -p 3000:3000 -d --network 3d12ca174 server_nodejs:1.0
-#sudo timedatectl set-timezone America/Bogota
-docker rm redis
+#sudo timedatectl set-timezone America/Bogota 

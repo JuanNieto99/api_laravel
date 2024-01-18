@@ -36,17 +36,18 @@ class ProductosController extends Controller
         ->join('medidas','medidas.id', 'productos.medida_id')
         ->select('productos.*')
         ->where('productos.estado',1)
-        ->orderBy('productos.nombre', 'asc');
+        ->orderBy('productos.id', 'desc');
 
-        if(!empty($search) && $search!=null){ 
-            Log::debug($search);
-            $query->where(function ($query) use ($search) {
+        if(!empty($search) && $search!=null){  
+            
+            $query->where(function ($query) use ($search) { 
                 $query->where('productos.nombre', 'like', "%{$search}%"); 
                 $query->orWhere('productos.cantidad', 'like', "%{$search}%"); 
                 $query->orWhere('productos.precio', 'like', "%{$search}%");   
                 $query->orWhere('inventarios.nombre', 'like', "%{$search}%");   
                 $query->orWhere('medidas.nombre', 'like', "%{$search}%");    
-            });
+            }); 
+            
         }
 
         return $per_page? $query->paginate($per_page) : $query->get();

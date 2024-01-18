@@ -27,7 +27,7 @@ class SecuenciaInternaController extends Controller
             'hotel_id' => 'required|integer',
             'descripcion_secuencia' => 'required|string', 
             'secuensia_incial' => 'required|integer',
-            'secuencia_final' => 'required|integer', 
+            'secuensia_actual' => 'required|integer', 
         ]);    
 
         if($validator->fails()){
@@ -40,10 +40,9 @@ class SecuenciaInternaController extends Controller
             [
                 'hotel_id' => $request->hotel_id,
                 'descripcion_secuencia' => $request->descripcion_secuencia, 
-                'secuencia_final' => $request->secuencia_final,
+                'secuensia_actual' => $request->secuensia_actual,
                 'secuensia_incial' => $request->secuensia_incial,
-                'usuario_id_crea' => $usuario->id,
-                'secuensia_actual' => 0,
+                'usuario_id_crea' => $usuario->id, 
                 'estado' => 1,
             ]
         ); 
