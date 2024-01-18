@@ -133,7 +133,7 @@ class SecuenciaInternaController extends Controller
                 'secuensia_incial' => $request->secuensia_incial,
                 'secuensia_actual' => $request->secuencia_actual,
                 'usuario_id_actualiza' => $usuario->id,
-                'descripcion_secuencia' => $usuario->descripcion_secuencia,
+                'descripcion_secuencia' => $request->descripcion_secuencia,
             ]
         );
 
