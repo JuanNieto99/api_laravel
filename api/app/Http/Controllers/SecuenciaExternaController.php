@@ -69,7 +69,7 @@ class SecuenciaExternaController extends Controller
         
         $per_page = $request->query('per_page', 1);
 
-        $query = SecuenciaExterna::where('estado',1)->orderBy('nombre', 'asc');
+        $query = SecuenciaExterna::with(['hotel'])->where('estado',1)->orderBy('id', 'asc');
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }

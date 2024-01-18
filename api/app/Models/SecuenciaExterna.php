@@ -24,4 +24,8 @@ class SecuenciaExterna extends Model
         'usuario_id_actualiza',
         'estado'
     ];
+
+    public function hotel() { 
+        return $this->belongsTo(Hotel::class,'hotel_id','id');
+    }
 }

@@ -116,7 +116,7 @@ class SecuenciaInternaController extends Controller
             'hotel_id' => 'required|integer',
             'descripcion_secuencia' => 'required|string', 
             'secuensia_incial' => 'required|integer',
-            'secuencia_final' => 'required|integer', 
+            'secuencia_actual' => 'required|integer', 
             'id' => 'required|integer', 
         ]);    
 
@@ -134,7 +134,7 @@ class SecuenciaInternaController extends Controller
                 'fecha_inicio' =>  $request->fecha_inicio,
                 'fecha_final' => $request->fecha_final,
                 'secuensia_incial' => $request->secuensia_incial,
-                'secuencia_final' => $request->secuencia_final,
+                'secuencia_actual' => $request->secuencia_actual,
                 'usuario_id_actualiza' => $usuario->id,
             ]
         );
