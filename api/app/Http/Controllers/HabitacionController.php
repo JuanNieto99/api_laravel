@@ -50,6 +50,7 @@ class HabitacionController extends Controller
                 'capacidad_personas' => 'required|integer', 
                 'precio' => 'required',
                 'usuario_modifica' => 'required',
+                'piso' => 'required|integer', 
                 'hotel_id'=> 'required'
             ], 
             [
@@ -62,6 +63,7 @@ class HabitacionController extends Controller
                 'tipo.required' => "El campo es requerido", 
                 'capacidad_personas.required'  => "El campo es requerido", 
                 'precio.required'  => "El campo es requerido", 
+                'piso.required' => "El campo es requerido", 
                 'usuario_modifica.required' => "El campo es requerido", 
             ]    
         );
@@ -80,6 +82,7 @@ class HabitacionController extends Controller
             'precio'  =>  $request->precio,
             'usuario_modifica'  =>  $request->usuario_modifica, 
             'hotel_id'  =>  $request->hotel_id, 
+            'piso'  => $request->piso, 
         ]);
 
 
@@ -139,7 +142,8 @@ class HabitacionController extends Controller
                 'capacidad_personas' => 'required|integer', 
                 'precio' => 'required',
                 'usuario_modifica' => 'required',
-                'hotel_id'=> 'required'
+                'hotel_id'=> 'required',
+                'piso' => 'required|integer', 
             ], 
             [
                 'nombre.required' => "El campo es requerio",
@@ -171,6 +175,7 @@ class HabitacionController extends Controller
             'precio'  =>  $request->precio,
             'usuario_modifica'  =>  $request->usuario_modifica, 
             'hotel_id'  =>  $request->hotel_id, 
+            'piso' => $request->piso, 
         ]);
 
 
@@ -319,6 +324,7 @@ class HabitacionController extends Controller
 
     public function edit($id) {
         $habitacion = Habitacion::where('estado','!=',0)->find($id);
+        $pisos = range(1, 99);
 
         $tipo_habitacion = TiposHabitaciones::select('id','nombre')->Where('estado',1)->get();
 
@@ -326,14 +332,15 @@ class HabitacionController extends Controller
 
             return [ 
                 'tipo_habitacion' => $tipo_habitacion,
+                'pisos' =>  $pisos,
             ];
             
-        }
-
+        } 
 
         return [
             'habitacion' => $habitacion,
             'tipo_habitacion' => $tipo_habitacion,
+            'pisos' =>  $pisos,
         ];
     }
 

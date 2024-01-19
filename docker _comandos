@@ -2,7 +2,7 @@ docker build -t api:1.0 .
 sudo docker run --name api -p 8086:80 -d --network 3d12ca174 api:1.0
 docker exec -it api  /bin/bash
 docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 6cbb3e7aa661
-
+172.18.0.6
 docker network create hotelapp_network
 
 #levantar la base de datos  

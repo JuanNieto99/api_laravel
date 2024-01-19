@@ -26,7 +26,7 @@ return new class extends Migration
             $table->unsignedBigInteger('cantidad_habitaciones');
             $table->string('email', 50);
             $table->unsignedBigInteger('tipo_contribuyente')->nullable(false);
-            $table->unsignedBigInteger('usuario_id')->nullable(false);
+            $table->unsignedBigInteger('usuario_id')->nullable(false); // este seria el dueño del hotel
             $table->unsignedTinyInteger('estado');
             $table->foreign('ciudad_id')->references('id')->on('ciudads')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('usuario_id')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('restrict');

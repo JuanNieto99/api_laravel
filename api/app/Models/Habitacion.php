@@ -20,6 +20,7 @@ class Habitacion extends Model
         'tipo', 
         'capacidad_personas', 
         'precio', 
+        'piso',
         'usuario_modifica',
         'hotel_id',
         'estado'
