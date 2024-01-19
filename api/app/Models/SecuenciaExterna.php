@@ -22,6 +22,7 @@ class SecuenciaExterna extends Model
         'secuencia_final',
         'usuario_id_crea',
         'usuario_id_actualiza',
+        'secuensia_actual',
         'estado'
     ];
 

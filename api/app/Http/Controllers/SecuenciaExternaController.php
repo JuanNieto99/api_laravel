@@ -18,6 +18,7 @@ class SecuenciaExternaController extends Controller
             'prefijo' => 'required|string',
             'fecha_inicio' => 'required|string',
             'fecha_final' => 'required|string',
+            'secuensia_actual' => 'required|integer',
             'secuensia_incial' => 'required|integer',
             'secuencia_final' => 'required|integer', 
         ]);    
@@ -32,6 +33,7 @@ class SecuenciaExternaController extends Controller
             [
                 'hotel_id' => $request->hotel_id,
                 'prefijo' => $request->prefijo,
+                'secuensia_actual' => $request->secuensia_actual,
                 'fecha_inicio' => $request->fecha_inicio,
                 'fecha_final' => $request->fecha_final,
                 'secuencia_final' => $request->secuencia_final,

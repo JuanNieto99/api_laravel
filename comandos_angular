@@ -2,3 +2,6 @@ sudo cp 000-default.conf /etc/apache2/sites-available/000-default.conf
 sudo cp apache2.conf /etc/apache2/apache2.conf
 
 sudo service apache2 restart
+
+
+ng build --configuration=production
