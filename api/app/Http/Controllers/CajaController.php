@@ -21,6 +21,7 @@ class CajaController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->query('per_page', 1);
+        $search = $request->query('search',false);
 
         $query = Caja::with([
         'tipoCajas' => function($query){
@@ -28,8 +29,21 @@ class CajaController extends Controller
         },'hotel'=> function ($query){
             $query->select('nombre','id');
         }]) 
-        ->where('estado',1)->orderBy('nombre', 'asc');
-
+        ->join('tipo_cajas','tipo_cajas.id', 'cajas.tipo')
+        ->join('hotels','hotels.id', 'cajas.hotel_id')
+        ->where('cajas.estado',1)->orderBy('cajas.nombre', 'asc');
+        
+        if(!empty($search) && $search!=null){
+            
+            $query->where(function ($query) use ($search) { 
+                $query->where('cajas.nombre', 'like', "%{$search}%"); 
+                $query->orWhere('cajas.descripcion', 'like', "%{$search}%");  
+                $query->orWhere('tipo_cajas.nombre', 'like', "%{$search}%");  
+                $query->orWhere('cajas.base', 'like', "%{$search}%");  
+            }); 
+            
+        }
+        
         return $per_page? $query->paginate($per_page) : $query->get();
     }
 

@@ -20,6 +20,7 @@ class HabitacionController extends Controller
     public function index(Request $request)
     { 
         $per_page = $request->query('per_page', 1);
+        $search = $request->query('search',false);
 
         $query = Habitacion::with(['detalle',
         'hotel'=> function ($query) {
@@ -28,10 +29,23 @@ class HabitacionController extends Controller
         'tipoHabitacion'=> function ($query) {
             $query->select('id','nombre');
         },
-        'usuario'=> function ($query) {
+        /*  'usuario'=> function ($query) {
             $query->select('id','usuario');
-        },
-        ])->where('estado','!=',0)->orderBy('nombre', 'asc');
+        },*/
+        ])
+        ->join('hotels', 'hotels.id', 'habitacions.hotel_id')
+        ->join('tipo_habitacion', 'tipo_habitacion.id', 'tipo_habitacion.hotel_id')
+        ->where('habitacions.estado','!=',0)->orderBy('habitacions.nombre', 'asc');
+
+        if(!empty($search) && $search!=null){
+            
+            $query->where(function ($query) use ($search) {  
+                $query->Where('habitacions.nombre', 'like', "%{$search}%");  
+                $query->orWhere('hotel.nombre', 'like', "%{$search}%");  
+                $query->orWhere('tipo_habitacion.nombre', 'like', "%{$search}%");  
+            });
+            
+        }
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }
@@ -49,7 +63,7 @@ class HabitacionController extends Controller
                 'tipo' => 'required|integer',
                 'capacidad_personas' => 'required|integer', 
                 'precio' => 'required',
-                'usuario_modifica' => 'required',
+              //  'usuario_modifica' => 'required',
                 'piso' => 'required|integer', 
                 'hotel_id'=> 'required'
             ], 
@@ -64,13 +78,16 @@ class HabitacionController extends Controller
                 'capacidad_personas.required'  => "El campo es requerido", 
                 'precio.required'  => "El campo es requerido", 
                 'piso.required' => "El campo es requerido", 
-                'usuario_modifica.required' => "El campo es requerido", 
+               // 'usuario_modifica.required' => "El campo es requerido", 
             ]    
         );
 
         if($validator->fails()){
             return response()->json($validator->errors());
         }
+
+        $usuario = auth()->user();
+
 
         $habitacion = Habitacion::create([
             'nombre' => $request->nombre,
@@ -80,7 +97,7 @@ class HabitacionController extends Controller
             'tipo'  =>  $request->tipo,
             'capacidad_personas'  =>  $request->capacidad_personas,
             'precio'  =>  $request->precio,
-            'usuario_modifica'  =>  $request->usuario_modifica, 
+            'usuario_modifica' => $usuario->id,
             'hotel_id'  =>  $request->hotel_id, 
             'piso'  => $request->piso, 
         ]);
@@ -92,9 +109,7 @@ class HabitacionController extends Controller
                 'respuesta' => !empty($habitacion),
                 'id' => $habitacion->id,
             ],
-        ];
-
-        $usuario = auth()->user();
+        ]; 
         
         Historial::insert([
             'tipo' => 1,
@@ -141,7 +156,6 @@ class HabitacionController extends Controller
                 'tipo' => 'required|integer',
                 'capacidad_personas' => 'required|integer', 
                 'precio' => 'required',
-                'usuario_modifica' => 'required',
                 'hotel_id'=> 'required',
                 'piso' => 'required|integer', 
             ], 
@@ -155,7 +169,6 @@ class HabitacionController extends Controller
                 'tipo.required' => "El campo es requerido", 
                 'capacidad_personas.required'  => "El campo es requerido", 
                 'precio.required'  => "El campo es requerido", 
-                'usuario_modifica.required' => "El campo es requerido", 
             ]    
         );
 
@@ -163,6 +176,8 @@ class HabitacionController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors());
         }
+
+        $usuario = auth()->user();
 
         $filasActualizadas = Habitacion::where('id', $request->id)
         ->update([
@@ -173,7 +188,7 @@ class HabitacionController extends Controller
             'tipo'  =>  $request->tipo,
             'capacidad_personas'  =>  $request->capacidad_personas,
             'precio'  =>  $request->precio,
-            'usuario_modifica'  =>  $request->usuario_modifica, 
+            'usuario_modifica'  => $usuario->id, 
             'hotel_id'  =>  $request->hotel_id, 
             'piso' => $request->piso, 
         ]);
@@ -187,7 +202,6 @@ class HabitacionController extends Controller
             ],
         ];
 
-        $usuario = auth()->user();
         
         Historial::insert([
             'tipo' => 1,
@@ -342,6 +356,24 @@ class HabitacionController extends Controller
             'tipo_habitacion' => $tipo_habitacion,
             'pisos' =>  $pisos,
         ];
+    }
+
+    public function listarHabitacionDashboard(Request $request) {
+        $validator = Validator::make($request->all(),[ 
+            'hotel_id' => 'required|integer',  
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+
+        $data = Habitacion::with(['detalle'])
+        ->select('nombre', 'descripcion', 'diseno_json', 'estado', 'piso', 'id')
+        ->where('estado','!=', 0)
+        ->orderBy('piso','asc')
+        ->get();
+
+        return $data;
     }
 
 

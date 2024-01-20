@@ -15,6 +15,7 @@ class DetalleHabitacionController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->query('per_page', 1);
+        $search = $request->query('search',false);
 
         $query = DetalleHabitacion::with([
         'habitacion' => function ($query)  {
@@ -30,7 +31,24 @@ class DetalleHabitacionController extends Controller
             $query->select('id', 'nombre');
         },
         ])
-        ->orderBy('id', 'asc');
+        ->join('habitacions', 'habitacions.id', 'detalle_habitacions.habitacion_id')
+        ->join('clientes', 'clientes.id', 'detalle_habitacions.cliente_id')
+        ->join('usuario', 'usuario.id', 'detalle_habitacions.usuario_id')
+        ->join('hotel', 'hotel.id', 'detalle_habitacions.usuario_id')
+        ->orderBy('detalle_habitacions.id', 'asc');
+
+
+        if(!empty($search) && $search!=null){
+            
+            $query->where(function ($query) use ($search) { 
+                $query->where('habitacions.nombre', 'like', "%{$search}%");   
+                $query->orWhere('clientes.nombre', 'like', "%{$search}%");  
+                $query->orWhere('usuario.nombre', 'like', "%{$search}%");  
+                $query->orWhere('hotel.nombre', 'like', "%{$search}%");  
+                $query->orWhere('clientes.apellidos', 'like', "%{$search}%");  
+            }); 
+            
+        }
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }

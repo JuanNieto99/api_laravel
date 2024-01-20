@@ -7,5 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Departamento extends Model
 {
-    use HasFactory;
+    protected $primaryKey = 'id';
+
+    protected $table='departamentos'; 
+
+    protected $fillable = [
+        'nombre', 
+        'codigo_dane', 
+        'pais_id', 
+        'estado', 
+        'indicativo_departamento',  
+    ];
+
+    public function pais() {
+        return $this->belongsTo(Pais::class,'id','pais_id');
+    }
 }

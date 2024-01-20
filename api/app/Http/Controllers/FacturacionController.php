@@ -27,6 +27,7 @@ class FacturacionController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->query('per_page', 1);
+        $search = $request->query('search',false);
 
         $query = Facturacion::with([
         'cliente'=>function ($query) {
@@ -35,7 +36,20 @@ class FacturacionController extends Controller
         'hotel'=>function ($query) {
             $query->select('id', 'nombre' );
         },]) 
-        ->orderBy('id', 'desc');
+        ->join('hotels', 'hotels.id', 'facturacions.hotel_id')
+        ->join('clientes', 'clientes.id', 'facturacions.cliente_id')
+        ->orderBy('facturacions.id', 'desc');
+
+        if(!empty($search) && $search!=null){
+            
+            $query->where(function ($query) use ($search) {  
+                $query->orWhere('clientes.nombre', 'like', "%{$search}%");  
+                $query->orWhere('facturacions.concepto', 'like', "%{$search}%");  
+                $query->orWhere('hotel.nombre', 'like', "%{$search}%");  
+                $query->orWhere('clientes.apellidos', 'like', "%{$search}%");  
+            }); 
+            
+        }
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }

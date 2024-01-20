@@ -20,12 +20,21 @@ class UsuarioController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->query('per_page', 1);
+        $search = $request->query('search',false);
+
         $estados = [1,2];
         $query = Usuario::with(['roles'=> function ($query) {
             $query->select('id','nombre');
         }])
-        ->whereIn('estado', $estados)->orderBy('usuario', 'asc');
+        ->join('rols','rols.id','usuarios.rol_id')
+        ->select('usuarios.*')
+        ->whereIn('usuarios.estado', $estados)->orderBy('usuarios.usuario', 'asc');
 
+        $query->where(function ($query) use ($search) {
+            $query->where('usuarios.usuario', 'like', "%{$search}%");   
+            $query->orWhere('usuarios.email', 'like', "%{$search}%");           
+            $query->orWhere('rols.nombre', 'like', "%{$search}%");             
+        });
 		return $per_page? $query->paginate($per_page) : $query->get();
 
     }

@@ -15,11 +15,17 @@ class SecuenciaInternaController extends Controller
     public function index(Request $request) {
         
         $per_page = $request->query('per_page', 1);
+        $search = $request->query('search',false);
 
         $query = SecuenciaInterna::with(['hotel'=> function($query){
             $query->select('nombre','id');
         }])-> where('estado',1)->orderBy('descripcion_secuencia', 'asc');
 
+        $query->where(function ($query) use ($search) {
+            $query->where('secuencia_interna.descripcion_secuencia', 'like', "%{$search}%");    
+            $query->orWhere('secuencia_interna.secuensia_incial', 'like', "%{$search}%");     
+            $query->orWhere('secuencia_interna.secuensia_actual', 'like', "%{$search}%");     
+        });
         return $per_page? $query->paginate($per_page) : $query->get();
     }
 

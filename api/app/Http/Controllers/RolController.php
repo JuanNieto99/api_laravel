@@ -19,9 +19,14 @@ class RolController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->query('per_page', 2);
+        $search = $request->query('search',false);
 
         $query = Rol::where('estado',1)->orderBy('nombre', 'asc');
-
+        $query->where(function ($query) use ($search) {
+            $query->where('rols.nombre', 'like', "%{$search}%");    
+            $query->orWhere('rols.descripcion', 'like', "%{$search}%");    
+        }); 
+        
 		return $per_page? $query->paginate($per_page) : $query->get();
 
     }

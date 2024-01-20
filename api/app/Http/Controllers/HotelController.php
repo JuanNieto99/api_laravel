@@ -21,6 +21,7 @@ class HotelController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->query('per_page', 1);
+        $search = $request->query('search',false);
 
         $query = Hotel::with(['ciudad' => function ($query) {
             $query->select('id','nombre');
@@ -28,7 +29,18 @@ class HotelController extends Controller
         'tipoContribuyente'=> function ($query) {
             $query->select('id','nombre');
         },]) 
-        ->where('estado',1)->orderBy('nombre', 'asc');
+        ->where('hotels.estado',1)->orderBy('hotels.nombre', 'asc');
+
+        if(!empty($search) && $search!=null){
+            
+            $query->where(function ($query) use ($search) { 
+                $query->where('hotels.nombre', 'like', "%{$search}%");    
+                $query->where('hotels.direccion', 'like', "%{$search}%");   
+                $query->where('hotels.contacto_telefono', 'like', "%{$search}%");     
+                $query->where('hotels.telefono', 'like', "%{$search}%");     
+            }); 
+            
+        }
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }

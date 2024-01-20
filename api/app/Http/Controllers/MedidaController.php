@@ -13,9 +13,13 @@ class MedidaController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->query('per_page', 1);
+        $search = $request->query('search',false);
 
         $query = Medidas::where('estado',1)->orderBy('nombre', 'asc');
 
+        $query->where(function ($query) use ($search) { 
+            $query->where('medidas.nombre', 'like', "%{$search}%");    
+        }); 
         return $per_page? $query->paginate($per_page) : $query->get();
     }
     /**

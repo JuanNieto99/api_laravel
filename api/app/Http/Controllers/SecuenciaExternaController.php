@@ -70,10 +70,18 @@ class SecuenciaExternaController extends Controller
     public function index(Request $request) {
         
         $per_page = $request->query('per_page', 1);
+        $search = $request->query('search',false);
 
         $query = SecuenciaExterna::with(['hotel'=> function($query){
             $query->select('nombre','id');
         }])->where('estado',1)->orderBy('id', 'asc');
+
+        $query->where(function ($query) use ($search) {
+            $query->where('secuencia_externa.prefijo', 'like', "%{$search}%");    
+            $query->orWhere('secuencia_externa.secuensia_incial', 'like', "%{$search}%");    
+            $query->orWhere('secuencia_externa.secuencia_final', 'like', "%{$search}%");   
+            $query->orWhere('secuencia_externa.secuensia_actual', 'like', "%{$search}%");     
+        });
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }

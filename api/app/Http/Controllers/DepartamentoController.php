@@ -13,8 +13,22 @@ class DepartamentoController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->query('per_page', 1);
+        $search = $request->query('search',false);
 
-        $query = Departamento::where('estado',1)->orderBy('nombre', 'asc');
+        $query = Departamento::with(['pais'])        
+        ->where('estado',1)
+        ->join('pais', 'pais.id', 'departamentos.pais_id')
+        ->orderBy('departamentos.nombre', 'asc');
+
+
+        if(!empty($search) && $search!=null){
+            
+            $query->where(function ($query) use ($search) { 
+                $query->where('pais.nombre', 'like', "%{$search}%");   
+                $query->orWhere('departamentos.codigo_dane', 'like', "%{$search}%");  
+            }); 
+            
+        }
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }

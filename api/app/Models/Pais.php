@@ -7,5 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pais extends Model
 {
-    use HasFactory;
+    protected $primaryKey = 'id';
+
+    protected $table='pais'; 
+
+    protected $fillable = [
+        'nombre', 
+        'estado', 
+        'extension',
+        'abreviatura',
+        'codigo_telefono',
+        'codigo_dian'
+    ];
 }

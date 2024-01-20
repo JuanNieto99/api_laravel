@@ -19,9 +19,16 @@ class RecetaController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->query('per_page', 1);
+        $search = $request->query('search',false);
 
         $query = Receta::where('estado',1)->orderBy('nombre', 'asc');
 
+        $query->where(function ($query) use ($search) {
+            $query->where('recetas.nombre', 'like', "%{$search}%");    
+            $query->orWhere('recetas.precio', 'like', "%{$search}%");    
+            $query->orWhere('recetas.descripcion', 'like', "%{$search}%");    
+        }); 
+        
         return $per_page? $query->paginate($per_page) : $query->get();
     }
 

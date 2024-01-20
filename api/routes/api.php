@@ -113,6 +113,8 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::get('habitacionesEditar/{id}', [HabitacionController::class, 'edit']); 
     }); 
 
+    Route::post('habitacionesDashboard', [HabitacionController::class, 'listarHabitacionDashboard']); 
+
     Route::group(['middleware'=>'permission:hbs'],function(){ 
         //Estado civil
         Route::post('estadoCivilListar', [EstadoCivilController::class, 'index']); 

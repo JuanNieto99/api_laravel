@@ -72,6 +72,7 @@ class ControllerAbonos extends Controller
     public function index(Request $request)
     {
         $per_page = $request->query('per_page', 1);
+        $search = $request->query('search',false);
 
         $query = Abono::with([ 
             'cliente'=> function ($query) {
@@ -81,8 +82,19 @@ class ControllerAbonos extends Controller
                 $query->select('id', 'nombre');
             }
         ])
-        ->where('estado','!=',0)->orderBy('id', 'asc');
+        ->join('hotels', 'hotels.id', 'abonos.hotel_id')
+        ->join('clientes', 'clientes.id', 'abonos.cliente_id')
+        ->where('abonos.estado','!=',0)->orderBy('abonos.id', 'asc');
 
+
+        if(!empty($search) && $search!=null){
+            
+            $query->where(function ($query) use ($search) { 
+                $query->where('ciudads.nombre', 'like', "%{$search}%");   
+                $query->orWhere('ciudads.codigo_dane', 'like', "%{$search}%");  
+            }); 
+            
+        }
         return $per_page? $query->paginate($per_page) : $query->get();
     }
 

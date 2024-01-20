@@ -18,6 +18,7 @@ class ConsumoController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->query('per_page', 1);
+        $search = $request->query('search',false);
 
         $query = Consumo::with([
             'usuario'=> function ($query) {
@@ -30,7 +31,23 @@ class ConsumoController extends Controller
                 $query->select('id', 'nombre');
             }
         ])
-        ->where('estado','!=',0)->orderBy('id', 'asc');
+        ->join('clientes', 'clientes.id', 'consumos.cliente_id')
+        ->join('usuarios', 'usuarios.id', 'consumos.usuario_id')
+        ->join('hotels', 'hotels.id', 'consumos.hotel_id')
+        ->where('consumos.estado','!=',0)->orderBy('consumos.id', 'asc');
+
+
+        if(!empty($search) && $search!=null){
+            
+            $query->where(function ($query) use ($search) { 
+                $query->where('ciudads.nombre', 'like', "%{$search}%");    
+                $query->orWhere('clientes.nombre', 'like', "%{$search}%");   
+                $query->orWhere('clientes.apellidos', 'like', "%{$search}%");   
+                $query->orWhere('usuarios.nombre', 'like', "%{$search}%");   
+                $query->orWhere('hotels.nombre', 'like', "%{$search}%");   
+            }); 
+            
+        }
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }

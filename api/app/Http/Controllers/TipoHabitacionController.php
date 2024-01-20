@@ -16,12 +16,16 @@ class TipoHabitacionController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->query('per_page', 2);
+        $search = $request->query('search',false);
 
         $query = TiposHabitaciones::with(['hotel'=>function($query){
             $query->select('id','nombre');
         }])
         ->where('estado',1)->orderBy('nombre', 'asc');
 
+        $query->where(function ($query) use ($search) {
+            $query->where('tipo_habitacion.nombre', 'like', "%{$search}%");         
+        });
 		return $per_page? $query->paginate($per_page) : $query->get();
 
     }

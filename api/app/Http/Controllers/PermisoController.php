@@ -17,9 +17,16 @@ class PermisoController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->query('per_page', 1);
+        $search = $request->query('search',false);
 
         $query = Permiso::where('estado',1)->orderBy('nombre', 'asc');
 
+        $query->where(function ($query) use ($search) {
+            $query->where('permisos.nombre', 'like', "%{$search}%");    
+            $query->where('permisos.codigo', 'like', "%{$search}%");    
+            $query->where('permisos.descripcion', 'like', "%{$search}%");    
+        }); 
+        
         return $per_page? $query->paginate($per_page) : $query->get();
 
     }

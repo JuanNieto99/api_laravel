@@ -39,4 +39,8 @@ class Habitacion extends Model
     public function tipoHabitacion() {
         return $this->belongsTo(TiposHabitaciones::class,'tipo','id');
     }
+
+    public function usuario() {
+        return $this->belongsTo(Usuario::class,'id','usuario_modifica');
+    }
 }

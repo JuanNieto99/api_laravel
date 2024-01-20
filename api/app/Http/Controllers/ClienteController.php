@@ -23,6 +23,7 @@ class ClienteController extends Controller
     public function index(Request $request)
     {
         $per_page = $request->query('per_page', 1);
+        $search = $request->query('search',false);
 
         $query = Cliente::with([
             'ciudad' => function ($query) {
@@ -41,7 +42,23 @@ class ClienteController extends Controller
                 $query->select('id', 'nombre');
             }
         ])
-        ->where('estado',1)->orderBy('nombres', 'asc');
+        ->join('ciudads','ciudads.id','clientes.ciudad_id')
+        ->join('tipo_documentos','tipo_documentos.id','clientes.tipo_documento_id')
+        ->join('generos','generos.id','clientes.genero_id')
+        ->join('hotels','hotels.id','clientes.hotel_id')
+        ->where('clientes.estado',1)->orderBy('clientes.nombres', 'asc');
+
+        if(!empty($search) && $search!=null){
+            
+            $query->where(function ($query) use ($search) { 
+                $query->where('ciudads.nombre', 'like', "%{$search}%");   
+                $query->orWhere('ciudads.codigo_dane', 'like', "%{$search}%");   
+                $query->orWhere('tipo_documentos.nombre', 'like', "%{$search}%");   
+                $query->orWhere('generos.nombre', 'like', "%{$search}%");   
+                $query->orWhere('hotel.nombre', 'like', "%{$search}%");   
+            }); 
+            
+        }
 
         return $per_page? $query->paginate($per_page) : $query->get();
     }
