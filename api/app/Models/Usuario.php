@@ -27,4 +27,8 @@ class Usuario extends Model
         return $this->belongsTo(Rol::class, 'rol_id','id');
     }
 
+    public function usuarioHotel(){ 
+        return $this->belongsTo(HotelDetalleUsuario::class, 'usuario_id','id'); 
+    }
+
 }

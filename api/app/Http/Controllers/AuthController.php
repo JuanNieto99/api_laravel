@@ -25,7 +25,7 @@ class AuthController extends Controller
             ); 
         }
 
-        $usuario = User::with(['roles.rolPermisoDetalle.permiso'])->where('email', '=', $request->email)->first();
+        $usuario = User::with(['roles.rolPermisoDetalle.permiso','usuarioHotel'])->where('email', '=', $request->email)->first();
         //        $usuario = User::join('rols','rols.id','=','usuarios')->where('email', '=', $request->email)->first();
 
         $token = $usuario->createToken("tokens")->plainTextToken;

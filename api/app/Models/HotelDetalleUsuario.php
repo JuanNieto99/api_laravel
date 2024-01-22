@@ -7,5 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class HotelDetalleUsuario extends Model
 {
-    use HasFactory;
+    protected $primaryKey = 'id';
+
+    protected $table='hotel_detalle_usuario'; 
+
+    protected $fillable = [
+        'usuario_id', 
+        'hotel_id', 
+    ];
 }

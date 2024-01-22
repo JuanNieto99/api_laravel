@@ -114,6 +114,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     }); 
 
     Route::post('habitacionesDashboard', [HabitacionController::class, 'listarHabitacionDashboard']); 
+    Route::post('habitacionesDashboardPisos', [HabitacionController::class, 'listarHabitacionDashboardPisos']); 
 
     Route::group(['middleware'=>'permission:hbs'],function(){ 
         //Estado civil

@@ -361,6 +361,7 @@ class HabitacionController extends Controller
     public function listarHabitacionDashboard(Request $request) {
         $validator = Validator::make($request->all(),[ 
             'hotel_id' => 'required|integer',  
+            'piso_id' => 'required|integer',  
         ]);
 
         if($validator->fails()){
@@ -370,11 +371,30 @@ class HabitacionController extends Controller
         $data = Habitacion::with(['detalle'])
         ->select('nombre', 'descripcion', 'diseno_json', 'estado', 'piso', 'id')
         ->where('estado','!=', 0)
-        ->orderBy('piso','asc')
+        ->where('piso',$request->piso_id)
+        ->where('hotel_id',$request->hotel_id)
         ->get();
 
         return $data;
     }
 
 
+    public function listarHabitacionDashboardPisos(Request $request) {
+        $validator = Validator::make($request->all(),[ 
+            'hotel_id' => 'required|integer',     
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+
+        $pisos = Habitacion::where('hotel_id', $request->hotel_id)
+        ->select('piso')
+        ->groupBy('piso')
+        ->get();     
+
+        return [
+            'pisos' => $pisos,
+        ];
+    }
 }
