@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Historial;
+use App\Models\Hotel;
 use App\Models\Inventario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
@@ -204,5 +205,23 @@ class InventarioController extends Controller
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
     }
+
+    public function edit($id)
+    {
+        $inventario = Inventario::where('estado',1)->find($id);
+        $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
+
+        if(!$inventario){
+            return [ 
+                'hotel' => $hotel,
+            ];
+        }
+
+        return [ 
+            'hotel' => $hotel,
+            'inventario' => $inventario,
+        ];
+    } 
+
     
 }

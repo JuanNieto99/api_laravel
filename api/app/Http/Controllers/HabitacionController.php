@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DetalleHabitacion;
 use App\Models\Habitacion;
 use App\Models\Historial;
+use App\Models\Hotel;
 use App\Models\TiposHabitaciones;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -341,12 +342,14 @@ class HabitacionController extends Controller
         $pisos = range(1, 99);
 
         $tipo_habitacion = TiposHabitaciones::select('id','nombre')->Where('estado',1)->get();
+        $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
 
         if(!$habitacion){ 
 
             return [ 
                 'tipo_habitacion' => $tipo_habitacion,
                 'pisos' =>  $pisos,
+                'hotel' => $hotel,
             ];
             
         } 
@@ -355,6 +358,7 @@ class HabitacionController extends Controller
             'habitacion' => $habitacion,
             'tipo_habitacion' => $tipo_habitacion,
             'pisos' =>  $pisos,
+            'hotel' => $hotel,
         ];
     }
 
