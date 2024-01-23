@@ -16,6 +16,7 @@ return new class extends Migration
             $table->json('data_json');
             $table->unsignedTinyInteger('tipo'); //0->autenticacion 1 -> control de habitacion 2 -> facturacion 3 ->inventario 4->cliente  5-> hotel 6->inventario 7->permiso 8->productos 9->receta 10->rol 11->usuario 12->caja  ,13 ->secuencias
             $table->unsignedBigInteger('usuario_id')->nullable(false); 
+            $table->unsignedBigInteger('hotel_id')->nullable(false); 
             $table->timestamp('created_at');
         });
     }

@@ -18,6 +18,7 @@ class DepartamentoController extends Controller
         $query = Departamento::with(['pais'])        
         ->where('estado',1)
         ->join('pais', 'pais.id', 'departamentos.pais_id')
+        ->select('departamentos.*')
         ->orderBy('departamentos.nombre', 'asc');
 
 

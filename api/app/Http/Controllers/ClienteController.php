@@ -46,6 +46,7 @@ class ClienteController extends Controller
         ->join('tipo_documentos','tipo_documentos.id','clientes.tipo_documento_id')
         ->join('generos','generos.id','clientes.genero_id')
         ->join('hotels','hotels.id','clientes.hotel_id')
+        ->select('clientes.*')
         ->where('clientes.estado',1)->orderBy('clientes.nombres', 'asc');
 
         if(!empty($search) && $search!=null){

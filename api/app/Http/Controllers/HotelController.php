@@ -28,7 +28,7 @@ class HotelController extends Controller
         },
         'tipoContribuyente'=> function ($query) {
             $query->select('id','nombre');
-        },]) 
+        },])  
         ->where('hotels.estado',1)->orderBy('hotels.nombre', 'asc');
 
         if(!empty($search) && $search!=null){

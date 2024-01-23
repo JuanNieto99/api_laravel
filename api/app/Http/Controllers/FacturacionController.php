@@ -38,6 +38,7 @@ class FacturacionController extends Controller
         },]) 
         ->join('hotels', 'hotels.id', 'facturacions.hotel_id')
         ->join('clientes', 'clientes.id', 'facturacions.cliente_id')
+        ->select('facturacions.*')
         ->orderBy('facturacions.id', 'desc');
 
         if(!empty($search) && $search!=null){

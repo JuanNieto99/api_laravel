@@ -84,6 +84,7 @@ class ControllerAbonos extends Controller
         ])
         ->join('hotels', 'hotels.id', 'abonos.hotel_id')
         ->join('clientes', 'clientes.id', 'abonos.cliente_id')
+        ->select('abonos.*')
         ->where('abonos.estado','!=',0)->orderBy('abonos.id', 'asc');
 
 

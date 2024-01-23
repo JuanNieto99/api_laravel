@@ -35,6 +35,7 @@ class DetalleHabitacionController extends Controller
         ->join('clientes', 'clientes.id', 'detalle_habitacions.cliente_id')
         ->join('usuario', 'usuario.id', 'detalle_habitacions.usuario_id')
         ->join('hotel', 'hotel.id', 'detalle_habitacions.usuario_id')
+        ->select('detalle_habitacions.*')
         ->orderBy('detalle_habitacions.id', 'asc');
 
 

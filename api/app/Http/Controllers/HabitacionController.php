@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetalleHabitacion;
+use App\Models\EstadoHabitacion;
 use App\Models\Habitacion;
 use App\Models\Historial;
 use App\Models\Hotel;
@@ -36,6 +37,7 @@ class HabitacionController extends Controller
         ])
         ->join('hotels', 'hotels.id', 'habitacions.hotel_id')
         ->join('tipo_habitacion', 'tipo_habitacion.id', 'tipo_habitacion.hotel_id')
+        ->select('habitacions.*')
         ->where('habitacions.estado','!=',0)->orderBy('habitacions.nombre', 'asc');
 
         if(!empty($search) && $search!=null){
@@ -260,7 +262,6 @@ class HabitacionController extends Controller
     public function ocupar(Request $request) {
         
         $validator = Validator::make($request->all(),[ 
-                'usuario_id' => 'required|integer', 
                 'cliente_id' => 'required|integer', 
                 'habitacion_id' => 'required|integer',  
                 'hotel_id' => 'required|integer',  
@@ -276,8 +277,10 @@ class HabitacionController extends Controller
             return response()->json($validator->errors());
         }
 
+        $usuario = auth()->user();
+
         $ocupar = DetalleHabitacion::create([
-            'usuario_id' => $request->usuario_id,
+            'usuario_id' => $usuario->id,
             'cliente_id' => $request->cliente_id,
             'habitacion_id' => $request->habitacion_id, 
             'checkin' =>  Carbon::now()->format('Y-m-d H:i:s'), 
@@ -285,12 +288,35 @@ class HabitacionController extends Controller
         ]); 
 
         if($ocupar){
-            $filasActualizadas = Habitacion::where('id', $request->habitacion_id)
+            EstadoHabitacion::where('habitacion_id', $request->habitacion_id)->delete(); 
+
+            $filasActualizadas = EstadoHabitacion::insert([
+                'estado_id' => 2,
+                'habitacion_id' =>  $request->habitacion_id,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 
+            ]);
+            
+            /*Habitacion::where('id', $request->habitacion_id)
             ->update([
                 'estado' => '2',
-            ]);
-            Log::debug($filasActualizadas);
+            ]);*/
             if($filasActualizadas) {
+
+                $json = [
+                    'asunto' => 'Habitacion Ocupar',
+                    'adjunto' => [
+                        'respuesta' => !empty($filasActualizadas),
+                        'id' => $request->id,
+                    ],
+                ];
+        
+                Historial::insert([
+                    'tipo' => 1,
+                    'data_json' => json_encode($json),
+                    'usuario_id' => $usuario->id,     
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                
+                ]);
+
                 return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]); 
             } else {
                 return response()->json(['error' => 'No se completo correctamente la accion', 'code' => "error"], 404);
@@ -306,7 +332,7 @@ class HabitacionController extends Controller
     public function desocupar(Request $request) {
         
         $validator = Validator::make($request->all(),[ 
-                'id' => 'required|integer', 
+                'id_habitacion' => 'required|integer', 
                 'id_detalle' =>  'required|integer', 
             ], 
             [
@@ -318,23 +344,385 @@ class HabitacionController extends Controller
             return response()->json($validator->errors());
         }
 
-        $filasActualizadas = Habitacion::where('id', $request->id)
+        $usuario = auth()->user();
+        /*$filasActualizadas = Habitacion::where('id', $request->id)
         ->update([
             'estado' => '1',
-        ]); 
-
+        ]); */
         
+        EstadoHabitacion::where('habitacion_id', $request->id_habitacion)->delete(); 
+
+        $filasActualizadas = EstadoHabitacion::insert([
+            'estado_id' => 3,
+            'habitacion_id' =>  $request->id_habitacion,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 
+        ]);
+
         $filasActualizadas = DetalleHabitacion::where('id', $request->id_detalle)
         ->update([
             'checkout' =>  Carbon::now()->format('Y-m-d H:i:s'), 
         ]); 
 
-        if($filasActualizadas) {
+        $json = [
+            'asunto' => 'Habitacion Desocupar',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
+            ],
+        ];
+
+        Historial::insert([
+            'tipo' => 1,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,     
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                
+        ]);
+
+        if($filasActualizadas) {  
             return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]); 
         } else {
             return response()->json(['error' => 'No se completo correctamente la accion', 'code' => "error"], 404);
         } 
 
+    }
+
+    function mantenimiento(Request $request) {
+                
+        $validator = Validator::make($request->all(),
+            [ 
+                'id_habitacion' => 'required|integer',  
+            ], 
+            [
+                'id_habitacion.required' => "El campo es requerio", 
+            ]    
+        );
+
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+
+        $usuario = auth()->user();
+
+        $estado = [2];
+
+        $estados_activos = EstadoHabitacion::whereIn('estado', $estado)
+        ->where('habitacion_id', $request->id_habitacion)
+        ->count();
+
+        if($estados_activos>0){
+            return response()->json(['error' => 'No se completo correctamente la accion porque la habitacion esta ocupada', 'code' => "warning"], 404);
+        }
+        
+
+        $filasActualizadas = EstadoHabitacion::insert([
+            'estado_id' => 6,
+            'habitacion_id' =>  $request->id_habitacion,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 
+        ]);
+
+        $json = [
+            'asunto' => 'Habitacion Mantenimiento',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
+            ],
+        ];
+
+        Historial::insert([
+            'tipo' => 1,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,     
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                
+        ]);
+
+        if($filasActualizadas){ 
+            return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);  
+        } else {
+            return response()->json(['error' => 'No se completo correctamente la accion', 'code' => "error"], 404);
+        }
+    }
+
+    function sacarMantenimiento(Request $request) {
+                
+        $validator = Validator::make($request->all(),
+            [ 
+                'id_habitacion' => 'required|integer',  
+            ], 
+            [
+                'id_habitacion.required' => "El campo es requerio", 
+            ]    
+        );
+
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+
+        $usuario = auth()->user();
+
+        $estado = [2];
+
+        $estados_activos = EstadoHabitacion::whereIn('estado', $estado)
+        ->where('habitacion_id', $request->id_habitacion)
+        ->count();
+
+        if($estados_activos>0){
+            return response()->json(['error' => 'No se completo correctamente la accion porque la habitacion esta ocupada', 'code' => "warning"], 404);
+        } 
+
+        $filasActualizadas = EstadoHabitacion::where('habitacion_id', $request->habitacion_id)
+        ->where('estado_id', 6)
+        ->delete(); 
+
+
+        $json = [
+            'asunto' => 'Habitacion Mantenimiento',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
+            ],
+        ];
+
+        Historial::insert([
+            'tipo' => 1,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,     
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                
+        ]);
+
+        if($filasActualizadas){ 
+            return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);  
+        } else {
+            return response()->json(['error' => 'No se completo correctamente la accion', 'code' => "error"], 404);
+        }
+    }
+
+    function limpieza(Request $request)  {
+        $validator = Validator::make($request->all(),
+            [ 
+                'id_habitacion' => 'required|integer',  
+            ], 
+            [
+                'id_habitacion.required' => "El campo es requerio", 
+            ]    
+        );
+
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+
+        $usuario = auth()->user();
+
+        $estado = [2];
+
+        $estados_activos = EstadoHabitacion::whereIn('estado', $estado)
+        ->where('habitacion_id', $request->id_habitacion)
+        ->count();
+
+        if($estados_activos>0){
+            return response()->json(['error' => 'No se completo correctamente la accion porque la habitacion esta ocupada', 'code' => "warning"], 404);
+        }
+
+        $filasActualizadas = EstadoHabitacion::insert([
+            'estado_id' => 4,
+            'habitacion_id' =>  $request->id_habitacion,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 
+        ]);
+
+        $json = [
+            'asunto' => 'Habitacion Limpieza',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
+            ],
+        ];
+
+        Historial::insert([
+            'tipo' => 1,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,     
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                
+        ]);
+
+        if($filasActualizadas){ 
+            return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);  
+        } else {
+            return response()->json(['error' => 'No se completo correctamente la accion', 'code' => "error"], 404);
+        }
+    }
+
+    function sacarLimpieza(Request $request)  {
+        $validator = Validator::make($request->all(),
+            [ 
+                'id_habitacion' => 'required|integer',  
+            ], 
+            [
+                'id_habitacion.required' => "El campo es requerio", 
+            ]    
+        );
+
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+
+        $usuario = auth()->user();
+
+        $estado = [2];
+
+        $estados_activos = EstadoHabitacion::whereIn('estado', $estado)
+        ->where('habitacion_id', $request->id_habitacion)
+        ->count();
+
+        if($estados_activos>0){
+            return response()->json(['error' => 'No se completo correctamente la accion porque la habitacion esta ocupada', 'code' => "warning"], 404);
+        } 
+
+        $filasActualizadas = EstadoHabitacion::where('habitacion_id', $request->habitacion_id)
+        ->where('estado_id', 4)
+        ->delete(); 
+
+        $json = [
+            'asunto' => 'Habitacion Limpieza',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
+            ],
+        ];
+
+        Historial::insert([
+            'tipo' => 1,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,     
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                
+        ]);
+
+        if($filasActualizadas){ 
+            return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);  
+        } else {
+            return response()->json(['error' => 'No se completo correctamente la accion', 'code' => "error"], 404);
+        }
+    }
+
+
+    function reservar(Request $request)  {
+        $validator = Validator::make($request->all(),
+            [ 
+                'id_habitacion' => 'required|integer',  
+                'cliente_id' => 'required|integer',
+                'habitacion_id' => 'required|integer', 
+                'fecha_inicio' => 'required', 
+                'fecha_final' => 'required', 
+            ]  
+        );
+
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+
+        $usuario = auth()->user();
+
+        $estado = [2];
+
+        $estados_activos = EstadoHabitacion::whereIn('estado', $estado)
+        ->where('habitacion_id', $request->id_habitacion)
+        ->count();
+
+        if($estados_activos>0){
+            return response()->json(['error' => 'No se completo correctamente la accion porque la habitacion esta ocupada', 'code' => "warning"], 404);
+        }
+
+        $filasActualizadas = EstadoHabitacion::insert([
+            'estado_id' => 4,
+            'habitacion_id' =>  $request->id_habitacion,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 
+        ]);
+
+        if(!$filasActualizadas ){
+            return response()->json(['error' => 'No se completo correctamente la accion', 'code' => "error"], 404);
+        }
+
+        $json = [
+            'asunto' => 'Habitacion Ocupar',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
+            ],
+        ];
+
+        Historial::insert([
+            'tipo' => 1,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,     
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                
+        ]);
+
+        if($filasActualizadas){ 
+            return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);  
+        } else {
+            return response()->json(['error' => 'No se completo correctamente la accion', 'code' => "error"], 404);
+        }
+    }
+
+
+    function sacarReservar(Request $request)  {
+        $validator = Validator::make($request->all(),
+            [ 
+                'id_habitacion' => 'required|integer',
+                'id_reserva' => 'required|integer',
+            ], 
+            [
+                'id_habitacion.required' => "El campo es requerio", 
+                'id_reserva.required' => "El campo es requerio", 
+            ]    
+        );
+
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+
+        $usuario = auth()->user();
+
+        $estado = [2];
+
+        $estados_activos = EstadoHabitacion::whereIn('estado', $estado)
+        ->where('habitacion_id', $request->id_habitacion)
+        ->count();
+
+        if($estados_activos>0){
+            return response()->json(['error' => 'No se completo correctamente la accion porque la habitacion esta ocupada', 'code' => "warning"], 404);
+        }
+
+
+        $json = [
+            'asunto' => 'Habitacion Desocupar',
+            'adjunto' => [
+                'respuesta' => !empty($filasActualizadas),
+                'id' => $request->id,
+            ],
+        ];
+
+        Historial::insert([
+            'tipo' => 1,
+            'data_json' => json_encode($json),
+            'usuario_id' => $usuario->id,     
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                
+        ]);
+
+        $filasActualizadas = EstadoHabitacion::where('habitacion_id', $request->habitacion_id)
+        ->where('estado_id', 4)
+        ->delete(); 
+
+        if(!$filasActualizadas ){
+            return response()->json(['error' => 'No se completo correctamente la accion', 'code' => "error"], 404);
+        }
+
+        $filasActualizadas = DetalleHabitacion::where('id', $request->id_reserva) 
+        ->delete(); 
+
+        if($filasActualizadas){ 
+            return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);  
+        } else {
+            return response()->json(['error' => 'No se completo correctamente la accion', 'code' => "error"], 404);
+        }
     }
 
     public function edit($id) {
@@ -372,8 +760,8 @@ class HabitacionController extends Controller
             return response()->json($validator->errors());
         }
 
-        $data = Habitacion::with(['detalle'])
-        ->select('nombre', 'descripcion', 'diseno_json', 'estado', 'piso', 'id')
+        $data = Habitacion::with(['detalle','habitacionEstado'])
+        ->select('nombre', 'descripcion', 'diseno_json', 'piso', 'id')
         ->where('estado','!=', 0)
         ->where('piso',$request->piso_id)
         ->where('hotel_id',$request->hotel_id)

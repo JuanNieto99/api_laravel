@@ -31,6 +31,7 @@ class CajaController extends Controller
         }]) 
         ->join('tipo_cajas','tipo_cajas.id', 'cajas.tipo')
         ->join('hotels','hotels.id', 'cajas.hotel_id')
+        ->select('cajas.*')
         ->where('cajas.estado',1)->orderBy('cajas.nombre', 'asc');
         
         if(!empty($search) && $search!=null){

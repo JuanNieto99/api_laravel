@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             PermisosDetalleSeeder::class,
             ClienteSeeder::class,
             TipoCajaSeeder::class,
+            EstadosSeeder::class,
         ]);
     }
 }

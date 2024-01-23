@@ -43,4 +43,8 @@ class Habitacion extends Model
     public function usuario() {
         return $this->belongsTo(Usuario::class,'id','usuario_modifica');
     }
+
+    public function habitacionEstado() {
+        return $this->belongsTo(EstadoHabitacion::class,'id','habitacion_id');
+    }
 }

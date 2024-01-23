@@ -34,6 +34,7 @@ class ConsumoController extends Controller
         ->join('clientes', 'clientes.id', 'consumos.cliente_id')
         ->join('usuarios', 'usuarios.id', 'consumos.usuario_id')
         ->join('hotels', 'hotels.id', 'consumos.hotel_id')
+        ->select('consumos.*')
         ->where('consumos.estado','!=',0)->orderBy('consumos.id', 'asc');
 
 

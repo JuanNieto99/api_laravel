@@ -12,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('habitacions', function (Blueprint $table) {
+            //estados de la habitacion
+            //2->ocupado 3->disponible 4->limpieza 5->reservada 6-> mantenimiento 
             $table->id();
             $table->string('nombre', 50);
             $table->string('descripcion');
             $table->json('diseno_json');
-            $table->unsignedTinyInteger('estado')->nullable(false); //1->creado 0->eliminado 2->ocupado 3->disponible 4->limpieza
+            $table->unsignedTinyInteger('estado')->nullable(false); //1->creado 0->eliminado 
             $table->unsignedBigInteger('tipo')->nullable(false); 
             $table->unsignedBigInteger('hotel_id')->nullable(false); 
             $table->unsignedBigInteger('capacidad_personas'); 

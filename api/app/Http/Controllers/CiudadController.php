@@ -16,6 +16,7 @@ class CiudadController extends Controller
         $search = $request->query('search',false);
 
         $query = Ciudad::where('estado',1)
+        ->select('ciudads.*')
         ->join('departamentos','departamentos.id', 'ciudads.departamento_id')
         ->orderBy('ciudads.nombre', 'asc');
 
