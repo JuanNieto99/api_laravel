@@ -25,9 +25,10 @@ class AuthController extends Controller
             ); 
         }
 
-        $usuario = User::with(['roles.rolPermisoDetalle.permiso','usuarioHotel'])->where('email', '=', $request->email)->first();
+        $usuario = User::with(['roles.rolPermisoDetalle.permiso','usuario_hotel.hotel'=> function($query){
+            $query->select('id','nombre');
+        }])->where('email', '=', $request->email)->first();
         //        $usuario = User::join('rols','rols.id','=','usuarios')->where('email', '=', $request->email)->first();
-
         $token = $usuario->createToken("tokens")->plainTextToken;
 
         $json = [
@@ -35,12 +36,14 @@ class AuthController extends Controller
             'adjunto' => [],
         ];
 
+        //Log::debug(auth()->user()->usuario_hotel);
+
         Historial::insert([
             'tipo' => 0,
             'data_json' => json_encode($json),
             'usuario_id' => $usuario->id,   
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),     
-        ]);
+        ]); 
 
         return response()
         ->json([
@@ -52,6 +55,7 @@ class AuthController extends Controller
                 'rol_id' => $usuario->rol_id,
                 'estado' => $usuario->estado,
                 'rol' => $usuario->roles,
+                'datalle_hoteles' => $usuario->usuario_hotel,
             ],
             'version' => '1.0.0'
         ]);
@@ -85,8 +89,8 @@ class AuthController extends Controller
 
         $nueva_contrasena =  $numeroAleatorioEnRango.$fechaActual.'lam'; 
         
-        $filasActualizadas = User::where('email', $request->email )
-        ->update([ 
+        $filasActualizadas = User::where('email', $request->email)
+        ->update([
             'password' => bcrypt($nueva_contrasena),
         ]);
 

@@ -44,7 +44,7 @@ class Habitacion extends Model
         return $this->belongsTo(Usuario::class,'id','usuario_modifica');
     }
 
-    public function habitacionEstado() {
-        return $this->belongsTo(EstadoHabitacion::class,'id','habitacion_id');
+    public function habitacion_estado() {
+        return $this->hasMany(EstadoHabitacion::class, 'habitacion_id', 'id');
     }
 }
