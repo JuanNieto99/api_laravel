@@ -54,7 +54,7 @@ class User extends Authenticatable
         return $this->belongsTo(Rol::class, 'rol_id','id');
     }
 
-    public function usuarioHotel(){ 
-        return $this->belongsTo(HotelDetalleUsuario::class, 'usuario_id','id'); 
+    public function usuario_hotel(){ 
+        return $this->hasMany(HotelDetalleUsuario::class, 'usuario_id', 'id'); 
     }
 }

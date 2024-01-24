@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
 use App\Models\DetalleHabitacion;
 use App\Models\EstadoHabitacion;
 use App\Models\Habitacion;
@@ -225,6 +226,7 @@ class HabitacionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    
     public function destroy(Request $request)
     {
         $filasActualizadas = Habitacion::where('id', $request->id)
@@ -442,7 +444,7 @@ class HabitacionController extends Controller
         }
     }
 
-    function sacarMantenimiento(Request $request) {
+    function anularMantenimiento(Request $request) {
                 
         $validator = Validator::make($request->all(),
             [ 
@@ -550,7 +552,7 @@ class HabitacionController extends Controller
         }
     }
 
-    function sacarLimpieza(Request $request)  {
+    function anularLimpieza(Request $request)  {
         $validator = Validator::make($request->all(),
             [ 
                 'id_habitacion' => 'required|integer',  
@@ -602,8 +604,18 @@ class HabitacionController extends Controller
         }
     }
 
+    function getReserva(Request $request) {
+
+        $hotel_id = $request->id;
+        $cliente = Cliente::select('nombres','apellidos','numero_documento')->where('hotel_id',  $hotel_id); 
+
+        return [
+            'cliente' => $cliente,
+        ];
+    }
 
     function reservar(Request $request)  {
+        //agregar validacion de que no hay una reserva para la misma habitacion en las mismas fecha
         $validator = Validator::make($request->all(),
             [ 
                 'id_habitacion' => 'required|integer',  
@@ -620,14 +632,14 @@ class HabitacionController extends Controller
 
         $usuario = auth()->user();
 
-        $estado = [2];
+        $estado = [2,5];
 
         $estados_activos = EstadoHabitacion::whereIn('estado', $estado)
         ->where('habitacion_id', $request->id_habitacion)
         ->count();
 
         if($estados_activos>0){
-            return response()->json(['error' => 'No se completo correctamente la accion porque la habitacion esta ocupada', 'code' => "warning"], 404);
+            return response()->json(['error' => 'No se completo correctamente la accion porque la habitacion esta ocupada, o reservada', 'code' => "warning"], 404);
         }
 
         $filasActualizadas = EstadoHabitacion::insert([
@@ -662,8 +674,7 @@ class HabitacionController extends Controller
         }
     }
 
-
-    function sacarReservar(Request $request)  {
+    public function anualrReservar(Request $request)  {
         $validator = Validator::make($request->all(),
             [ 
                 'id_habitacion' => 'required|integer',
@@ -760,7 +771,7 @@ class HabitacionController extends Controller
             return response()->json($validator->errors());
         }
 
-        $data = Habitacion::with(['detalle','habitacionEstado'])
+        $data = Habitacion::with(['habitacion_estado', 'detalle'])
         ->select('nombre', 'descripcion', 'diseno_json', 'piso', 'id')
         ->where('estado','!=', 0)
         ->where('piso',$request->piso_id)
@@ -789,4 +800,5 @@ class HabitacionController extends Controller
             'pisos' => $pisos,
         ];
     }
+
 }

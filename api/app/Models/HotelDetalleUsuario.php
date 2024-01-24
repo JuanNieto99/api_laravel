@@ -15,4 +15,9 @@ class HotelDetalleUsuario extends Model
         'usuario_id', 
         'hotel_id', 
     ];
+
+
+    function hotel() {
+        return $this->belongsTo(Hotel::class,'hotel_id','id');
+    }
 }
