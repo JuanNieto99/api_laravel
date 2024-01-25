@@ -42,7 +42,7 @@ class RecetaController extends Controller
                 'imagen' => 'image|mimes:jpeg,png,jpg',
                 'descripcion' => 'required|string',
                 'precio' => 'required|numeric',
-                'hotel_id' => 'required|string',
+                'hotel_id' => 'required|numeric',
                 'estado' => 'required|integer',
             ], 
             [
