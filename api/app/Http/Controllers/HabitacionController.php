@@ -45,7 +45,7 @@ class HabitacionController extends Controller
             
             $query->where(function ($query) use ($search) {  
                 $query->Where('habitacions.nombre', 'like', "%{$search}%");  
-                $query->orWhere('hotel.nombre', 'like', "%{$search}%");  
+                $query->orWhere('hotels.nombre', 'like', "%{$search}%");  
                 $query->orWhere('tipo_habitacion.nombre', 'like', "%{$search}%");  
             });
             
