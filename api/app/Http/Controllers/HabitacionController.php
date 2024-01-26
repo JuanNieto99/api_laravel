@@ -606,8 +606,9 @@ class HabitacionController extends Controller
 
     function getReserva(Request $request) {
 
-        $hotel_id = $request->id;
-        $cliente = Cliente::select('nombres','apellidos','numero_documento')->where('hotel_id',  $hotel_id); 
+        $hotel_id = $request->hotel_id;
+        $cliente_busqueda = $request->cliente_busqueda;
+        $cliente = Cliente::select('nombres','apellidos','numero_documento')->where('hotel_id',  $hotel_id)->get(); 
 
         return [
             'cliente' => $cliente,
