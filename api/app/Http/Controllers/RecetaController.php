@@ -21,7 +21,13 @@ class RecetaController extends Controller
         $per_page = $request->query('per_page', 1);
         $search = $request->query('search',false);
 
-        $query = Receta::where('estado',1)->orderBy('nombre', 'asc');
+        $query = Receta::with(['hotel' => function ($query) 
+            {
+                $query->select('nombre','id'); 
+            }
+        ])
+        ->where('estado',1)
+        ->orderBy('nombre', 'asc');
 
         $query->where(function ($query) use ($search) {
             $query->where('recetas.nombre', 'like', "%{$search}%");    

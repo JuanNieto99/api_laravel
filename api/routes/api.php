@@ -278,6 +278,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::post('secuenciaInternaActualizar', [SecuenciaInternaController::class, 'update']); 
     });
 
+    Route::post('getReserva', [HabitacionController::class, 'getReserva']); 
     Route::post('getReservasHabitacionesCalendario', [DetalleHabitacionController::class, 'getReservasCalendario']); 
     Route::post('listatDetalleHabitaciones', [DetalleHabitacionController::class, 'index']); 
     Route::post('registrarReserva', [DetalleHabitacionController::class, 'index']);
