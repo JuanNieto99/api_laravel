@@ -8,6 +8,7 @@ use App\Models\EstadoHabitacion;
 use App\Models\Habitacion;
 use App\Models\Historial;
 use App\Models\Hotel;
+use App\Models\MetodosPago;
 use App\Models\TiposHabitaciones;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -609,9 +610,11 @@ class HabitacionController extends Controller
         $hotel_id = $request->hotel_id;
         $cliente_busqueda = $request->cliente_busqueda;
         $cliente = Cliente::select('nombres','apellidos','numero_documento')->where('hotel_id',  $hotel_id)->get(); 
+        $metodos_pago = MetodosPago::select('nombre', 'id')->get();
 
         return [
             'cliente' => $cliente,
+            'metodos_pago' => $metodos_pago
         ];
     }
 
