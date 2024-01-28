@@ -8,6 +8,7 @@ use App\Models\EstadoHabitacion;
 use App\Models\Habitacion;
 use App\Models\Historial;
 use App\Models\Hotel;
+use App\Models\Productos;
 use App\Models\MetodosPago;
 use App\Models\TiposHabitaciones;
 use Illuminate\Http\Request;
@@ -609,7 +610,17 @@ class HabitacionController extends Controller
 
         $hotel_id = $request->hotel_id;
         $cliente_busqueda = $request->cliente_busqueda;
-        $cliente = Cliente::select('nombres','apellidos','numero_documento')->where('hotel_id',  $hotel_id)->get(); 
+        $cliente = Cliente::select('nombres','apellidos','numero_documento')
+        ->where('hotel_id',  $hotel_id); 
+ 
+        if( $cliente_busqueda ){
+            $cliente->where(function ($query) use ($cliente_busqueda){
+                $query->Where('clientes.nombres', 'like', "%{$cliente_busqueda}%");  
+                $query->orWhere('clientes.apellidos', 'like', "%{$cliente_busqueda}%");  
+                $query->orWhere('clientes.numero_documento', 'like', "%{$cliente_busqueda}%");  
+            });
+        }
+      
         $metodos_pago = MetodosPago::select('nombre', 'id')->get();
 
         return [
@@ -704,8 +715,7 @@ class HabitacionController extends Controller
 
         if($estados_activos>0){
             return response()->json(['error' => 'No se completo correctamente la accion porque la habitacion esta ocupada', 'code' => "warning"], 404);
-        }
-
+        } 
 
         $json = [
             'asunto' => 'Habitacion Desocupar',
@@ -802,6 +812,36 @@ class HabitacionController extends Controller
 
         return [
             'pisos' => $pisos,
+        ];
+    }
+
+    function gatProductosServicio(Request $request) {
+        $validator = Validator::make($request->all(),[     
+           'hotel_id' => 'required|integer',    
+        ]); 
+        
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        } 
+
+        $nombre_busqueda = $request->producto_busqueda;
+        $hotel_id = $request->hotel_id;
+
+
+        $productos = Productos::select('productos.nombre','productos.id')
+        ->join('inventarios','inventarios.id','productos.inventario_id')
+    
+        ->where('inventarios.hotel_id', $hotel_id) ;
+
+        if(!empty($nombre_busqueda)) {
+            $productos->where(function ($query) use ($nombre_busqueda){
+                $query->Where('productos.nombre', 'like', "%{$nombre_busqueda}%");  
+                $query->orWhere('productos.descripcion', 'like', "%{$nombre_busqueda}%");   
+            });
+        } 
+
+        return [
+            'productos' =>  $productos ->get(),
         ];
     }
 
