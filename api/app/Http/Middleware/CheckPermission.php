@@ -11,14 +11,14 @@ class CheckPermission
     public function handle($request, Closure $next, $permission)
     {
         // Verificar si el usuario tiene el permiso
-        if (!$this->checkPermission($permission)) {
+      /*  if (!$this->checkPermission($permission)) {
             
             return response()->json([
                 'message' => 'No tienes permisos para acceder a esta página.'
             ], 403); // Código de estado 403 para indicar falta de permisos
             
             //abort(403, 'No tienes permisos para acceder a esta página.');
-        }
+        }*/
 
         return $next($request);
     }

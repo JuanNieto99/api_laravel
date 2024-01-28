@@ -279,6 +279,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     });
 
     Route::post('getReserva', [HabitacionController::class, 'getReserva']); 
+    Route::post('gatProductosServicio', [HabitacionController::class, 'gatProductosServicio']); 
     Route::post('getReservasHabitacionesCalendario', [DetalleHabitacionController::class, 'getReservasCalendario']); 
     Route::post('listatDetalleHabitaciones', [DetalleHabitacionController::class, 'index']); 
     Route::post('registrarReserva', [DetalleHabitacionController::class, 'index']);

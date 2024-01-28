@@ -6,3 +6,8 @@ lso roles deben listar los permisos
 -tener en cuenta que al facturar o en procesos complicados buscar la manera de que si sucede algun error retroceda todo lo ya echo
 
 - detalle_habitacion_id cambiarlo en consumo en la documentacion
+
+- api se esta demorando mucho en las peticiones 
+- en productos agregarle una opcion o estado que diga que es para venta en dashboard o para reserva
+
+- en productos s
