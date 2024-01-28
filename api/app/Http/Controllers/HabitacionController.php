@@ -9,6 +9,7 @@ use App\Models\Habitacion;
 use App\Models\Historial;
 use App\Models\Hotel;
 use App\Models\Productos;
+use App\Models\MetodosPago;
 use App\Models\TiposHabitaciones;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -619,8 +620,12 @@ class HabitacionController extends Controller
                 $query->orWhere('clientes.numero_documento', 'like', "%{$cliente_busqueda}%");  
             });
         }
+      
+        $metodos_pago = MetodosPago::select('nombre', 'id')->get();
+
         return [
-            'cliente' => $cliente->get(),
+            'cliente' => $cliente,
+            'metodos_pago' => $metodos_pago
         ];
     }
 

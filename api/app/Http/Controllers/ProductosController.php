@@ -90,6 +90,7 @@ class ProductosController extends Controller
             return response()->json($validator->errors());
         }
 
+        
         if(!empty($request->imagen)){
             $imagen = $request->file('imagen'); 
 
@@ -121,6 +122,11 @@ class ProductosController extends Controller
             $imagenData = base64_encode(file_get_contents($path)); 
         }
 
+        if( $request->tipo_producto == 2){
+            $medida_id = 4; 
+        } else {
+            $medida_id = $request->medida_id;
+        }
 
         $producto = Productos::create([
             'nombre' => $request->nombre,
@@ -131,7 +137,7 @@ class ProductosController extends Controller
             'estado' => $request->estado,
             'inventario_id' => $request->inventario_id,
             'sin_limite_cantidad' => $request->limite_cantidad,
-            'medida_id' => $request->medida_id,
+            'medida_id' => $medida_id,
             'stop_minimo' => $request->stop_minimo, 
             'tipo_producto' => $request->tipo_producto,
             'precio_base' => $request->precio_base,
@@ -232,6 +238,11 @@ class ProductosController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors());
         }
+        if( $request->tipo_producto == 2){
+            $medida_id = 4; 
+        } else {
+            $medida_id = $request->medida_id;
+        }
 
         $insert = [
             'nombre' => $request->nombre,
@@ -242,7 +253,7 @@ class ProductosController extends Controller
             'estado' => $request->estado,
             'inventario_id' => $request->inventario_id,
             'sin_limite_cantidad' => $request->limite_cantidad,
-            'medida_id' => $request->medida_id,
+            'medida_id' => $medida_id,
             'stop_minimo' => $request->stop_minimo, 
             'tipo_producto' => $request->tipo_producto,
             'precio_base' => $request->precio_base,
