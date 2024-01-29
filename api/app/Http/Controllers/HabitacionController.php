@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use App\Models\DetalleHabitacion;
+use App\Models\Empleado;
 use App\Models\EstadoHabitacion;
 use App\Models\Habitacion;
 use App\Models\Historial;
 use App\Models\Hotel;
 use App\Models\Productos;
 use App\Models\MetodosPago;
+use App\Models\Tarifa;
 use App\Models\TiposHabitaciones;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redis;
+use Illuminate\Http\Request; 
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -39,7 +40,7 @@ class HabitacionController extends Controller
         },*/
         ])
         ->join('hotels', 'hotels.id', 'habitacions.hotel_id')
-        ->join('tipo_habitacion', 'tipo_habitacion.id', 'tipo_habitacion.hotel_id')
+        ->join('tipo_habitacion', 'tipo_habitacion.id', 'habitacions.tipo')
         ->select('habitacions.*')
         ->where('habitacions.estado','!=',0)->orderBy('habitacions.nombre', 'asc');
 
@@ -62,7 +63,7 @@ class HabitacionController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(),[
-                'nombre' => 'required|string|max:50|unique:habitacions',
+                'nombre' => 'required|string|max:50',
                 'descripcion' => 'required|string', 
                 'diseno_json' => 'required|string',
                 'estado' => 'required|integer', 
@@ -612,7 +613,7 @@ class HabitacionController extends Controller
         $cliente_busqueda = $request->cliente_busqueda;
         $cliente = Cliente::select('nombres','apellidos','numero_documento')
         ->where('hotel_id',  $hotel_id); 
- 
+
         if( $cliente_busqueda ){
             $cliente->where(function ($query) use ($cliente_busqueda){
                 $query->Where('clientes.nombres', 'like', "%{$cliente_busqueda}%");  
@@ -620,12 +621,17 @@ class HabitacionController extends Controller
                 $query->orWhere('clientes.numero_documento', 'like', "%{$cliente_busqueda}%");  
             });
         }
-      
+    
         $metodos_pago = MetodosPago::select('nombre', 'id')->get();
 
+        $tarifas = Tarifa::select('id', 'nombre', 'valor')
+        ->where('hotel_id',  $hotel_id)
+        ->get();
+
         return [
-            'cliente' => $cliente,
-            'metodos_pago' => $metodos_pago
+            'cliente' => $cliente->get(),
+            'metodos_pago' => $metodos_pago,
+            'tarifa' => $tarifas,
         ];
     }
 
@@ -689,7 +695,7 @@ class HabitacionController extends Controller
         }
     }
 
-    public function anualrReservar(Request $request)  {
+    public function anualarReservar(Request $request)  {
         $validator = Validator::make($request->all(),
             [ 
                 'id_habitacion' => 'required|integer',
@@ -785,8 +791,10 @@ class HabitacionController extends Controller
             return response()->json($validator->errors());
         }
 
-        $data = Habitacion::with(['habitacion_estado', 'detalle'])
-        ->select('nombre', 'descripcion', 'diseno_json', 'piso', 'id')
+        $data = Habitacion::with(['habitacion_estado', 'detalle', 'tipoHabitacion'=>function($query){
+            $query->select('id', 'diseno_json', 'nombre');
+        }])
+        ->select('nombre', 'descripcion', 'diseno_json', 'piso', 'id', 'tipo')
         ->where('estado','!=', 0)
         ->where('piso',$request->piso_id)
         ->where('hotel_id',$request->hotel_id)
@@ -817,7 +825,7 @@ class HabitacionController extends Controller
 
     function gatProductosServicio(Request $request) {
         $validator = Validator::make($request->all(),[     
-           'hotel_id' => 'required|integer',    
+            'hotel_id' => 'required|integer',    
         ]); 
         
         if($validator->fails()){
@@ -843,6 +851,29 @@ class HabitacionController extends Controller
         return [
             'productos' =>  $productos ->get(),
         ];
+    }
+
+    function getEmpleadosHabitacion(Request $request) {
+
+        $validator = Validator::make($request->all(),[     
+            'hotel_id' => 'required|integer',    
+        ]); 
+        
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        } 
+
+        $hotel_id = $request->hotel_id;
+
+        $empleados = Empleado::select('id','nombres', 'apellidos')
+        ->where('hotel_id',  $hotel_id)
+        ->where('estado',  1)
+        ->get();
+
+        return [
+            'empleados' => $empleados,
+        ];
+
     }
 
 }

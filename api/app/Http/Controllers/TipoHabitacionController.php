@@ -39,6 +39,7 @@ class TipoHabitacionController extends Controller
                 'nombre' => 'required|string|max:50',
                 'hotel_id' => 'required|integer',
                 'estado' => 'required|integer',
+                'diseno_json'  => 'required|json',
             ], 
             [
                 'nombre.required' => "El campo es requerio",
@@ -57,6 +58,7 @@ class TipoHabitacionController extends Controller
                 'nombre' => $request->nombre,
                 'hotel_id' => $request->hotel_id,
                 'estado' => $request->estado,
+                'diseno_json' => $request->diseno_json,
             ]
         );
 
@@ -112,6 +114,7 @@ class TipoHabitacionController extends Controller
                 'hotel_id' => 'required|integer',
                 'estado' => 'required|integer',
                 'id' => 'required|integer',
+                'diseno_json'  => 'required|json',
             ], 
             [
                 'nombre.required' => "El campo es requerio",
@@ -132,6 +135,7 @@ class TipoHabitacionController extends Controller
             'nombre' => $request->nombre,
             'hotel_id' => $request->hotel_id,
             'estado' => $request->estado,
+            'diseno_json' => $request->diseno_json,
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 

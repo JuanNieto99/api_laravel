@@ -60,6 +60,7 @@ return new class extends Migration
             $table->string('nombre', 50);  
             $table->unsignedTinyInteger('estado');
             $table->unsignedBigInteger('hotel_id')->nullable(false);
+            $table->json('diseno_json');
             $table->foreign('hotel_id')->references('id')->on('hotels')->onUpdate('cascade')->onDelete('restrict');
             $table->timestamps();
         });  

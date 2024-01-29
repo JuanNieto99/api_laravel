@@ -46,5 +46,5 @@ class Habitacion extends Model
 
     public function habitacion_estado() {
         return $this->hasMany(EstadoHabitacion::class, 'habitacion_id', 'id');
-    }
+    } 
 }

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
-            $table->string('nombres', 100);
-            $table->string('apellidos', 50);
+            $table->string('nombres', 70);
+            $table->string('apellidos', 70);
             $table->unsignedTinyInteger('tipo');  // 1 -> natural 2 -> juridico
             $table->unsignedTinyInteger('estado');
             $table->unsignedBigInteger('ciudad_id')->nullable(false);

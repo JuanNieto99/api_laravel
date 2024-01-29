@@ -15,6 +15,7 @@ class TiposHabitaciones extends Model
         'nombre',  
         'hotel_id',  
         'estado', 
+        'diseno_json',
     ];
 
     public function hotel()

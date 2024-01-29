@@ -18,30 +18,35 @@ class TipoHabitacionSeeder extends Seeder
                 'id' => '1',
                 'nombre' => 'Grande', 
                 'hotel_id'=> '1',
+                'diseno_json' => '{"puerta":"puerta3"}',
                 'estado' => '1', // activo = 1, inactivo = 0
             ],
             [
                 'id' => '2',
                 'nombre' => 'Pequeña ', 
                 'hotel_id'=> '1',
+                'diseno_json' => '{"puerta":"puerta3"}',
                 'estado' => '1', // activo = 1, inactivo = 0
             ], 
             [
                 'id' => '3',
                 'nombre' => 'triple ', 
                 'hotel_id'=> '1',
+                'diseno_json' => '{"puerta":"puerta3"}',
                 'estado' => '1', // activo = 1, inactivo = 0
             ], 
             [
                 'id' => '4',
                 'nombre' => 'King', 
                 'hotel_id'=> '1',
+                'diseno_json' => '{"puerta":"puerta3"}',
                 'estado' => '1', // activo = 1, inactivo = 0
             ], 
             [
                 'id' => '5',
                 'nombre' => 'Jumbo', 
                 'hotel_id'=> '1',
+                'diseno_json' => '{"puerta":"puerta3"}',
                 'estado' => '1', // activo = 1, inactivo = 0
             ], 
         ]);

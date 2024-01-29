@@ -113,14 +113,15 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::get('habitacionesEditar/{id}', [HabitacionController::class, 'edit']); 
     }); 
 
-        
+
     //Accion habitacion
+    Route::post('getEmpleadosHabitacion', [HabitacionController::class, 'getEmpleadosHabitacion']); 
     Route::post('ocuparHabitacionCliente', [HabitacionController::class, 'ocupar']); 
     Route::post('desocuparHabitacionCliente', [HabitacionController::class, 'desocupar']);
     Route::post('habitacionesDashboard', [HabitacionController::class, 'listarHabitacionDashboard']); 
     Route::post('habitacionesDashboardPisos', [HabitacionController::class, 'listarHabitacionDashboardPisos']); 
     Route::post('habitacionesReservar', [HabitacionController::class, 'reservar']); 
-    Route::post('habitacionesReservarAnular', [HabitacionController::class, 'anualrReservar']); 
+    Route::post('habitacionesReservarAnular', [HabitacionController::class, 'anualarReservar']); 
     Route::post('habitacionesLimpieza', [HabitacionController::class, 'limpieza']); 
     Route::post('habitacionesLimpiezaAnular', [HabitacionController::class, 'anularLimpieza']); 
     Route::post('habitacionesMantenimiento', [HabitacionController::class, 'mantenimiento']); 
