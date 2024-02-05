@@ -21,8 +21,10 @@ return new class extends Migration
             $table->timestamp('checkout')->nullable(); 
             $table->timestamp('checkin')->nullable(); 
             $table->timestamp('fecha_inicio')->nullable();
-            $table->timestamp('fecha_salida')->nullable();   
-            $table->string('descripcion'); 
+            $table->timestamp('fecha_salida')->nullable();  
+            $table->decimal('total', 12, 2)->nullable();
+            $table->decimal('subtotal', 12, 2)->nullable(); 
+            $table->string('descripcion')->nullable();
             $table->foreign('hotel_id')->references('id')->on('hotels')->onUpdate('cascade')->onDelete('restrict'); 
             $table->foreign('cliente_id')->references('id')->on('clientes')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('habitacion_id')->references('id')->on('habitacions')->onUpdate('cascade')->onDelete('restrict');

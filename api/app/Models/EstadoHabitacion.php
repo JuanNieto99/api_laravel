@@ -14,5 +14,10 @@ class EstadoHabitacion extends Model
     protected $fillable = [ 
         'estado_id',
         'habitacion_id',
+        'estado_habitacion',
+        'fecha_inicio',
+        'fecha_final',
+        'descripcion',
+        'empleado_id'
     ];
 }

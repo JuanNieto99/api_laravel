@@ -25,7 +25,7 @@ return new class extends Migration
             $table->unsignedBigInteger('stop_minimo');
             $table->unsignedBigInteger('visible_venta'); // 1 -> visible, 0->no visible
             $table->decimal('precio_base', 12, 2)->nullable(false);
-            $table->unsignedBigInteger('tipo_producto'); //2->producto 1->servicio 
+            $table->unsignedBigInteger('tipo_producto'); //1->producto 2->servicio 
             $table->foreign('inventario_id')->references('id')->on('inventarios')->onUpdate('cascade')->onDelete('restrict');
             $table->timestamps();
         });

@@ -287,6 +287,14 @@ class PermisoSeeder extends Seeder
                 'id_padre' => 0,
                 'estado' => '1', // activo = 1, inactivo = 0
             ], 
+            [
+                'id' => '35',
+                'codigo' => 'tfa',
+                'nombre' => 'Tarifa ',
+                'descripcion' => 'modulo para ver y administrar las Tarifas',
+                'id_padre' => 0,
+                'estado' => '1', // activo = 1, inactivo = 0
+            ], 
         ]);
     }
 }

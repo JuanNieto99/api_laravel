@@ -21,11 +21,12 @@ class Tarifa extends Model
         'usuario_create_id',
         'usuario_update_id',
         'estado', 
+        'created_at',
     ];
 
     public function detalle()
     {
- 
+
     }
 
     public function hotel() {

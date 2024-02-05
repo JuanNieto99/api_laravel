@@ -17,8 +17,10 @@ return new class extends Migration
             $table->string('descripcion');
             $table->decimal('base', 12, 2)->nullable(false); 
             $table->unsignedBigInteger('tipo')->nullable(false); 
+            $table->unsignedBigInteger('usuario_id')->nullable(false); 
             $table->unsignedTinyInteger('estado')->nullable(false);  //1->creada 0->eliminada 
             $table->timestamps();
+            $table->foreign('usuario_id')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('restrict');
         });
     }
 

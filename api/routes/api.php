@@ -26,6 +26,7 @@ use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\RecetaController;
 use App\Http\Controllers\SecuenciaExternaController;
 use App\Http\Controllers\SecuenciaInternaController;
+use App\Http\Controllers\TarifaController;
 use App\Http\Controllers\TipoDocumentoController;
 use App\Http\Controllers\TipoHabitacionController;
 use App\Models\TiposContribuyentes;
@@ -269,8 +270,15 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::post('secuenciaExternaActualizar', [SecuenciaExternaController::class, 'update']); 
     });
 
-    Route::group(['middleware'=>'permission:sci'],function(){ 
+    Route::group(['middleware'=>'permission:tfa'],function(){ 
+        Route::post('tarifaCrear', [TarifaController::class, 'create']); 
+        Route::post('tarifaListar', [TarifaController::class, 'index']);  
+        Route::post('tarifaEliminar', [TarifaController::class, 'destroy']); 
+        Route::get('tarifaEditar/{id}', [TarifaController::class, 'edit']); 
+        Route::post('tarifaActualizar', [TarifaController::class, 'update']);  
+    });
 
+    Route::group(['middleware'=>'permission:sci'],function(){ 
         Route::post('secuenciaInternaCrear', [SecuenciaInternaController::class, 'create']); 
         Route::post('secuenciaInternaListar', [SecuenciaInternaController::class, 'index']); 
         Route::get('secuenciaInternaMostrar/{id}', [SecuenciaInternaController::class, 'show']); 

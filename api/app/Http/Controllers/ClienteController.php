@@ -85,8 +85,7 @@ class ClienteController extends Controller
             'celular' => 'required|string|max:30', 
             'nivel_studio' => 'required|integer', 
             'correo' => 'required|string|max:50', 
-            'observacion' => 'required|string|max:200', 
-            'usuario_create_id' => 'required|integer',
+            'observacion' => 'required|string|max:200',  
             'hotel_id' => 'required|integer',
         ]);
 

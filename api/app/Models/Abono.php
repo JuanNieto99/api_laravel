@@ -13,11 +13,11 @@ class Abono extends Model
 
     protected $fillable = [
         'hotel_id', 
-        'habitacion_id',
+        'habitacion_detalle_id',
         'cliente_id',  
         'valor',
-        'usuario_id_crea',
-        'usuario_id_actualiza',
+        'metodo_pago_id',
+        'usuario_id_crea', 
         'tipo_abono',
         'estado',
     ];

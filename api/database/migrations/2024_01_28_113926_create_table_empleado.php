@@ -40,6 +40,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('tipo'); //1-> noche 2 ->horas
             $table->unsignedBigInteger('usuario_create_id')->nullable(false); 
             $table->unsignedBigInteger('usuario_update_id')->nullable(); 
+            $table->string('descripcion'); 
             $table->unsignedTinyInteger('estado'); 
             $table->timestamps();
             $table->foreign('tipo_habitacion_id')->references('id')->on('tipo_habitacion')->onUpdate('cascade')->onDelete('restrict');

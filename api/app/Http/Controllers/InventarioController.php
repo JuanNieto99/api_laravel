@@ -25,7 +25,7 @@ class InventarioController extends Controller
 
         $query->where(function ($query) use ($search) { 
             $query->where('inventarios.nombre', 'like', "%{$search}%");    
-            $query->where('inventarios.direccion', 'like', "%{$search}%");     
+            $query->where('inventarios.descripcion', 'like', "%{$search}%");     
         }); 
 
         return $per_page? $query->paginate($per_page) : $query->get();

@@ -24,11 +24,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('estado_id')->nullable(false);  
             $table->unsignedBigInteger('habitacion_id')->nullable(false);  
+            $table->unsignedBigInteger('empleado_id')->nullable();  
             $table->timestamp('fecha_inicio')->nullable();
             $table->timestamp('fecha_final')->nullable();  
             $table->string('descripcion')->nullable();  
             $table->timestamp('created_at');
             $table->foreign('habitacion_id')->references('id')->on('habitacions')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('empleado_id')->references('id')->on('empleados')->onUpdate('cascade')->onDelete('restrict');
         }); 
 
 
