@@ -130,14 +130,25 @@ class DetalleHabitacionController extends Controller
     public function getReservasCalendario(Request $request)
     {
         $hotel_id = $request->hotel_id;
+
         if($hotel_id){
             $hoy = Carbon::now(); 
             $dias_restar = 20; 
-            $detalle = DetalleHabitacion::with(['habitacion'=> function ($query) use ($hotel_id) {
-                $query->where('hotel_id',$hotel_id);
-            }])
-            ->where('estado',1) 
-            ->where('fecha_inicio','>=',$hoy->subDays($dias_restar));
+            $detalle = DetalleHabitacion::with(
+                [
+                'habitacion'=> function ($query) use ($hotel_id) {
+                    $query->where('hotel_id',$hotel_id);
+                    $query->select('id','nombre');
+                },
+                'cliente' =>  function ($query) { 
+                    $query->select('id','nombres', 'apellidos');
+                },
+                ]) 
+            ->select('detalle_habitacions.*')
+            ->join('estado_habitacion','estado_habitacion.habitacion_id','detalle_habitacions.habitacion_id')
+            ->where('estado_habitacion.estado_id', 5)  
+            ->where('detalle_habitacions.fecha_inicio','>=',$hoy->subDays($dias_restar))
+            ->get();
             
             return [
                 'habitaciones' =>  $detalle

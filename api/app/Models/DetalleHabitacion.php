@@ -42,7 +42,10 @@ class DetalleHabitacion extends Model
     }
 
     public function hotel() {
-        return $this->belongsTo(Hotel::class); 
+        return $this->belongsTo(Hotel::class);  
+    }
 
+    function estadoHabitacion() {
+        return $this->belongsTo(EstadoHabitacion::class,'habitacion_id','habitacion_id'); 
     }
 }

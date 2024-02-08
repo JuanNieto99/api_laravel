@@ -11,6 +11,8 @@ class EstadoHabitacion extends Model
 
     protected $table='estado_habitacion'; 
 
+    public $timestamps = false;
+
     protected $fillable = [ 
         'estado_id',
         'habitacion_id',

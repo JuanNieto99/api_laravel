@@ -127,7 +127,8 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::post('habitacionesLimpiezaAnular', [HabitacionController::class, 'anularLimpieza']); 
     Route::post('habitacionesMantenimiento', [HabitacionController::class, 'mantenimiento']); 
     Route::post('habitacionesMantenimientoAnular', [HabitacionController::class, 'anularMantenimiento']); 
-
+    Route::post('checkinReserva', [HabitacionController::class, 'checkinReserva']); 
+    
     Route::group(['middleware'=>'permission:hbs'],function(){ 
         //Estado civil
         Route::post('estadoCivilListar', [EstadoCivilController::class, 'index']); 
