@@ -18,6 +18,7 @@ class Caja extends Model
         'base',  
         'estado',
         'hotel_id',
+        'usuario_id',
         'tipo',
     ];
 
@@ -34,5 +35,9 @@ class Caja extends Model
     public function tipoCajas()
     {
         return $this->belongsTo(TipoCaja::class, 'tipo', 'id');
+    }
+
+    public function usuario()  {
+        return $this->belongsTo(Usuario::class, 'usuario_id', 'id');
     }
 }

@@ -71,6 +71,7 @@ return new class extends Migration
             $table->unsignedBigInteger('estado_id')->nullable(false);  
             $table->unsignedBigInteger('habitacion_id')->nullable(false);  
             $table->unsignedBigInteger('empleado_id')->nullable();  
+            $table->unsignedBigInteger('habitacion_detalle_id')->nullable();   
             $table->timestamp('fecha_inicio')->nullable();
             $table->timestamp('fecha_final')->nullable();  
             $table->string('descripcion')->nullable();  

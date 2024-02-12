@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Abono;
 use App\Models\DetalleHabitacion;
+use App\Models\DetalleHabitacionReserva;
+use App\Models\Habitacion;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;   
+use Illuminate\Support\Facades\DB; // Asegúrate de importar la clase DB desde el espacio de nombres correcto
 
 class DetalleHabitacionController extends Controller
 {
@@ -134,27 +138,56 @@ class DetalleHabitacionController extends Controller
         if($hotel_id){
             $hoy = Carbon::now(); 
             $dias_restar = 20; 
-            $detalle = DetalleHabitacion::with(
-                [
-                'habitacion'=> function ($query) use ($hotel_id) {
-                    $query->where('hotel_id',$hotel_id);
-                    $query->select('id','nombre');
+            $detalle = DetalleHabitacion::with([
+                'habitacion' => function ($query) use ($hotel_id) {
+                    $query->where('hotel_id', $hotel_id)
+                    ->select('id', 'nombre');
                 },
-                'cliente' =>  function ($query) { 
-                    $query->select('id','nombres', 'apellidos');
+                'cliente' => function ($query) {
+                    $query->select('id', 'nombres', 'apellidos');
                 },
-                ]) 
-            ->select('detalle_habitacions.*')
-            ->join('estado_habitacion','estado_habitacion.habitacion_id','detalle_habitacions.habitacion_id')
+            ])
+            ->select('detalle_habitacions.*' )
+            ->join('estado_habitacion', 'estado_habitacion.habitacion_detalle_id', 'detalle_habitacions.id')
             ->where('estado_habitacion.estado_id', 5)  
-            ->where('detalle_habitacions.fecha_inicio','>=',$hoy->subDays($dias_restar))
+            ->where('detalle_habitacions.fecha_inicio', '>=', $hoy->subDays($dias_restar))
             ->get();
+        
             
             return [
                 'habitaciones' =>  $detalle
             ];
         }
 
+    }
+
+    function getDetalleHabitacion($id_detalle_habitacion) {
+        
+        $detalle_habitacion =  DetalleHabitacion::with(['habitacion' => function ($query) {
+            $query->select('id', 'nombre' );
+        },'cliente'=> function ($query) {
+            $query->select('id', 'nombres', 'apellidos');
+        }, 'estadoHabitacion.estado'=> function ($query) {
+            $query->select('id', 'nombre');
+        }])
+        ->where('id', $id_detalle_habitacion)
+        ->first();
+
+        $tarifas = DetalleHabitacionReserva::with(['tarifa'=> function ($query) {
+            $query->select('id', 'nombre' );
+        }])
+        ->where('reserva_detalle_id', $id_detalle_habitacion)
+        ->where('tipo', 3)->get();
+
+        $abonos = Abono::with(['metodoPago' => function ($query) {
+            $query->select('id', 'nombre' );
+        }])->where('habitacion_detalle_id',  $id_detalle_habitacion)->get();
+        
+        return [
+            'detalle_habitacion' =>  $detalle_habitacion,
+            'tarifas' => $tarifas,
+            'abonos' => $abonos,
+        ];
     }
 
 }

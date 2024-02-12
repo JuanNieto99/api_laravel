@@ -36,4 +36,8 @@ class Abono extends Model
     function usuarioCreate() {
         return $this->belongsTo(Usuario::class,'usuario_id_crea', 'id');    
     }
+
+    function metodoPago()  {
+        return $this->belongsTo(MetodosPago::class, 'metodo_pago_id');    
+    }
 }

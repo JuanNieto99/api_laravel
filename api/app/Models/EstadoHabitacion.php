@@ -20,6 +20,12 @@ class EstadoHabitacion extends Model
         'fecha_inicio',
         'fecha_final',
         'descripcion',
-        'empleado_id'
+        'empleado_id',
+        'habitacion_detalle_id',
     ];
+
+
+    function estado() { 
+        return $this->belongsTo(Estado::class,'estado_id', 'id');   
+    }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ConsumoController;
 use App\Http\Controllers\ControllerAbonos;
 use App\Http\Controllers\DepartamentoController;
+use App\Http\Controllers\DetalleCajaController;
 use App\Http\Controllers\DetalleHabitacionController;
 use App\Http\Controllers\EstadoCivilController;
 use App\Http\Controllers\FacturacionController;
@@ -128,7 +129,8 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::post('habitacionesMantenimiento', [HabitacionController::class, 'mantenimiento']); 
     Route::post('habitacionesMantenimientoAnular', [HabitacionController::class, 'anularMantenimiento']); 
     Route::post('checkinReserva', [HabitacionController::class, 'checkinReserva']); 
-    
+    Route::get('detalleHabitacion/{id}', [DetalleHabitacionController::class, 'getDetalleHabitacion']); 
+
     Route::group(['middleware'=>'permission:hbs'],function(){ 
         //Estado civil
         Route::post('estadoCivilListar', [EstadoCivilController::class, 'index']); 
@@ -221,6 +223,11 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::post('cajaAbir', [CajaController::class, 'abrirCaja']); 
         Route::post('cajaCerrar', [CajaController::class, 'cerrarCaja']); 
         Route::post('cajaRegistroAdicional', [CajaController::class, 'registroAdicionalCaja']); 
+        Route::get('getAbrirCaja/{id}', [CajaController::class, 'getAbrirCaja']); 
+        Route::post('cajaDetalleListar', [DetalleCajaController::class, 'index']); 
+        Route::post('cajaControlEliminar', [DetalleCajaController::class, 'destroy']); 
+
+
     });
     
 

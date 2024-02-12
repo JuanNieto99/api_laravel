@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('habitacions', function (Blueprint $table) {
             //estados de la habitacion
-            //2->ocupado 3->disponible 4->limpieza 5->reservada 6-> mantenimiento 
+            //2->ocupado 3->disponible 4->limpieza 5->reservada 6-> mantenimiento 7->facturacion
             $table->id();
             $table->string('nombre', 50);
             $table->string('descripcion');

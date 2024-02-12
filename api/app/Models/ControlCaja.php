@@ -26,4 +26,8 @@ class ControlCaja extends Model
     public function detalleCajas() {
         return $this->belongsTo(DetalleCaja::class,'id','habitacion_id');
     }
+    
+    public function caja() {
+        return $this->belongsTo(Caja::class, 'caja_id','id');
+    }
 }

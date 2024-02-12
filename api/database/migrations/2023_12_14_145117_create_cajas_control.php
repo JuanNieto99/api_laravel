@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cajas_control', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('caja_id')->nullable(false); 
+            $table->unsignedBigInteger('caja_id')->nullable(false);  
             $table->timestamp('abrir_caja');
             $table->timestamp('cierre_caja')->nullable(); 
             $table->decimal('abrir_saldo', 12, 2)->nullable();
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('diferencia', 12, 2)->nullable();
             $table->unsignedBigInteger('usuario_id_abre')->nullable(false); 
             $table->unsignedBigInteger('usuario_id_cierra')->nullable(); 
-            $table->unsignedTinyInteger('estado')->nullable(false)->default(0); // 1->abierta 0->cerrada  
+            $table->unsignedTinyInteger('estado')->nullable(false)->default(0); // 1->abierta 2->cerrada 0->anulada
             $table->timestamps();
             $table->foreign('usuario_id_abre')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('caja_id')->references('id')->on('cajas')->onUpdate('cascade')->onDelete('restrict');

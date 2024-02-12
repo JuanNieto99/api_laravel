@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('valor', 12, 2)->nullable(false); 
             $table->unsignedBigInteger('reserva_detalle_id')->nullable(false); // hace referencia a el id e la reserva o del producto
             $table->unsignedBigInteger('item_id')->nullable(false); 
+            $table->unsignedTinyInteger('estado_id')->default(1);
             $table->foreign('reserva_detalle_id')->references('id')->on('detalle_habitacions')->onUpdate('cascade')->onDelete('restrict'); 
         });  
     }

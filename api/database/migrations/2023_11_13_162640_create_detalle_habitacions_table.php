@@ -25,6 +25,7 @@ return new class extends Migration
             $table->decimal('total', 12, 2)->nullable();
             $table->decimal('subtotal', 12, 2)->nullable(); 
             $table->string('descripcion')->nullable();
+            $table->unsignedTinyInteger('estado_id')->default(1); 
             $table->foreign('hotel_id')->references('id')->on('hotels')->onUpdate('cascade')->onDelete('restrict'); 
             $table->foreign('cliente_id')->references('id')->on('clientes')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('habitacion_id')->references('id')->on('habitacions')->onUpdate('cascade')->onDelete('restrict');

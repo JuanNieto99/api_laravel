@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Abono;
+use App\Models\Caja;
 use App\Models\Cliente;
+use App\Models\ControlCaja;
+use App\Models\DetalleCaja;
 use App\Models\DetalleHabitacion;
 use App\Models\DetalleHabitacionReserva;
 use App\Models\Empleado;
@@ -19,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\ErrorHandler\Debug;
 
 class HabitacionController extends Controller
 {
@@ -279,28 +283,29 @@ class HabitacionController extends Controller
         $validator = Validator::make($request->all(),
         [ 
             'habitacion_id' => 'required|integer',  
+            'id_detalle' => 'required|integer', 
         ] );
 
         if($validator->fails()){
             return response()->json($validator->errors());
         }
 
-        $estado = EstadoHabitacion::where('habitacion_id',  $request->habitacion_id)
+        $estado = EstadoHabitacion::where('habitacion_detalle_id',  $request->id_detalle)
         ->where('estado_id',5)
-        ->count(); 
-        Log::debug($estado);
+        ->count();  
+
         if(($estado) ==0 ){
             return response()->json(['error' => 'Solo se puede ocupar una habitacion reservada', 'code' => "warning"], 200);
         }
 
         $usuario = auth()->user();
 
-        DetalleHabitacion::where('habitacion_id',  $request->habitacion_id)->update([
+        DetalleHabitacion::where('id',  $request->id_detalle)->update([
             'checkin'=> Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
-        $filas_actualizadas = EstadoHabitacion::where('habitacion_id',  $request->habitacion_id)->update([
+        $filas_actualizadas = EstadoHabitacion::where('habitacion_detalle_id',  $request->id_detalle)->update([
             'estado_id' => 2, 
         ]); 
 
@@ -320,7 +325,7 @@ class HabitacionController extends Controller
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                
         ]); 
 
-          
+        
         if($filas_actualizadas) { 
             return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]); 
         } else {
@@ -348,11 +353,19 @@ class HabitacionController extends Controller
         }
 
         $usuario = auth()->user();
+        
+            $caja = Caja::with(['control_caja'])
+            ->where('usuario_id', $usuario->id)
+            ->where('estado', 1)
+            ->first();
 
-        $habitacion_estado = EstadoHabitacion::select('estado_id') 
-        ->where('habitacion_id', $request->habitacion_id);
+            if(!$caja->control_caja){
+                return response()->json(['error' => 'No hay ninguna caja abierta', 'code' => "warning"], 200);
+            }
 
- 
+            /*  $habitacion_estado = EstadoHabitacion::select('estado_id') 
+            ->where('habitacion_id', $request->habitacion_id);*/
+
             $detalle_habitacion = DetalleHabitacion::create([
                 'usuario_id' => $usuario->id,
                 'cliente_id' => $request->cliente_id,
@@ -370,12 +383,14 @@ class HabitacionController extends Controller
                 'fecha_inicio' => $request->fecha_inicio,
                 'fecha_final' => $request->fecha_final,
                 'descripcion' => $request->descripcion,
+                'habitacion_detalle_id' => $detalle_habitacion->id,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 
             ]); 
     
             $abonos = [];
             $productos = [];
-    
+            $tipo = 1; // 1-> ingreso 2-> egreso
+
             foreach ($request->abonos as $key => $value) {
     
                 $abonos[] = [
@@ -389,6 +404,19 @@ class HabitacionController extends Controller
                     'estado' => 1,
                     'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 
                     'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                ];
+
+                $detale_caja_abono [] = [
+                    'tipo' => $tipo,
+                    'estado' => 1,
+                    'usuario_id' => $usuario->id,
+                    'caja_id' => $caja->id,
+                    'caja_control_id' => $caja['control_caja']['id'],
+                    'precio' => $value['monto'],
+                    'metodo_pago_id' => $value['medio_pago']['id'],
+                    'operacion_id' => 1,
+                    'referencia_id' => $detalle_habitacion->id,
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 ];
             }
     
@@ -413,6 +441,7 @@ class HabitacionController extends Controller
     
             if($abonos){  
                 Abono::insert($abonos);    
+                DetalleCaja::insert($detale_caja_abono);
             }
     
             if($productos){  
@@ -465,7 +494,55 @@ class HabitacionController extends Controller
 
         $usuario = auth()->user();
 
-        $estado_habitacion = DetalleHabitacion::where('habitacion_id', $request->id_habitacion)
+        $estado_habitacion = EstadoHabitacion::where('estado_id', 2)
+        ->where('habitacion_id', $request->id_habitacion)
+        ->select('habitacion_detalle_id', 'id')
+        ->first();
+
+        $habitacion_detalle_id = $estado_habitacion['habitacion_detalle_id'];
+
+        $filasActualizadas = DetalleHabitacion::where('id', $habitacion_detalle_id )
+        ->update([
+            'checkout' =>  Carbon::now()->format('Y-m-d H:i:s'), 
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'), 
+        ]);
+
+        EstadoHabitacion::where('id',  $estado_habitacion->id)
+        ->update([
+            'estado_id' => 7,
+        ]);
+
+        $devolver_abono = DetalleCaja::
+        where('operacion_id', 1)
+        ->where('referencia_id', $habitacion_detalle_id)->get();
+/*
+        $abono_regresado = [];
+
+        $tipo = 2; //1->ingreso 2->egreso
+
+        foreach ($devolver_abono  as $key => $value) {
+            $abono_regresado [] = [
+                'tipo' => $tipo,
+                'estado' => 1,
+                'usuario_id' => $usuario->id,
+                'caja_id' => $value->caja_id,
+                'caja_control_id' => $value->caja_control_id,
+                'precio' => $value->precio,
+                'referencia_id' => 
+                'metodo_pago_id' =>  $value->metodo_pago_id,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'operacion_id' => 1,
+            ];
+        }
+
+        DetalleCaja::insert($abono_regresado);
+        Abono::where('habitacion_detalle_id', $habitacion_detalle_id)->update([
+            'estado' => 0,
+        ]);*/
+
+
+        /*   $estado_habitacion = DetalleHabitacion::where('habitacion_id', $request->id_habitacion)
+        ->where('')
         ->select('id')
         ->first();   
 
@@ -482,12 +559,12 @@ class HabitacionController extends Controller
             'checkout' =>  Carbon::now()->format('Y-m-d H:i:s'), 
         ]); 
 
-        EstadoHabitacion::where('habitacion_id', $request->id_habitacion)
+       EstadoHabitacion::where('habitacion_id', $request->id_habitacion)
         ->where('estado_id', 2)
-        ->delete(); 
+        ->delete(); */
         
-        Abono::where('habitacion_detalle_id', $id_detalle)->delete();
-        DetalleHabitacionReserva::where('reserva_detalle_id', $id_detalle)->delete();
+      /*  Abono::where('habitacion_detalle_id', $id_detalle)->delete();
+        DetalleHabitacionReserva::where('reserva_detalle_id', $id_detalle)->delete();*/
 
         $json = [
             'asunto' => 'Habitacion Desocupar',
@@ -831,24 +908,35 @@ class HabitacionController extends Controller
 
         $usuario = auth()->user();
 
-        $estado = [2,5];
+/*        $estado = [2,5];
 
         $estados_activos = EstadoHabitacion::whereIn('estado_id', $estado)
         ->where('habitacion_id', $request->habitacion_id)
-        ->count();
+        ->count();*/
+        $caja = Caja::with(['control_caja' => function ($query)  {
+            $query->where('estado', 1);
+        }])
+        ->where('usuario_id', $usuario->id)
+        ->where('estado', 1)
+        ->first();
 
-        if($estados_activos>0){
-            return response()->json(['error' => 'No se completo correctamente la accion porque la habitacion esta ocupada, o reservada', 'code' => "warning"], 200);
+        Log::debug($caja);
+        if(!$caja->control_caja){
+            return response()->json(['error' => 'No hay ninguna caja abierta', 'code' => "warning"], 200);
         }
 
-        $filasActualizadas = EstadoHabitacion::insert([
-            'estado_id' => 5, // reservada
-            'habitacion_id' => $request->habitacion_id,
-            'fecha_inicio' => $request->fecha_inicio,
+        $data = [
+            'fecha_incio' => $request->fecha_inicio,
             'fecha_final' => $request->fecha_final,
-            'descripcion' => $request->descripcion,
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 
-        ]); 
+            'habitacion_id' => $request->habitacion_id,
+        ];
+
+        $validacionFechas = $this->validarFechasSobrePuestas( $data);
+        
+        if(!$validacionFechas['estado']){ 
+            return response()->json(['error' => $validacionFechas['mensaje'], 'code' => "warning"], 200);
+        }
+
 
         $detalle_habitacion = DetalleHabitacion::create([
             'usuario_id' => $usuario->id,
@@ -862,13 +950,25 @@ class HabitacionController extends Controller
             'subtotal' => $request->subtotal,
         ]);
 
+        $filasActualizadas = EstadoHabitacion::insert([
+            'estado_id' => 5, // reservada
+            'habitacion_id' => $request->habitacion_id,
+            'fecha_inicio' => $request->fecha_inicio,
+            'fecha_final' => $request->fecha_final,
+            'descripcion' => $request->descripcion,
+            'habitacion_detalle_id' => $detalle_habitacion->id,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 
+        ]); 
+
+
         $abonos = [];
         $productos = [];
-
+        $detale_caja_abono = [];
+        $tipo = 1; //1->ingreso 2->egreso
         foreach ($request->abonos as $key => $value) {
 
             $abonos[] = [
-                'hotel_id' => $request->habitacion_id,
+                'hotel_id' => $request->hotel_id,
                 'habitacion_detalle_id' => $detalle_habitacion->id,
                 'cliente_id' => $request->cliente_id,
                 'valor' => $value['monto'],
@@ -879,16 +979,32 @@ class HabitacionController extends Controller
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ];
-        }
 
-        foreach ($request->productos as $key => $value) { 
-            $productos[] = [
-                'tipo' => $value['tipo'],
-                'valor' =>  $value['valor'],
-                'item_id' =>  $value['code'],
-                'reserva_detalle_id' => $detalle_habitacion->id,
+            $detale_caja_abono [] = [
+                'tipo' => $tipo,
+                'estado' => 1,
+                'usuario_id' => $usuario->id,
+                'caja_id' => $caja->id,
+                'caja_control_id' => $caja['control_caja']['id'],
+                'precio' => $value['monto'],
+                'metodo_pago_id' => $value['medio_pago']['id'],
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'referencia_id' =>  $detalle_habitacion->id,
+                'operacion_id' => 1,
             ];
         }
+        if($request->productos){
+
+            foreach ($request->productos as $key => $value) { 
+                $productos[] = [
+                    'tipo' => $value['tipo'],
+                    'valor' =>  $value['valor'],
+                    'item_id' =>  $value['code'],
+                    'reserva_detalle_id' => $detalle_habitacion->id,
+                ];
+            }
+        }
+
 
         foreach ($request->tarifas as $key => $value) { 
             $productos[] = [
@@ -902,6 +1018,7 @@ class HabitacionController extends Controller
 
         if($abonos){  
             Abono::insert($abonos);    
+            DetalleCaja::insert($detale_caja_abono);
         }
 
         if($productos){  
@@ -934,6 +1051,7 @@ class HabitacionController extends Controller
         $validator = Validator::make($request->all(),
             [ 
                 'id_habitacion' => 'required|integer', 
+                'id_detalle' => 'required|integer', 
             ], 
             [
                 'id_habitacion.required' => "El campo es requerio",  
@@ -956,6 +1074,35 @@ class HabitacionController extends Controller
             return response()->json(['error' => 'No se completo correctamente la accion porque la habitacion esta ocupada', 'code' => "warning"], 200);
         } 
 
+        $devolver_abono = DetalleCaja::
+        where('operacion_id', 1)
+        ->where('referencia_id', $request->id_detalle)->get();
+
+        $abono_regresado = [];
+
+        $tipo = 2; //1->ingreso 2->egreso
+
+        foreach ($devolver_abono  as $key => $value) {
+            $abono_regresado [] = [
+                'tipo' => $tipo,
+                'estado' => 1,
+                'usuario_id' => $usuario->id,
+                'caja_id' => $value->caja_id,
+                'caja_control_id' => $value->caja_control_id,
+                'precio' => $value->precio,
+                'metodo_pago_id' =>  $value->metodo_pago_id,
+                'referencia_id' => $request->id_detalle,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'operacion_id' => 1,
+            ];
+        }
+
+        DetalleCaja::insert($abono_regresado);
+        
+        Abono::where('habitacion_detalle_id',$request->id_detalle)->update([
+            'estado' => 0,
+        ]);
+
         $json = [
             'asunto' => 'Habitacion Desocupar',
             'adjunto' => [
@@ -971,25 +1118,20 @@ class HabitacionController extends Controller
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),                
         ]);
 
-        $filasActualizadas = EstadoHabitacion::where('habitacion_id', $request->id_habitacion)
+        DetalleHabitacionReserva::where('reserva_detalle_id', $request->id_detalle)->update([
+            'estado_id' => 0
+        ]);
+
+        $filasActualizadas = EstadoHabitacion::where('habitacion_detalle_id', $request->id_detalle)
         ->where('estado_id', 5)
-        ->delete(); 
+        ->update([
+            'estado_id' => 0
+        ]);
 
-        if(!$filasActualizadas ){
-            return response()->json(['error' => 'No se completo correctamente la accion', 'code' => "error"], 200);
-        }  
-    
-        $estado_habitacion = DetalleHabitacion::where('habitacion_id', $request->id_habitacion)
-        ->select('id')
-        ->first();   
-
-        $id_detalle = $estado_habitacion['id'];
-    
-        Abono::where('habitacion_detalle_id', $id_detalle)->delete();
-        DetalleHabitacionReserva::where('reserva_detalle_id', $id_detalle)->delete();
-
-        $filasActualizadas = DetalleHabitacion::where('habitacion_id', $request->id_habitacion) 
-        ->delete(); 
+        $filasActualizadas = DetalleHabitacion::where('id', $request->id_detalle) 
+        ->update([
+            'estado_id' => 0
+        ]);
 
         if($filasActualizadas){ 
             return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);  
@@ -1137,6 +1279,7 @@ class HabitacionController extends Controller
                     ->where('fecha_final', '>', $fecha_final);
             });
         })
+        ->where('estado_id','!=',0)
         ->first(); 
 
         if ($data) {
@@ -1174,4 +1317,5 @@ class HabitacionController extends Controller
             ];
         }
     }
+
 }

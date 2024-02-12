@@ -20,6 +20,12 @@ class DetalleCaja extends Model
         'precio',
         'metodo_pago_id',
         'caja_control_id',
+        'operacion_id',
+        'referencia_id',
         'created_at', 
     ];
+
+    public function caja() {
+        return $this->belongsTo(Caja::class, 'caja_id','id');
+    }
 }

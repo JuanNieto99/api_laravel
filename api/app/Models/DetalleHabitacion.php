@@ -20,7 +20,7 @@ class DetalleHabitacion extends Model
         'checkin',
         'fecha_inicio',
         'fecha_salida',
-        'estado',
+        'estado_id',
         'facturacion_id',
         'descripcion',
         'hotel_id',
@@ -45,7 +45,14 @@ class DetalleHabitacion extends Model
         return $this->belongsTo(Hotel::class);  
     }
 
-    function estadoHabitacion() {
+    public function estadoHabitacion() {
         return $this->belongsTo(EstadoHabitacion::class,'habitacion_id','habitacion_id'); 
     }
+
+    public function  detalleHabitacionReserva()  {
+        return $this->belongsTo(DetalleHabitacionReserva::class,'id','reserva_detalle_id');  
+
+    }
+
+    
 }

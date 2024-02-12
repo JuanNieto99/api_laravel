@@ -12,6 +12,7 @@ use App\Models\TipoCaja;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class CajaController extends Controller
 {
@@ -60,6 +61,7 @@ class CajaController extends Controller
                 'estado' => 'required|integer',
                 'hotel_id' => 'required|integer',
                 'tipo' => 'required|integer',
+                'usuario_id' => 'required|integer',
             ], 
             [
                 'nombre.required' => "El campo es requerio",
@@ -84,6 +86,7 @@ class CajaController extends Controller
             'estado' => $request->estado,
             'hotel_id' => $request->hotel_id,
             'tipo' => $request->tipo,
+            'usuario_id' => $request->usuario_id,
         ]);
 
         $json = [
@@ -174,6 +177,7 @@ class CajaController extends Controller
                 'hotel_id' => 'required|integer',
                 'id' => 'required|integer',
                 'tipo' => 'required|integer',
+                'usuario_id' => 'required|integer',
             ], 
             [
                 'nombre.required' => "El campo es requerio",
@@ -201,6 +205,7 @@ class CajaController extends Controller
             'estado' => $request->estado,
             'hotel_id' => $request->hotel_id,
             'tipo' => $request->tipo,
+            'usuario_id' => $request->usuario_id,
         ]);
 
         $json = [
@@ -270,13 +275,11 @@ class CajaController extends Controller
 
         $validator = Validator::make($request->all(),[ 
                 'caja_id' => 'required|integer', 
-                'saldo_base'  => 'required|numeric', 
-                'usuario_id_abre' => 'required|integer', 
+                'saldo_base'  => 'required|numeric',  
             ], 
             [
                 'caja_id.required' => "El campo es requerio", 
-                'saldo_base.required' => "El campo es requerio", 
-                'usuario_id_abre.required' => "El campo es requerio", 
+                'saldo_base.required' => "El campo es requerio",  
             ]  
         );
 
@@ -291,7 +294,7 @@ class CajaController extends Controller
         ->count();
         
         if( $cajas_abiertas > 0){
-            return response()->json(['mensaje' => 'Solo es posible abrir una caja', 'code' => "warning"]);
+            return response()->json(['error' => 'Solo es posible abrir una caja', 'code' => "warning"]);
         }
 
         $controlCaja = ControlCaja::create(
@@ -328,36 +331,49 @@ class CajaController extends Controller
         }
     }
 
+
     function cerrarCaja(Request $request) {
         $caja_id = $request->caja_id; 
+        $id_control_caja = $request->control_caja_id; 
 
-        $controlCaja = ControlCaja::where('caja_id', $caja_id )
+        $controlCaja = ControlCaja::where('id', $id_control_caja )
         ->where('estado', 1) 
-        ->select('id','abrir_saldo')
+        ->select('id','abrir_saldo', 'abrir_caja')
         ->first();
 
         if(!$controlCaja){
-            return response()->json(['mensaje' => 'No hay ninguna caja abierta', 'code' => "warning"]);
+            return response()->json(['mensaje' => 'No hay caja abierta', 'code' => "warning"]);
         }
 
-        $id_control_caja = $controlCaja->id;
         $saldo_abrir =  $controlCaja->abrir_saldo;
+ 
 
-        $detalleCaja = DetalleCaja::where('caja_control_id', $id_control_caja)
-        ->selectRaw('SUM(precio) as total_precio')
+        $detalleCajaIngreso = DetalleCaja::where('caja_control_id', $id_control_caja)
+        ->where('created_at','>=', $controlCaja ['abrir_caja'] )
+        ->selectRaw('SUM(precio) as total_precio_ingreso')
+        ->where('tipo',1 )
         ->first();
 
-        $detalle_caja_precio = $detalleCaja["total_precio"];
+
+        $detalleCajaEgreso = DetalleCaja::where('caja_control_id', $id_control_caja)
+        ->where('created_at','>=', $controlCaja ['abrir_caja'] )
+        ->selectRaw('SUM(precio) as total_precio_egreso')
+        ->where('tipo',2)
+        ->first();
+
+        $totalIngreso = empty($detalleCajaIngreso["total_precio_ingreso"])?0:$detalleCajaIngreso["total_precio_ingreso"]; 
+        $totalEgreso = empty($detalleCajaIngreso["total_precio_egreso"])?0:$detalleCajaIngreso["total_precio_egreso"]; 
+        $detalle_caja_precio = $totalIngreso  - $totalEgreso ;
 
         $usuario = auth()->user();
-
+        $updateControlCaja = true;
         $updateControlCaja = ControlCaja::where('caja_id', $caja_id )
         ->where('estado', 1) 
         ->update(
             [
                 'cierre_caja' => Carbon::now()->format('Y-m-d H:i:s'),
-                'cierre_saldo' => $detalle_caja_precio,
-                'diferencia' => $saldo_abrir - $detalle_caja_precio,
+                'cierre_saldo' => $saldo_abrir - $detalle_caja_precio,
+                'diferencia' => $detalle_caja_precio,
                 'usuario_id_cierra' => $usuario->id,
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'), 
                 'estado' => 2,
@@ -421,5 +437,18 @@ class CajaController extends Controller
         DetalleCaja::insert($medios_pagos_caja_array);  
 
         return response()->json(['mensaje' => 'Agregado correctamente ', 'code' => "success"]);
+    }
+
+
+    public function getAbrirCaja($usuario_id) {
+        $caja = Caja::with(['usuario' => function ($query) {
+            $query->select('id', 'usuario');
+        }])
+        ->where('usuario_id', $usuario_id)
+        ->first();
+
+        return [
+            'caja' => $caja,
+        ];
     }
 }
