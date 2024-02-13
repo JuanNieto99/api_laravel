@@ -1318,4 +1318,56 @@ class HabitacionController extends Controller
         }
     }
 
+    public function getRoomDashBoard(Request $request) {
+        
+        $habitacion_data_estado = EstadoHabitacion::where('habitacion_id', $request->habitacion_id)
+        ->whereIn('estado_id', [2,7])->first();  
+
+        $habitacion_data = DetalleHabitacion::with(['habitacion' => function($query){
+            $query->select('id', 'nombre');
+        }])
+        ->where('habitacion_id', $request->habitacion_id)
+        ->where('id', $habitacion_data_estado->habitacion_detalle_id)
+        ->first();
+
+        $abono  = Abono::where('habitacion_detalle_id',$habitacion_data_estado->habitacion_detalle_id)
+        ->get();
+
+        $tarifasHabitacion = DetalleHabitacionReserva::where('tipo', 3)
+        ->where('reserva_detalle_id', $habitacion_data_estado->habitacion_detalle_id)
+        ->get();
+
+
+        $productosHabitacion = DetalleHabitacionReserva::where('tipo', 1)
+        ->where('reserva_detalle_id', $habitacion_data_estado->habitacion_detalle_id)
+        ->get();
+
+
+        $serviciosHabitacion = DetalleHabitacionReserva::where('tipo', 2)
+        ->where('reserva_detalle_id', $habitacion_data_estado->habitacion_detalle_id)
+        ->get();
+
+        $tarifas = Tarifa::where('estado', 1)->where('hotel_id',  $habitacion_data->hotel_id)->get();
+
+        $productos = Productos::where('productos.estado', 1)
+        ->join('inventarios','inventarios.id','productos.inventario_id')
+        ->where('inventarios.hotel_id', $habitacion_data->hotel_id)
+        ->select('productos.*')
+        ->get();
+
+        return [
+            'estadoHabitacion' => $habitacion_data_estado,
+            'detalleHabitacion' =>  $habitacion_data,
+            'abonoHabitacion' => $abono,
+            'tarifasHabitacion' => $tarifasHabitacion,
+            'productosHabitacion' => $productosHabitacion,
+            'serviciosHabitacion' => $serviciosHabitacion,
+            'tarifas' => $tarifas,
+            'productos' => $productos,
+        ];
+
+
+
+    }
+
 }
