@@ -24,4 +24,8 @@ class DetalleHabitacionReserva extends Model
     public function tarifa()  {
         return $this->belongsTo(Tarifa::class,  'item_id', 'id' );  
     }
+
+    public function productos()  {
+        return $this->belongsTo(Productos::class,  'item_id', 'id' );  
+    }
 }

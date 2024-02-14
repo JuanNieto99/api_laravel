@@ -198,7 +198,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::get('inventarioMostrar/{id}', [InventarioController::class, 'show']); 
         Route::post('inventarioEliminar', [InventarioController::class, 'destroy']); 
         Route::post('inventarioActualizar', [InventarioController::class, 'update']); 
-        Route::post('inventarioEditar/{id}', [InventarioController::class, 'edit']); 
+        Route::get('inventarioEditar/{id}', [InventarioController::class, 'edit']); 
     });
 
 

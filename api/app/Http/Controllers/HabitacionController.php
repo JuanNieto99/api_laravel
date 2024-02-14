@@ -302,6 +302,7 @@ class HabitacionController extends Controller
 
         DetalleHabitacion::where('id',  $request->id_detalle)->update([
             'checkin'=> Carbon::now()->format('Y-m-d H:i:s'),
+            'fecha_inicio'=> Carbon::now()->format('Y-m-d H:i:s'), 
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
@@ -1323,29 +1324,35 @@ class HabitacionController extends Controller
         $habitacion_data_estado = EstadoHabitacion::where('habitacion_id', $request->habitacion_id)
         ->whereIn('estado_id', [2,7])->first();  
 
-        $habitacion_data = DetalleHabitacion::with(['habitacion' => function($query){
+        $habitacion_data = DetalleHabitacion::with([
+        'habitacion' => function($query){
             $query->select('id', 'nombre');
+        },
+        'cliente' => function($query){
+            $query->select('id', 'nombres', 'apellidos');
         }])
         ->where('habitacion_id', $request->habitacion_id)
         ->where('id', $habitacion_data_estado->habitacion_detalle_id)
         ->first();
 
-        $abono  = Abono::where('habitacion_detalle_id',$habitacion_data_estado->habitacion_detalle_id)
+        $abono = Abono::with(['metodoPago'])
+        ->where('habitacion_detalle_id',$habitacion_data_estado->habitacion_detalle_id)
         ->get();
 
-        $tarifasHabitacion = DetalleHabitacionReserva::where('tipo', 3)
+        $tarifasHabitacion = DetalleHabitacionReserva::with(['tarifa'])
+        ->where('tipo', 3)
+        ->where('reserva_detalle_id', $habitacion_data_estado->habitacion_detalle_id)
+        ->get();
+
+        $productosHabitacion = DetalleHabitacionReserva::with(['productos'])
+        ->whereIn('tipo', [1,2])
         ->where('reserva_detalle_id', $habitacion_data_estado->habitacion_detalle_id)
         ->get();
 
 
-        $productosHabitacion = DetalleHabitacionReserva::where('tipo', 1)
+        /* $serviciosHabitacion = DetalleHabitacionReserva::where('tipo', 2)
         ->where('reserva_detalle_id', $habitacion_data_estado->habitacion_detalle_id)
-        ->get();
-
-
-        $serviciosHabitacion = DetalleHabitacionReserva::where('tipo', 2)
-        ->where('reserva_detalle_id', $habitacion_data_estado->habitacion_detalle_id)
-        ->get();
+        ->get();*/
 
         $tarifas = Tarifa::where('estado', 1)->where('hotel_id',  $habitacion_data->hotel_id)->get();
 
@@ -1361,7 +1368,7 @@ class HabitacionController extends Controller
             'abonoHabitacion' => $abono,
             'tarifasHabitacion' => $tarifasHabitacion,
             'productosHabitacion' => $productosHabitacion,
-            'serviciosHabitacion' => $serviciosHabitacion,
+           // 'serviciosHabitacion' => $serviciosHabitacion,
             'tarifas' => $tarifas,
             'productos' => $productos,
         ];
