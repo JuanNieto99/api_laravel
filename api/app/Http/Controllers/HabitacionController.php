@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Abono;
 use App\Models\Caja;
-use App\Models\Cliente;
-use App\Models\ControlCaja;
+use App\Models\Cliente; 
 use App\Models\DetalleCaja;
 use App\Models\DetalleHabitacion;
 use App\Models\DetalleHabitacionReserva;
@@ -360,7 +359,11 @@ class HabitacionController extends Controller
             ->where('estado', 1)
             ->first();
 
-            if(!$caja->control_caja){
+            if(empty($caja)){
+                return response()->json(['error' => 'No hay ninguna caja abierta', 'code' => "warning"], 200);
+            }
+    
+            if(!$caja->control_caja ){
                 return response()->json(['error' => 'No hay ninguna caja abierta', 'code' => "warning"], 200);
             }
 
@@ -921,10 +924,14 @@ class HabitacionController extends Controller
         ->where('estado', 1)
         ->first();
 
-        Log::debug($caja);
-        if(!$caja->control_caja){
+        if(empty($caja)){
             return response()->json(['error' => 'No hay ninguna caja abierta', 'code' => "warning"], 200);
         }
+
+        if(!$caja->control_caja ){
+            return response()->json(['error' => 'No hay ninguna caja abierta', 'code' => "warning"], 200);
+        }
+
 
         $data = [
             'fecha_incio' => $request->fecha_inicio,
