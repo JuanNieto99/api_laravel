@@ -18,7 +18,8 @@ class DetalleHabitacionReserva extends Model
         'valor',
         'reserva_detalle_id',
         'item_id', 
-        'estado_id'
+        'estado_id',
+        'cantidad',
     ];
 
     public function tarifa()  {

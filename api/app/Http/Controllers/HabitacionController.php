@@ -291,11 +291,11 @@ class HabitacionController extends Controller
         }
 
         $estado = EstadoHabitacion::where('habitacion_detalle_id',  $request->id_detalle)
-        ->where('estado_id',5)
+        ->where('estado_id', 2)
         ->count();  
 
         if(($estado) ==0 ){
-            return response()->json(['error' => 'Solo se puede ocupar una habitacion reservada', 'code' => "warning"], 200);
+            return response()->json(['error' => 'Esta habitacion esta ocupada, Solo se puede ocupar una habitacion reservada ', 'code' => "warning"], 200);
         }
 
         $usuario = auth()->user();
@@ -1335,6 +1335,8 @@ class HabitacionController extends Controller
         ->where('id', $habitacion_data_estado->habitacion_detalle_id)
         ->first();
 
+        $metodos_pago = MetodosPago::where('estado', 1)->get();
+
         $abono = Abono::with(['metodoPago'])
         ->where('habitacion_detalle_id',$habitacion_data_estado->habitacion_detalle_id)
         ->get();
@@ -1371,6 +1373,7 @@ class HabitacionController extends Controller
            // 'serviciosHabitacion' => $serviciosHabitacion,
             'tarifas' => $tarifas,
             'productos' => $productos,
+            'metodos_pago' => $metodos_pago,
         ];
 
 
