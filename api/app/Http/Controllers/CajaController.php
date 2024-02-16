@@ -9,6 +9,7 @@ use App\Models\DetalleCaja;
 use App\Models\Historial;
 use App\Models\Hotel;
 use App\Models\TipoCaja;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
@@ -29,7 +30,10 @@ class CajaController extends Controller
             $query->select('nombre','id');
         },'hotel'=> function ($query){
             $query->select('nombre','id');
-        }]) 
+        } ,'usuario'=> function ($query){
+            $query->select('usuario','id');
+        } 
+        ]) 
         ->join('tipo_cajas','tipo_cajas.id', 'cajas.tipo')
         ->join('hotels','hotels.id', 'cajas.hotel_id')
         ->select('cajas.*')
@@ -149,11 +153,13 @@ class CajaController extends Controller
 
         $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
         $tipo_caja = TipoCaja::select('nombre','id')->where('estado','1')->get();
+        $usuario = Usuario::select('usuario','id')->where('estado','1')->get();
 
         if(!$caja){
             return [
                 'hotel' => $hotel, 
                 'tipo_caja' => $tipo_caja,
+                'usuario' => $usuario ,
             ];
         }
 
@@ -161,6 +167,7 @@ class CajaController extends Controller
             'hotel' => $hotel,
             'tipo_caja' => $tipo_caja,
             'caja' => $caja,
+            'usuario' => $usuario ,
         ];
     }
 
