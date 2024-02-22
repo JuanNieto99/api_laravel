@@ -18,9 +18,9 @@ class PaisController extends Controller
 
         $query = Pais::where('estado',1)->orderBy('nombre', 'asc');
         $query->where(function ($query) use ($search) { 
-            $query->where('Pais.nombre', 'like', "%{$search}%");    
-            $query->where('Pais.abreviatura', 'like', "%{$search}%");    
-            $query->where('Pais.codigo_dian', 'like', "%{$search}%");    
+            $query->where('pais.nombre', 'like', "%{$search}%");    
+            $query->where('pais.abreviatura', 'like', "%{$search}%");    
+            $query->where('pais.codigo_dian', 'like', "%{$search}%");    
         }); 
         return $per_page? $query->paginate($per_page) : $query->get();
     }
