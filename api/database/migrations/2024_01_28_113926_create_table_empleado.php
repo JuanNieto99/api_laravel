@@ -50,11 +50,13 @@ return new class extends Migration
 
         Schema::create('impuestos', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('hotel_id')->nullable(false);  
             $table->string('nombre', 50);  
             $table->string('descripcion'); 
             $table->string('porcentaje'); 
             $table->unsignedTinyInteger('estado'); //1->activo 0->inactivo  
             $table->timestamps(); 
+            $table->foreign('hotel_id')->references('id')->on('hotels')->onUpdate('cascade')->onDelete('restrict'); 
         });  
 
         Schema::create('configuraciones', function (Blueprint $table) {

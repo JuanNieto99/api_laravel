@@ -13,6 +13,7 @@ use App\Models\EstadoHabitacion;
 use App\Models\Habitacion;
 use App\Models\Historial;
 use App\Models\Hotel;
+use App\Models\Impuesto;
 use App\Models\Productos;
 use App\Models\MetodosPago;
 use App\Models\Tarifa;
@@ -878,7 +879,9 @@ class HabitacionController extends Controller
         ->where('inventarios.hotel_id', $hotel_id)
         ->get();
 
-        $habitacion = Habitacion::where('hotel_id' , $hotel_id )->get();
+        $habitacion = Habitacion::where('hotel_id', $hotel_id )->get();
+
+        $impuesto = Impuesto::where('hotel_id', $hotel_id)->get();
 
         return [
             'cliente' => $cliente->get(),
@@ -886,6 +889,7 @@ class HabitacionController extends Controller
             'tarifa' => $tarifas,
             'productos' => $productos,
             'habitacion' => $habitacion,
+            'impuesto' => $impuesto,
         ];
     }
 
@@ -1371,6 +1375,9 @@ class HabitacionController extends Controller
         ->select('productos.*')
         ->get();
 
+        $impuesto = Impuesto::where('hotel_id', $habitacion_data->hotel_id)->get();
+
+
         return [
             'estadoHabitacion' => $habitacion_data_estado,
             'detalleHabitacion' =>  $habitacion_data,
@@ -1381,6 +1388,7 @@ class HabitacionController extends Controller
             'tarifas' => $tarifas,
             'productos' => $productos,
             'metodos_pago' => $metodos_pago,
+            'impuesto' => $impuesto,
         ];
 
 
