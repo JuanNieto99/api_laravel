@@ -242,6 +242,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::post('recetaEliminar', [RecetaController::class, 'destroy']); 
         Route::get('recetaEditar/{id}', [RecetaController::class, 'edit']); 
         Route::post('recetaActualizar', [RecetaController::class, 'update']); 
+        Route::get('getRecetaProductos', [RecetaController::class, 'agetProductosRecetas']); 
     });
 
     Route::group(['middleware'=>'permission:umd'],function(){ 

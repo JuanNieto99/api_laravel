@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Historial;
 use App\Models\Hotel;
+use App\Models\Productos;
 use App\Models\Receta;
 use App\Models\Recetas;
 use Illuminate\Http\Request;
@@ -283,6 +284,18 @@ class RecetaController extends Controller
         return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
     }
 
+    }
+
+    function agetProductosRecetas() {
+        $productos = Productos::where('estado', 1)->get();
+        
+        foreach ($productos as $key => $value) {
+            $value->imagen == 'default.png'?   $value['imagen_base64'] = str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/default.png")))):  $value['imagen_base64'] = str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/imagenes/recetas/".$value->imagen))));
+        }
+
+        return [
+            'productos' => $productos  ,
+        ];
     }
 
     /**
