@@ -173,8 +173,18 @@ class ClienteController extends Controller
         $estado_civil = EstadoCivil::select('id','nombre')->Where('estado',1)->get();
         $nivel_estudio = NivelEstudio::select('id','nombre')->Where('estado',1)->get();
         $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
+        $tipo = [
+            [
+                'id' => 1,
+                'nombre' => 'Natural'
+            ],
+            [
+                'id' => 2,
+                'nombre' => 'Juridico'
+            ]
+        ];
 
-        if(!$cliente){ 
+        if(!$cliente){
             
             return [ 
                 'pais' => $pais,
@@ -183,6 +193,7 @@ class ClienteController extends Controller
                 'estado_civil' => $estado_civil,
                 'nivel_estudio' => $nivel_estudio,
                 'hotel' => $hotel,
+                'tipo' => $tipo,
             ]; 
     
         } 
