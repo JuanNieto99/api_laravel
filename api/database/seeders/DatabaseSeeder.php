@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             TipoCajaSeeder::class,
             EstadosSeeder::class,
             DetalleHotelUsuario::class,
+            ImpuestoSeeder::class,
         ]);
     }
 }
