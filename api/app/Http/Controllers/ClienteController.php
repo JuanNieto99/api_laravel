@@ -9,6 +9,7 @@ use App\Models\Historial;
 use App\Models\Hotel;
 use App\Models\NivelEstudio;
 use App\Models\Pais;
+use App\Models\TipoCliente;
 use App\Models\TipoDocumento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
@@ -173,7 +174,9 @@ class ClienteController extends Controller
         $estado_civil = EstadoCivil::select('id','nombre')->Where('estado',1)->get();
         $nivel_estudio = NivelEstudio::select('id','nombre')->Where('estado',1)->get();
         $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
-        $tipo = [
+        $tipo = TipoCliente::select('nombre','id')->where('estado','1')->get();
+        
+        /*[
             [
                 'id' => 1,
                 'nombre' => 'Natural'
@@ -182,7 +185,7 @@ class ClienteController extends Controller
                 'id' => 2,
                 'nombre' => 'Juridico'
             ]
-        ];
+        ];*/
 
         if(!$cliente){
             
