@@ -10,8 +10,7 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-    
+    { 
         Schema::create('detalle_habitacion_reservas', function (Blueprint $table) {
             $table->id();  
             $table->unsignedTinyInteger('tipo');  // 1->producto  2->servicio 3-> tarifa 

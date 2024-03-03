@@ -294,7 +294,7 @@ class HabitacionController extends Controller
         ->where('estado_id', 2)
         ->count();  
 
-        if(($estado) ==0 ){
+        if(($estado) > 0 ){
             return response()->json(['error' => 'Esta habitacion esta ocupada, Solo se puede ocupar una habitacion reservada ', 'code' => "warning"], 200);
         }
 
@@ -430,6 +430,7 @@ class HabitacionController extends Controller
                     'tipo' => $value['tipo'],
                     'valor' =>  $value['valor'],
                     'item_id' =>  $value['code'],
+                    'cantidad' => $value['cantidad'],
                     'reserva_detalle_id' => $detalle_habitacion->id,
                 ];
             }
@@ -1389,10 +1390,83 @@ class HabitacionController extends Controller
             'productos' => $productos,
             'metodos_pago' => $metodos_pago,
             'impuesto' => $impuesto,
-        ];
-
-
+        ]; 
 
     }
+
+    function saveDetalle(Request $request) {
+        $productos = $request->productos;
+        $tarifas = $request->tarifas;
+        $abonos = $request->abonos;
+        $detalle_id = $request->detalleId;
+        $hotel_id = $request->hotelId;
+        $cliente_id = $request->clienteId;
+
+        $productos_data = [];
+        $abonos_data = [];
+
+        $usuario = auth()->user();
+
+        DetalleHabitacionReserva::where('reserva_detalle_id', $detalle_id)->delete();
+
+        Abono::where('habitacion_detalle_id', $detalle_id)->delete();
+ 
+
+        foreach ($productos as $key => $value) { 
+
+                $productos_data [] = [
+                    'tipo' => $value['tipoProducto'],
+                    'cantidad' => $value['cantidad']?$value['cantidad']:1,
+                    'valor' =>(int) $value['valor'],
+                    'reserva_detalle_id' => $detalle_id,
+                    'item_id' => $value['id'],
+                ];
+          
+        }
+
+        foreach ($tarifas as $key => $value) { 
+
+            $productos_data [] = [
+                'tipo' => 3,
+                'cantidad' => 1,
+                'valor' => $value['valor'],
+                'reserva_detalle_id' => $detalle_id,
+                'item_id' => $value['id'],
+            ];
+        }
+ 
+        foreach ($abonos as $key => $value) { 
+            $abonos_data[] = [
+                'hotel_id' => $hotel_id,
+                'habitacion_detalle_id' => $detalle_id,
+                'cliente_id' => $cliente_id,
+                'valor' => $value['valor'],
+                'usuario_id_crea' => $usuario->id,
+                'metodo_pago_id' => $value['metodo_pago_id'],
+                'tipo_abono' => 1,
+                'estado' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ];
+        }
+
+ 
+        if($abonos_data) {
+            Abono::insert($abonos_data);
+        }
+        
+
+        if($productos_data){
+            DetalleHabitacionReserva::insert($productos_data);
+        }
+
+        return [
+            'msm' => 'Guardado Exitoso',
+            'code' => 'success'
+        ];
+        //DetalleHabitacionReserva
+    }
+
+    
 
 }

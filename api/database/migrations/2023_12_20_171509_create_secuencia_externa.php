@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('prefijo', 30);  
             $table->timestamp('fecha_inicio')->nullable(false);
             $table->timestamp('fecha_final')->nullable(false); 
-            $table->unsignedBigInteger('secuensia_incial')->nullable(false); 
-            $table->unsignedBigInteger('secuensia_actual')->nullable(false);  
+            $table->unsignedBigInteger('secuencia_incial')->nullable(false); 
+            $table->unsignedBigInteger('secuencia_actual')->nullable(false);  
             $table->unsignedBigInteger('secuencia_final')->nullable(false);
             $table->unsignedBigInteger('usuario_id_crea')->nullable(false); 
             $table->unsignedBigInteger('usuario_id_actualiza')->nullable(); 

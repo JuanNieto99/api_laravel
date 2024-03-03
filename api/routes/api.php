@@ -115,6 +115,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::get('habitacionesEditar/{id}', [HabitacionController::class, 'edit']); 
 
         Route::post('getRoomDashBoard', [HabitacionController::class, 'getRoomDashBoard']); 
+        Route::post('saveDetalleRoom', [HabitacionController::class, 'saveDetalle']); 
 
     }); 
 

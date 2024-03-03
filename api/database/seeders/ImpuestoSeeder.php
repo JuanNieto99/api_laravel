@@ -22,15 +22,7 @@ class ImpuestoSeeder extends Seeder
                 'hotel_id' => 1,
                 'porcentaje' => 19,
                 'estado' => 1,
-            ], 
-            [
-                'id' => '2',
-                'nombre' => 'Iva 2', 
-                'descripcion' => 'Iva 2', 
-                'hotel_id' => 1,
-                'porcentaje' => 5,
-                'estado' => 1,
-            ], 
+            ]
         ]);
     }
 }

@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\TipoCliente;
+use App\Models\TiposHabitaciones;
 use GuzzleHttp\Client;
 use Illuminate\Database\Seeder;
 
@@ -37,6 +39,7 @@ class DatabaseSeeder extends Seeder
             EstadosSeeder::class,
             DetalleHotelUsuario::class,
             ImpuestoSeeder::class,
+            TipoClienteSeeder::class,
         ]);
     }
 }

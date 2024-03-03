@@ -18,11 +18,11 @@ class SecuenciaExterna extends Model
         'prefijo', 
         'fecha_inicio',  
         'fecha_final',  
-        'secuensia_incial',
+        'secuencia_incial',
         'secuencia_final',
         'usuario_id_crea',
         'usuario_id_actualiza',
-        'secuensia_actual',
+        'secuencia_actual',
         'estado'
     ];
 

@@ -14,19 +14,19 @@ return new class extends Migration
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
             $table->string('nombres', 70);
-            $table->string('apellidos', 70);
+            $table->string('apellidos', 70)->nullable();
             $table->unsignedTinyInteger('tipo');  // 1 -> natural 2 -> juridico
             $table->unsignedTinyInteger('estado');
             $table->unsignedBigInteger('ciudad_id')->nullable(false);
             $table->unsignedBigInteger('tipo_documento_id')->nullable(false);  
             $table->string('numero_documento',15);  
-            $table->unsignedBigInteger('genero_id')->nullable(false);  // 1 -> masculino , 2-> femenino
-            $table->unsignedBigInteger('estado_civil_id')->nullable(false);
+            $table->unsignedBigInteger('genero_id')->nullable();  // 1 -> masculino , 2-> femenino
+            $table->unsignedBigInteger('estado_civil_id')->nullable();
             $table->string('barrio_residencia', 50);
-            $table->timestamp('fecha_nacimiento');
+            $table->timestamp('fecha_nacimiento')->nullable();
             $table->string('telefono', 30);
             $table->string('celular', 30);
-            $table->unsignedBigInteger('nivel_studio_id')->nullable(false);
+            $table->unsignedBigInteger('nivel_studio_id')->nullable();
             $table->string('correo', 50);
             $table->string('observacion', 200);
             $table->unsignedBigInteger('usuario_create_id')->nullable(false); 

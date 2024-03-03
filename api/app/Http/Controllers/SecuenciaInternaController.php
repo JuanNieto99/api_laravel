@@ -23,8 +23,8 @@ class SecuenciaInternaController extends Controller
 
         $query->where(function ($query) use ($search) {
             $query->where('secuencia_interna.descripcion_secuencia', 'like', "%{$search}%");    
-            $query->orWhere('secuencia_interna.secuensia_incial', 'like', "%{$search}%");     
-            $query->orWhere('secuencia_interna.secuensia_actual', 'like', "%{$search}%");     
+            $query->orWhere('secuencia_interna.secuencia_incial', 'like', "%{$search}%");     
+            $query->orWhere('secuencia_interna.secuencia_actual', 'like', "%{$search}%");     
         });
         return $per_page? $query->paginate($per_page) : $query->get();
     }
@@ -34,8 +34,8 @@ class SecuenciaInternaController extends Controller
         $validator = Validator::make($request->all(),[
             'hotel_id' => 'required|integer',
             'descripcion_secuencia' => 'required|string', 
-            'secuensia_incial' => 'required|integer',
-            'secuensia_actual' => 'required|integer', 
+            'secuencia_incial' => 'required|integer',
+            'secuencia_actual' => 'required|integer', 
         ]);    
 
         if($validator->fails()){
@@ -48,8 +48,8 @@ class SecuenciaInternaController extends Controller
             [
                 'hotel_id' => $request->hotel_id,
                 'descripcion_secuencia' => $request->descripcion_secuencia, 
-                'secuensia_actual' => $request->secuensia_actual,
-                'secuensia_incial' => $request->secuensia_incial,
+                'secuencia_actual' => $request->secuencia_actual,
+                'secuencia_incial' => $request->secuencia_incial,
                 'usuario_id_crea' => $usuario->id, 
                 'estado' => 1,
             ]
@@ -121,7 +121,7 @@ class SecuenciaInternaController extends Controller
         $validator = Validator::make($request->all(),[
             'hotel_id' => 'required|integer',
             'descripcion_secuencia' => 'required|string', 
-            'secuensia_incial' => 'required|integer',
+            'secuencia_incial' => 'required|integer',
             'secuencia_actual' => 'required|integer', 
             'id' => 'required|integer', 
         ]);    
@@ -136,8 +136,8 @@ class SecuenciaInternaController extends Controller
         ->update(
             [
                 'hotel_id' =>  $request->hotel_id,  
-                'secuensia_incial' => $request->secuensia_incial,
-                'secuensia_actual' => $request->secuencia_actual,
+                'secuencia_incial' => $request->secuencia_incial,
+                'secuencia_actual' => $request->secuencia_actual,
                 'usuario_id_actualiza' => $usuario->id,
                 'descripcion_secuencia' => $request->descripcion_secuencia,
             ]

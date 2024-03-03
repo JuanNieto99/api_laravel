@@ -16,8 +16,8 @@ class SecuenciaInterna extends Model
     protected $fillable = [
         'hotel_id', 
         'descripcion_secuencia', 
-        'secuensia_incial', 
-        'secuensia_actual',
+        'secuencia_incial', 
+        'secuencia_actual',
         'usuario_id_crea', 
         'usuario_id_actualiza', 
         'estado'

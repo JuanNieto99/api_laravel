@@ -62,7 +62,7 @@ class FacturacionController extends Controller
     {
         $validator = Validator::make($request->all(),[  
                 'concepto' => 'required|string', 
-                'metodos_pagos' => 'required|json',
+                'metodos_pagos' => 'required|array',
                 'cliente_id' => 'required|integer',
                 'porcentaje_descuento' => 'required|integer',
                 'hotel_id' => 'required|integer',                
@@ -89,7 +89,7 @@ class FacturacionController extends Controller
         ->first();   
 
         if(!$caja_abierta) {
-            return response()->json(['mensaje' => 'No hay caja abierta','code' => "warning"]);
+            return response()->json(['msm' => 'No hay caja abierta','code' => "warning"]);
         } 
 
         $secuencia =  $this->getSecuenciasFactura($request->hotel_id, 'interna');
@@ -97,18 +97,18 @@ class FacturacionController extends Controller
         $secuencia_interna_data = $secuencia['secuencia'];
 
         if(!$secuencia_interna_data){
-            return response()->json(['mensaje' => 'Secuencia interna no creada','code' => "warning"]);
+            return response()->json(['msm' => 'Secuencia interna no creada','code' => "warning"]);
         }  
 
-        if($secuencia_interna_data['secuensia_actual'] <= 0){
-            return response()->json(['mensaje' => 'Secuencia interna debe ser mayor a 0','code' => "warning"]);
+        if($secuencia_interna_data['secuencia_actual'] <= 0){
+            return response()->json(['msm' => 'Secuencia interna debe ser mayor a 0','code' => "warning"]);
         } 
-        $secuensia_actual_padded_number = str_pad($secuencia_interna_data['secuensia_actual'], 6, '0', STR_PAD_LEFT);
+        $secuencia_actual_padded_number = str_pad($secuencia_interna_data['secuencia_actual'], 6, '0', STR_PAD_LEFT);
 
-        $secuencia_interna = $request->hotel_id."-".$secuensia_actual_padded_number; 
+        $secuencia_interna = $request->hotel_id."-".$secuencia_actual_padded_number; 
 
         $usuario = auth()->user(); 
-        $medios_pagos_array =  json_decode($request->metodos_pagos, true);
+        $medios_pagos_array = $request->metodos_pagos; // json_decode($request->metodos_pagos, true);
         $sub_total = 0;
         $total = 0;
         $iva_total = 0;
@@ -161,7 +161,7 @@ class FacturacionController extends Controller
         
 
         if($sub_total<=0){
-            return response()->json(['mensaje' => 'Este cliente no tiene ningun valora a pagar' ,'code' => "warning"]); 
+            return response()->json(['msm' => 'Este cliente no tiene ningun valora a pagar' ,'code' => "warning"]); 
         }
 
         //validacion que el total de metodos de pago sea al total de la deuda
@@ -172,7 +172,7 @@ class FacturacionController extends Controller
         }
 
         if($pagos_medios_pagos != $total) {
-            return response()->json(['mensaje' => 'Los medios de pagos no coinciden con la cantidad '.$total ,'code' => "warning"]); 
+            return response()->json(['msm' => 'Los medios de pagos no coinciden con la cantidad '.$total ,'code' => "warning"]); 
 
         }
 
@@ -267,7 +267,7 @@ class FacturacionController extends Controller
         ]);
 
         if($factura){   
-            return response()->json(['mensaje' => 'Factura exitosa','factura'  => $factura ,'code' => "success"]);
+            return response()->json(['msm' => 'Factura exitosa','factura'  => $factura ,'code' => "success"]);
         } else {
             return response()->json(['error' => 'Error', 'code' => "error"], 404);
         }
@@ -344,7 +344,7 @@ class FacturacionController extends Controller
 
         if ($filasActualizadas > 0) {
             // La actualización fue exitosa
-            return response()->json(['mensaje' => 'Actualización exitosa', 'code' => "success"]);
+            return response()->json(['msm' => 'Actualización exitosa', 'code' => "success"]);
         } else {
             // No se encontró un usuario con el ID proporcionado
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
@@ -356,7 +356,7 @@ class FacturacionController extends Controller
         $secuencia = [];
         switch ($opcion) {
             case 'interna':
-                $secuencia = SecuenciaInterna::select('secuensia_actual','id')
+                $secuencia = SecuenciaInterna::select('secuencia_actual','id')
                 ->where('hotel_id', $hotel_id)
                 ->where('estado','1')
                 ->first(); 
@@ -368,17 +368,17 @@ class FacturacionController extends Controller
 
                 $id = $secuencia->id;
 
-                $secuencia_aumenta = $secuencia->secuensia_actual + 1; 
+                $secuencia_aumenta = $secuencia->secuencia_actual + 1; 
 
                 SecuenciaInterna::where('id', $id)
                 ->update(
                     [
-                        'secuensia_actual' => $secuencia_aumenta
+                        'secuencia_actual' => $secuencia_aumenta
                     ]
                 );
                 break;
             case 'externa':
-                $secuencia = SecuenciaExterna::select('secuensia_actual','id')
+                $secuencia = SecuenciaExterna::select('secuencia_actual','id')
                 ->where('hotel_id', $hotel_id)
                 ->where('estado','1')
                 ->first();
@@ -389,10 +389,10 @@ class FacturacionController extends Controller
                 }       
 
                 $id = $secuencia->id;
-                $secuencia_aumenta = $secuencia->secuensia_actual + 1; 
+                $secuencia_aumenta = $secuencia->secuencia_actual + 1; 
 
                 SecuenciaInterna::where('id', $id)
-                ->update('secuensia_actual', $secuencia_aumenta);
+                ->update('secuencia_actual', $secuencia_aumenta);
             break;
 
         }

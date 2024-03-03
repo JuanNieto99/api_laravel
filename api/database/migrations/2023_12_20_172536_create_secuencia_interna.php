@@ -15,8 +15,8 @@ return new class extends Migration
                 $table->id();
                 $table->unsignedBigInteger('hotel_id')->nullable(false);
                 $table->string('descripcion_secuencia', 100);  
-                $table->unsignedBigInteger('secuensia_incial')->nullable(false); 
-                $table->unsignedBigInteger('secuensia_actual')->nullable(false); 
+                $table->unsignedBigInteger('secuencia_incial')->nullable(false); 
+                $table->unsignedBigInteger('secuencia_actual')->nullable(false); 
                 $table->unsignedBigInteger('usuario_id_crea')->nullable(false); 
                 $table->unsignedBigInteger('usuario_id_actualiza')->nullable(); 
                 $table->unsignedTinyInteger('estado');
