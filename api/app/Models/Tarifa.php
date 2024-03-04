@@ -21,6 +21,7 @@ class Tarifa extends Model
         'usuario_create_id',
         'usuario_update_id',
         'estado', 
+        'descripcion',
         'created_at',
     ];
 
