@@ -209,6 +209,7 @@ class ClienteController extends Controller
             'estado_civil' => $estado_civil,
             'nivel_estudio' => $nivel_estudio,
             'hotel' => $hotel,
+            'tipo' => $tipo,
         ]; 
 
     }
