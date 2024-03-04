@@ -238,7 +238,6 @@ class ClienteController extends Controller
             'correo' => 'required|string|max:50', 
             'observacion' => 'required|string|max:200',  
             'hotel_id' => 'required|integer',
-            'usuario_update_id' => 'required|integer',
             'id'  => 'required|integer',
         ]);
 
@@ -246,11 +245,12 @@ class ClienteController extends Controller
             return response()->json($validator->errors());
         }
 
+        $usuario = auth()->user(); 
+
         $filasActualizadas = Cliente::where('id', $request->id)
         ->update([
             'nombres' => $request->nombres,
-            'apellidos' => $request->apellidos,
-            'estado' => $request->estado, 
+            'apellidos' => $request->apellidos, 
             'tipo' => $request->tipo,
             'ciudad_id' => $request->ciudad_id,
             'tipo_documento_id' => $request->tipo_documento,
@@ -265,7 +265,7 @@ class ClienteController extends Controller
             'correo' => $request->correo, 
             'observacion' => $request->observacion, 
             'hotel_id' => $request->hotel_id,
-            'usuario_update_id' => $request->usuario_update_id, 
+            'usuario_update_id' => $usuario->id, 
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
