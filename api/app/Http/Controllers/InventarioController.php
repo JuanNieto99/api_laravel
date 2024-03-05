@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetalleHabitacionReserva;
 use App\Models\Historial;
 use App\Models\Hotel;
 use App\Models\Inventario;
+use App\Models\ProductoDetalle;
+use App\Models\Productos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 class InventarioController extends Controller
 {
     /**
@@ -223,5 +229,64 @@ class InventarioController extends Controller
         ];
     } 
 
+
+    public static function descontarInventario($id_detalle) {
+        
+        $detalle_habitacion = DetalleHabitacionReserva::where('tipo', 1)
+        ->where('reserva_detalle_id', $id_detalle)
+        ->get();
+
+        $producto_detalle = [];
+
+        foreach ($detalle_habitacion as $key => $value) {
+            $producto_detalle [] = [
+                'producto_id' => $value->item_id,
+                'cantidad' => $value->cantidad,
+                'estado' => 3
+            ];
+        } 
+ 
+        if(count( $producto_detalle) > 0){ 
+            ProductoDetalle::insert($producto_detalle); 
+        }
+        
+    }
+
+    public static function validarDisponibilidadProducto($producto_id, $cantidad)  {
+
+        $productos = Productos::where('id', $producto_id)->select('sin_limite_cantidad', 'nombre')->first();
+
+        $menseje = "";
+        $validacion = false;
+
+        if( $productos->sin_limite_cantidad == '1' ){
+            $agregados = ProductoDetalle::where('producto_id', $producto_id)
+            ->where('estado', 2)
+            ->select(DB::raw('SUM(cantidad) as cantidad'))            
+            ->first();
+    
+            $usados = ProductoDetalle::where('producto_id', $producto_id)
+            ->where('estado', 3)
+            ->select(DB::raw('SUM(cantidad) as cantidad'))            
+            ->first();
+            Log::debug($agregados);
+            Log::debug($usados);
+
+            $cantidad_agregada = $agregados->cantidad ? $agregados->cantidad : 0;
+            $cantidad_usada = $usados->cantidad ? $usados->cantidad : 0;
+            $cantidad_actual =   $cantidad_agregada - $cantidad_usada;
+
+            if($cantidad_actual < $cantidad) {
+                $menseje = "La cantidad agregada del producto ".$productos->nombre." sobre pasa al stock";
+                $validacion = true;
+            }
+        }
+ 
+
+        return [
+            'mensaje' => $menseje,
+            'validacion' => $validacion, 
+        ];
+    }
     
 }

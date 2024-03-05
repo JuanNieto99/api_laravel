@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedTinyInteger('tipo'); // 1-> ingreso 2-> egreso
             $table->unsignedTinyInteger('estado'); // 1-> abieto 2-> cerrado candidato a eliminar porque es un dato redundate
-            $table->unsignedBigInteger('operacion_id')->nullable(false); //1->abono
+            $table->unsignedBigInteger('operacion_id')->nullable(false); //1->abono // 2->factura
             $table->unsignedBigInteger('referencia_id')->nullable(false); 
             $table->unsignedBigInteger('usuario_id')->nullable(false); 
             $table->unsignedBigInteger('facturacion_id')->nullable(); 

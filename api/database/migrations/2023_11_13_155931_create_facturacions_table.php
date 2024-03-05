@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('secuencia_factura_externa')->nullable();
             $table->decimal('total', 12, 2)->nullable(false);
             $table->decimal('sub_total', 12, 2)->nullable(false); 
-            $table->decimal('iva', 12, 2)->nullable(false); 
+            $table->decimal('impuesto_total', 12, 2)->nullable(false); 
             $table->unsignedBigInteger('hotel_id')->nullable(false); 
             $table->unsignedBigInteger('cliente_id')->nullable(false); 
             $table->unsignedBigInteger('porcentaje_descuento')->nullable(); 

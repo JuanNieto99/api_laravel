@@ -15,7 +15,7 @@ class Facturacion extends Model
         'concepto', 
         'total',
         'sub_total',
-        'iva', 
+        'impuesto_total', 
         'cliente_id',
         'porcentaje_descuento',
         'cufe',

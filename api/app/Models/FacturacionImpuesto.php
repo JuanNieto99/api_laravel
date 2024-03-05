@@ -5,17 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FacturacionMedioPago extends Model
+class FacturacionImpuesto extends Model
 {
     protected $primaryKey = 'id';
 
-    protected $table='facturacion_medios_pagos'; 
+    protected $table='facturacion_impuesto'; 
     
     public $timestamps = false;
 
     protected $fillable = [ 
-        'facturacion_id',
-        'metodo_pago_id', 
-        'valor',
+        'valor', 
+        'factura_id',
+        'impuesto_id',
+        'porcentaje',  
     ];
 }

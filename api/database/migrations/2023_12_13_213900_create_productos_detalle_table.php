@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('producto_id')->nullable(false);
             $table->unsignedBigInteger('cantidad')->nullable(false);
-            $table->unsignedTinyInteger('estado')->nullable(false); // 1->agregado 0 -> eliminado  2->consumido    
+            $table->unsignedTinyInteger('estado')->nullable(false); // 2->agregado 0 -> eliminado  3->consumido    
             $table->foreign('producto_id')->references('id')->on('productos')->onUpdate('cascade')->onDelete('restrict');
             $table->timestamps();
         }); 

@@ -1410,9 +1410,21 @@ class HabitacionController extends Controller
         DetalleHabitacionReserva::where('reserva_detalle_id', $detalle_id)->delete();
 
         Abono::where('habitacion_detalle_id', $detalle_id)->delete();
- 
+
+        $sobrepaso_stock = false;
+        $sobrepaso_stock_mensaje = ""; 
 
         foreach ($productos as $key => $value) { 
+                
+                if($value['tipoProducto'] == 1){
+                    $validacion = InventarioController::validarDisponibilidadProducto($value['id'], $value['cantidad']?$value['cantidad']:1);
+                    $sobrepaso_stock = $validacion['validacion'];
+                    $sobrepaso_stock_mensaje = $validacion['mensaje']; 
+
+                    if($sobrepaso_stock){
+                        return response()->json(['msm' => $sobrepaso_stock_mensaje ,'code' => "warning"]);
+                    }
+                }
 
                 $productos_data [] = [
                     'tipo' => $value['tipoProducto'],

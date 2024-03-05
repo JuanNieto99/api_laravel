@@ -7,7 +7,10 @@ use App\Models\Caja;
 use App\Models\Consumo;
 use App\Models\DetalleCaja;
 use App\Models\DetalleHabitacion;
+use App\Models\DetalleHabitacionReserva;
+use App\Models\EstadoHabitacion;
 use App\Models\Facturacion;
+use App\Models\FacturacionImpuesto;
 use App\Models\FacturacionMedioPago;
 use App\Models\Habitacion;
 use App\Models\Historial;
@@ -65,7 +68,10 @@ class FacturacionController extends Controller
                 'metodos_pagos' => 'required|array',
                 'cliente_id' => 'required|integer',
                 'porcentaje_descuento' => 'required|integer',
-                'hotel_id' => 'required|integer',                
+                'hotel_id' => 'required|integer',        
+                'detalle_id' => 'required|integer',
+                'impuesto'  => 'required', 
+                'habitacion_id'  => 'required',             
             ], 
             [ 
                 'concepto.required' => "El campo es requerio", 
@@ -82,11 +88,13 @@ class FacturacionController extends Controller
         
         $caja_abierta = Caja::with(['control_caja'=>function ($query) {
             $query->where('estado', 1);
-            $query->whereDate('abrir_caja', Carbon::now()->format('Y-m-d'));
+            $query->select('id','caja_id');
+            //$query->whereDate('abrir_caja', Carbon::now()->format('Y-m-d'));
         }])
+        ->select('id')
         ->where('estado',1) 
         ->where('tipo', 1) 
-        ->first();   
+        ->first();    
 
         if(!$caja_abierta) {
             return response()->json(['msm' => 'No hay caja abierta','code' => "warning"]);
@@ -102,85 +110,29 @@ class FacturacionController extends Controller
 
         if($secuencia_interna_data['secuencia_actual'] <= 0){
             return response()->json(['msm' => 'Secuencia interna debe ser mayor a 0','code' => "warning"]);
-        } 
+        }
+        
         $secuencia_actual_padded_number = str_pad($secuencia_interna_data['secuencia_actual'], 6, '0', STR_PAD_LEFT);
 
         $secuencia_interna = $request->hotel_id."-".$secuencia_actual_padded_number; 
 
         $usuario = auth()->user(); 
         $medios_pagos_array = $request->metodos_pagos; // json_decode($request->metodos_pagos, true);
-        $sub_total = 0;
-        $total = 0;
-        $iva_total = 0;
+        
         $descuento = $request->porcentaje_descuento;  
-
-        $consumos = Consumo::where('cliente_id', $request->cliente_id)
-        ->where('estado',1)
-        ->get();
-        
-        $detalle_habitacion = DetalleHabitacion::with(['habitacion'=>function($query){
-            $query->where('estado', 2);
-        }])
-
-        ->where('cliente_id', $request->cliente_id) 
-        ->get();
-
-        $abono_data = Abono::where('hotel_id',$request->hotel_id)
-        ->where('habitacion_id', $detalle_habitacion[0]["habitacion_id"] )
-        ->where('cliente_id', $request->cliente_id)
-        ->select('valor','id')
-        ->get();
-
-        $valor_abonado = 0;
-        $id_abonos = [];
-        foreach ($abono_data as $key => $value) {  
-            $valor_abonado = $valor_abonado + $abono_data['valor'];
-            $id_abonos [] = $abono_data['id'] ;
-        }
-
-
-        if($detalle_habitacion){
-            $actualizar_detalle_habitacion = [];
-
-            foreach ( $detalle_habitacion  as $key => $value) {
-                $sub_total = empty($value->habitacion)?0:$value->habitacion->precio;
-                $actualizar_detalle_habitacion [] = $value->id;
-            } 
-        }   
-
-        foreach ($consumos as $key => $value) { 
-            $sub_total = $sub_total +  $value->precio; 
-        } 
-        
-        $total = $sub_total;
-        $total = $total - $valor_abonado;
-
-        if($descuento >0){
-            $total =  $sub_total * $descuento /100; 
-        } 
-        
-
-        if($sub_total<=0){
-            return response()->json(['msm' => 'Este cliente no tiene ningun valora a pagar' ,'code' => "warning"]); 
-        }
-
+ 
         //validacion que el total de metodos de pago sea al total de la deuda
         $pagos_medios_pagos = 0;
 
         foreach ($medios_pagos_array  as $key => $value) {
-            $pagos_medios_pagos += $value['precio'];
-        }
-
-        if($pagos_medios_pagos != $total) {
-            return response()->json(['msm' => 'Los medios de pagos no coinciden con la cantidad '.$total ,'code' => "warning"]); 
-
-        }
+            $pagos_medios_pagos += $value['monto'];
+        } 
 
         $factura_insert = [
             'concepto' => $request->concepto, 
-            'sub_total' => $sub_total,
-            'total' => $total,
-            'iva' => $iva_total, 
+            'sub_total' => $request->subtotal,
+            'total' => $request->total,
+            'impuesto_total' => $request->impuesto_total, 
             'cliente_id' => $request->cliente_id, 
             'porcentaje_descuento' => $descuento,
             'secuencia_factura_interna' => $secuencia_interna,
@@ -189,67 +141,87 @@ class FacturacionController extends Controller
             'estado' => 1,
         ];
 
-        $factura = Facturacion::create( $factura_insert );  
+        $factura = Facturacion::create( $factura_insert ); 
+        
+        $impuestos_data = [];
 
+        foreach ($request->impuesto as $key => $value) {
+            $impuestos_data [] = [
+                'valor' => $value['valor'],
+                'factura_id' => $factura->id,
+                'impuesto_id' => $value['id'],
+                'porcentaje' => $value['porcentaje'],
+            ];
+        }
+
+        if(count($impuestos_data) > 0){
+            FacturacionImpuesto::insert( $impuestos_data);
+        }
+        
         if($factura){
             $medios_pagos_detalle_array = [];
 
-            $medios_pagos_caja_array = []; 
+            $medios_pagos_caja_array = [];
+            
             foreach ($medios_pagos_array  as $key => $value) {
+
                 $medios_pagos_detalle_array [] = [
                     'facturacion_id' => $factura->id,
-                    'metodo_pago_id' => $value['metodo_pago_id'],
-                    'valor' => $value['precio'],
+                    'metodo_pago_id' => $value['medio_pago']['id'],
+                    'valor' => $value['monto'],
                 ]; 
 
-                $medios_pagos_caja_array[] = [
+                $medios_pagos_caja_array [] = [
                     'facturacion_id' => $factura->id,
-                    'metodo_pago_id' => $value['metodo_pago_id'],
+                    'metodo_pago_id' => $value['medio_pago']['id'],
                     'usuario_id' => $usuario->id,
                     'caja_id' => $caja_abierta->id,
                     'caja_control_id' => $caja_abierta->control_caja->id,
-                    'precio' => $value['precio'],
+                    'precio' => $value['monto'],
+                    'referencia_id' => $factura->id,
+                    'operacion_id' => 2, //factura
                     'tipo' => 1,
                     'estado' => 1,  
                     'created_at' => Carbon::now()->format('Y-m-d H:i:s')
                 ];
-            } 
-                
-            FacturacionMedioPago::insert($medios_pagos_detalle_array);
 
-            DetalleCaja::insert($medios_pagos_caja_array);  
+            }  
 
-            if($detalle_habitacion){  
-                $habitacion_id = $detalle_habitacion[0]["habitacion_id"];
-                DetalleHabitacion::whereIn('id', $actualizar_detalle_habitacion)
-                ->update([
-                    'facturacion_id' => $factura->id,
-                    'checkout' => Carbon::now()->format('Y-m-d H:i:s'),
-                ]);  
-                
-                Habitacion::where('id', $habitacion_id )
-                ->update(
-                    [
-                        'estado' => 4,
-                    ]
-                ); 
+            if(count($medios_pagos_detalle_array) > 0) {
+                FacturacionMedioPago::insert($medios_pagos_detalle_array);
+            }
 
-                Abono::whereIn('id', $id_abonos)
-                ->update([
-                    'estado' => 2,
-                    'factura_id' => $factura->id,
-                ]);
+            if(count($medios_pagos_caja_array) > 0){
+                DetalleCaja::insert($medios_pagos_caja_array);  
             }
             
-            //pasa el consumo a estado facturado
-
-
-            Consumo::where('cliente_id', $request->cliente_id)
+            DetalleHabitacion::where('id', $request->detalle_id)
             ->update([
-                'facturacion_id' => $factura->id ,
-                'estado' => 3,
+                'facturacion_id' => $factura->id,
+                'checkout' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);  
-        }  
+         /*   
+            Habitacion::where('id', $request->habitacion_id )
+            ->update(
+                [
+                    'estado' => 3,
+                ]
+            ); */
+
+            EstadoHabitacion::where('habitacion_detalle_id',  $request->detalle_id)
+            ->update(
+                [
+                    'estado_id' => 8,
+                ]
+            );
+
+            Abono::where('habitacion_detalle_id', $request->detalle_id)
+            ->update([
+                'estado' => 2, 
+            ]);
+        }
+
+        InventarioController::descontarInventario($request->detalle_id);
 
         $json = [
             'asunto' => 'Facturacion Crear',
