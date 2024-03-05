@@ -16,9 +16,11 @@ return new class extends Migration
             $table->decimal('valor', 12, 2)->nullable(false); 
             $table->unsignedBigInteger('factura_id')->nullable(false); 
             $table->unsignedBigInteger('impuesto_id')->nullable(false); 
+            $table->unsignedBigInteger('item_id')->nullable(false); 
             $table->unsignedTinyInteger('porcentaje');  
             $table->foreign('factura_id')->references('id')->on('facturacions')->onUpdate('cascade')->onDelete('restrict'); 
             $table->foreign('impuesto_id')->references('id')->on('impuestos')->onUpdate('cascade')->onDelete('restrict'); 
+            $table->foreign('item_id')->references('id')->on('productos')->onUpdate('cascade')->onDelete('restrict');    
         });
     }
 

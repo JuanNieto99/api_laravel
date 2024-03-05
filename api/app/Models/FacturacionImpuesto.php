@@ -16,6 +16,7 @@ class FacturacionImpuesto extends Model
     protected $fillable = [ 
         'valor', 
         'factura_id',
+        'item_id',
         'impuesto_id',
         'porcentaje',  
     ];
