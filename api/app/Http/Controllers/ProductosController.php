@@ -70,6 +70,7 @@ class ProductosController extends Controller
                 'stop_minimo' => 'required|integer', 
                 'precio_base' => 'required|integer', 
                 'tipo_producto' => 'required|integer', 
+                'visible_receta' => 'required|integer', 
                 'visible_venta' => 'required|integer', 
             ], 
             [  
@@ -142,6 +143,7 @@ class ProductosController extends Controller
             'tipo_producto' => $request->tipo_producto,
             'precio_base' => $request->precio_base,
             'visible_venta' => $request->visible_venta,
+            'visible_receta' => $request->visible_receta, 
         ]);
 
         $json = [
@@ -220,6 +222,7 @@ class ProductosController extends Controller
             'precio_base' => 'required', 
             'tipo_producto' => 'required|integer', 
             'visible_venta' => 'required|integer',
+            'visible_receta' => 'required|integer', 
         ], 
         [   'nombre.required' => "El campo es requerio",
             'nombre.max' => "La cantidad maxima del campo es 50", 
@@ -258,6 +261,7 @@ class ProductosController extends Controller
             'tipo_producto' => $request->tipo_producto,
             'precio_base' => $request->precio_base,
             'visible_venta' => $request->visible_venta,
+            'visible_receta' => $request->visible_receta, 
         ];
 
         if(!empty($request->imagen)){
@@ -289,13 +293,17 @@ class ProductosController extends Controller
             $insert = [
                 'nombre' => $request->nombre,
                 'descripcion' => $request->descripcion,
-                'imagen' => explode('/', $ruta)[3],
-                'precio' => $request->precio,
-                'cantidad' => $request->cantidad,
+                'imagen' => explode('/', $ruta)[3],  
+                'precio' => $request->precio, 
                 'estado' => $request->estado,
                 'inventario_id' => $request->inventario_id,
                 'sin_limite_cantidad' => $request->limite_cantidad,
-                'medida_id' => $request->medida_id
+                'medida_id' => $medida_id,
+                'stop_minimo' => $request->stop_minimo, 
+                'tipo_producto' => $request->tipo_producto,
+                'precio_base' => $request->precio_base,
+                'visible_venta' => $request->visible_venta,
+                'visible_receta' => $request->visible_receta,  
             ];
         } 
 
@@ -389,6 +397,18 @@ class ProductosController extends Controller
             ]
         ];
 
+        $visible_receta = [
+            [
+                'id' => 1,
+                'nombre' => 'Si'
+            ],
+            [
+                'id' => 0,
+                'nombre' => 'No'
+            ]
+        ];
+
+
         $sin_limite = [
             [
                 'id' => 1,
@@ -422,6 +442,7 @@ class ProductosController extends Controller
                 'sin_limite' => $sin_limite,
                 'imagen' => str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/default.png")))),
                 'tipo' => $tipo,
+                'visible_receta' => $visible_receta,
                 'code' => "success"
             ], 201);
         }
@@ -433,6 +454,7 @@ class ProductosController extends Controller
             'inventario' => $inventario,
             'producto' => $producto,
             'visible_venta' => $visible,
+            'visible_receta' => $visible_receta,
             'sin_limite' => $sin_limite,
             'tipo' => $tipo,
             'imagen' => $producto->imagen=='default.png'?str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/default.png")))):str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/imagenes/productos/".$producto->imagen)))),

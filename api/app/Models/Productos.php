@@ -23,6 +23,7 @@ class Productos extends Model
         'medida_id',
         'stop_minimo',
         'visible_venta',
+        'visible_receta',
         'precio_base',
         'tipo_producto', 
     ];

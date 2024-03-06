@@ -21,6 +21,7 @@ use App\Models\TiposHabitaciones;
 use Illuminate\Http\Request; 
 use Illuminate\Support\Facades\Validator;   
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\ErrorHandler\Debug;
 
@@ -878,6 +879,8 @@ class HabitacionController extends Controller
         $productos = Productos::select('productos.nombre', 'productos.id', 'productos.precio', 'productos.tipo_producto')
         ->join('inventarios','inventarios.id','productos.inventario_id') 
         ->where('inventarios.hotel_id', $hotel_id)
+        ->where('productos.visible_venta', 1)
+        ->where('productos.estado', 1)
         ->get();
 
         $habitacion = Habitacion::where('hotel_id', $hotel_id )->get();
@@ -1235,7 +1238,8 @@ class HabitacionController extends Controller
 
         $productos = Productos::select('productos.nombre','productos.id', 'productos.valor')
         ->join('inventarios','inventarios.id','productos.inventario_id')
-    
+        ->where('productos.visible_venta', 1)
+        ->where('productos.estado', 1)
         ->where('inventarios.hotel_id', $hotel_id) ;
 
         if(!empty($nombre_busqueda)) {
@@ -1373,19 +1377,19 @@ class HabitacionController extends Controller
         $productos = Productos::where('productos.estado', 1)
         ->join('inventarios','inventarios.id','productos.inventario_id')
         ->where('inventarios.hotel_id', $habitacion_data->hotel_id)
+        ->where('productos.visible_venta', 1)
+        ->where('productos.estado', 1)
         ->select('productos.*')
         ->get();
 
-        $impuesto = Impuesto::where('hotel_id', $habitacion_data->hotel_id)->get();
-
+        $impuesto = Impuesto::where('hotel_id', $habitacion_data->hotel_id)->get(); 
 
         return [
             'estadoHabitacion' => $habitacion_data_estado,
             'detalleHabitacion' =>  $habitacion_data,
             'abonoHabitacion' => $abono,
             'tarifasHabitacion' => $tarifasHabitacion,
-            'productosHabitacion' => $productosHabitacion,
-           // 'serviciosHabitacion' => $serviciosHabitacion,
+            'productosHabitacion' => $productosHabitacion, 
             'tarifas' => $tarifas,
             'productos' => $productos,
             'metodos_pago' => $metodos_pago,
@@ -1395,88 +1399,125 @@ class HabitacionController extends Controller
     }
 
     function saveDetalle(Request $request) {
-        $productos = $request->productos;
-        $tarifas = $request->tarifas;
-        $abonos = $request->abonos;
-        $detalle_id = $request->detalleId;
-        $hotel_id = $request->hotelId;
-        $cliente_id = $request->clienteId;
+        //try {
+        //    DB::beginTransaction();
 
-        $productos_data = [];
-        $abonos_data = [];
+            $productos = $request->productos;
+            $tarifas = $request->tarifas;
+            $abonos = $request->abonos;
+            $detalle_id = $request->detalleId;
+            $hotel_id = $request->hotelId;
+            $cliente_id = $request->clienteId;
 
-        $usuario = auth()->user();
+            $productos_data = [];
+            $abonos_data = [];
 
-        DetalleHabitacionReserva::where('reserva_detalle_id', $detalle_id)->delete();
+            $usuario = auth()->user();
 
-        Abono::where('habitacion_detalle_id', $detalle_id)->delete();
+            DetalleHabitacionReserva::where('reserva_detalle_id', $detalle_id)->delete();
 
-        $sobrepaso_stock = false;
-        $sobrepaso_stock_mensaje = ""; 
+            Abono::where('habitacion_detalle_id', $detalle_id)->delete();
 
-        foreach ($productos as $key => $value) { 
-                
-                if($value['tipoProducto'] == 1){
-                    $validacion = InventarioController::validarDisponibilidadProducto($value['id'], $value['cantidad']?$value['cantidad']:1);
-                    $sobrepaso_stock = $validacion['validacion'];
-                    $sobrepaso_stock_mensaje = $validacion['mensaje']; 
+            $sobrepaso_stock = false;
+            $sobrepaso_stock_mensaje = ""; 
+    
+            //Sumar la cantidad de los productos agregados de manera dispersa
 
-                    if($sobrepaso_stock){
-                        return response()->json(['msm' => $sobrepaso_stock_mensaje ,'code' => "warning"]);
+            $productos = collect($productos)->groupBy('id')->map(function ($item_data) {
+        
+                $item = $item_data[0];
+
+                return [
+                    'nombre' => $item['nombre'],
+                    'cantidad' => $item_data->sum('cantidad'),
+                    'identificador' =>$item['identificador'],
+                    'tipoProducto' => $item['tipoProducto'],
+                    'valor' => $item['valor'],
+                    'id' => $item['id'],
+                    'valorImpuesto' => $item['valorImpuesto'],
+                ];
+
+            })->values()->toArray();
+            
+
+            foreach ($productos as $key => $value) { 
+                    
+                    if($value['tipoProducto'] == 1){
+                        $validacion = InventarioController::validarDisponibilidadProducto($value['id'], $value['cantidad']?$value['cantidad']:1);
+                        $sobrepaso_stock = $validacion['validacion'];
+                        $sobrepaso_stock_mensaje = $validacion['mensaje']; 
+
+                        if($sobrepaso_stock){
+                            return response()->json(['msm' => $sobrepaso_stock_mensaje ,'code' => "warning"]);
+                        }
                     }
-                }
+
+                    $productos_data [] = [
+                        'tipo' => $value['tipoProducto'],
+                        'cantidad' => $value['cantidad']?$value['cantidad']:1,
+                        'valor' =>(int) $value['valor'],
+                        'reserva_detalle_id' => $detalle_id,
+                        'item_id' => $value['id'],
+                    ];
+            
+            }
+
+            foreach ($tarifas as $key => $value) { 
 
                 $productos_data [] = [
-                    'tipo' => $value['tipoProducto'],
-                    'cantidad' => $value['cantidad']?$value['cantidad']:1,
-                    'valor' =>(int) $value['valor'],
+                    'tipo' => 3,
+                    'cantidad' => 1,
+                    'valor' => $value['valor'],
                     'reserva_detalle_id' => $detalle_id,
                     'item_id' => $value['id'],
                 ];
-          
-        }
+            }
+    
+            foreach ($abonos as $key => $value) { 
+                $abonos_data[] = [
+                    'hotel_id' => $hotel_id,
+                    'habitacion_detalle_id' => $detalle_id,
+                    'cliente_id' => $cliente_id,
+                    'valor' => $value['valor'],
+                    'usuario_id_crea' => $usuario->id,
+                    'metodo_pago_id' => $value['metodo_pago_id'],
+                    'tipo_abono' => 1,
+                    'estado' => 1,
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 
+                    'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                ];
+            }
 
-        foreach ($tarifas as $key => $value) { 
+    
+            if($abonos_data) {
+                Abono::insert($abonos_data);
+            }
+            
 
-            $productos_data [] = [
-                'tipo' => 3,
-                'cantidad' => 1,
-                'valor' => $value['valor'],
-                'reserva_detalle_id' => $detalle_id,
-                'item_id' => $value['id'],
+            if($productos_data){
+                DetalleHabitacionReserva::insert($productos_data);
+            }
+
+            return [
+                'msm' => 'Guardado Exitoso',
+                'code' => 'success'
             ];
-        }
- 
-        foreach ($abonos as $key => $value) { 
-            $abonos_data[] = [
-                'hotel_id' => $hotel_id,
-                'habitacion_detalle_id' => $detalle_id,
-                'cliente_id' => $cliente_id,
-                'valor' => $value['valor'],
-                'usuario_id_crea' => $usuario->id,
-                'metodo_pago_id' => $value['metodo_pago_id'],
-                'tipo_abono' => 1,
-                'estado' => 1,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ];
-        }
-
- 
-        if($abonos_data) {
-            Abono::insert($abonos_data);
-        }
+       /* } catch (\Exception $e) {
+            // Si hay un error, revertimos la transacción
+            DB::rollback();
         
+            // Puedes manejar el error de alguna manera (por ejemplo, registrar un mensaje de error o lanzar una excepción)
+            // Logging de error
+            Log::debug('Ocurrió un error: ' . $e->getMessage());
+ 
+            return [
+                'msm' => 'Error',
+                'code' => 'error'
+            ];
+        }*/
 
-        if($productos_data){
-            DetalleHabitacionReserva::insert($productos_data);
-        }
-
-        return [
-            'msm' => 'Guardado Exitoso',
-            'code' => 'success'
-        ];
-        //DetalleHabitacionReserva
+    
+  
     }
 
     

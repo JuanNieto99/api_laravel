@@ -43,10 +43,10 @@ class ClienteController extends Controller
                 $query->select('id', 'nombre');
             }
         ])
-        ->join('ciudads','ciudads.id','clientes.ciudad_id')
-        ->join('tipo_documentos','tipo_documentos.id','clientes.tipo_documento_id')
-        ->join('generos','generos.id','clientes.genero_id')
-        ->join('hotels','hotels.id','clientes.hotel_id')
+        ->leftJoin ('ciudads','ciudads.id','clientes.ciudad_id')
+        ->leftJoin ('tipo_documentos','tipo_documentos.id','clientes.tipo_documento_id')
+        ->leftJoin ('generos','generos.id','clientes.genero_id')
+        ->leftJoin ('hotels','hotels.id','clientes.hotel_id')
         ->select('clientes.*')
         ->where('clientes.estado',1)->orderBy('clientes.nombres', 'asc');
 

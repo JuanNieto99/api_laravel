@@ -287,7 +287,9 @@ class RecetaController extends Controller
     }
 
     function agetProductosRecetas() {
-        $productos = Productos::where('estado', 1)->get();
+        $productos = Productos::where('estado', 1)
+        ->where('productos.visible_receta', 1)
+        ->get();
         
         foreach ($productos as $key => $value) {
             $value->imagen == 'default.png'?   $value['imagen_base64'] = str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/config/default.png")))):  $value['imagen_base64'] = str_replace("\u005C",'',base64_encode(file_get_contents(storage_path("app/public/imagenes/recetas/".$value->imagen))));

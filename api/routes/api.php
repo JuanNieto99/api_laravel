@@ -70,9 +70,8 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::get('usuariosInactivar/{id}', [UsuarioController::class, 'inactivar']);  
     }); 
     
-    Route::get('usuarioHotel/{id}', [UsuarioController::class, 'usuarioHotel']); 
-
-
+    Route::get('usuarioHotel/{id}', [UsuarioController::class, 'usuarioHotel']);  
+    
     Route::group(['middleware'=>'permission:rol'],function(){
         //Roles
         Route::post('rolListar', [RolController::class, 'index']);

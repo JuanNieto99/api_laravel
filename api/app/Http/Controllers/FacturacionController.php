@@ -151,6 +151,7 @@ class FacturacionController extends Controller
                 'factura_id' => $factura->id,
                 'impuesto_id' => $value['id'],
                 'porcentaje' => $value['porcentaje'],
+                'item_id' => $value['item_id'],
             ];
         }
 
