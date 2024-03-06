@@ -25,6 +25,11 @@ class GeneroSeeder extends Seeder
                 'nombre' => 'Femenino', 
                 'estado' => '1', // activo = 1, inactivo = 0
             ], 
+            [
+                'id' => '3',
+                'nombre' => 'No aplica', 
+                'estado' => '1', // activo = 1, inactivo = 0
+            ], 
         ]);
         
     }

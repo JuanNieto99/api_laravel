@@ -45,6 +45,11 @@ class EstadoCivilSeeder extends Seeder
                 'nombre' => 'Otro', 
                 'estado' => '1', // activo = 1, inactivo = 0
             ],
+            [
+                'id' => '9',
+                'nombre' => 'No aplica', 
+                'estado' => '1', // activo = 1, inactivo = 0
+            ],
         ]);
         
     }

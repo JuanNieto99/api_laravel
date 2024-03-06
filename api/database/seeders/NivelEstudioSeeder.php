@@ -50,6 +50,11 @@ class NivelEstudioSeeder extends Seeder
                 'nombre' => 'Pos Grado', 
                 'estado' => '1', // activo = 1, inactivo = 0
             ], 
+            [
+                'id' => '8',
+                'nombre' => 'No aplica', 
+                'estado' => '1', // activo = 1, inactivo = 0
+            ], 
         ]);
         
     }
