@@ -16,6 +16,7 @@ use App\Models\Hotel;
 use App\Models\Impuesto;
 use App\Models\Productos;
 use App\Models\MetodosPago;
+use App\Models\Receta;
 use App\Models\Tarifa;
 use App\Models\TiposHabitaciones;
 use Illuminate\Http\Request; 
@@ -1368,6 +1369,11 @@ class HabitacionController extends Controller
         ->get();
 
 
+        $recetasHabitacion = DetalleHabitacionReserva::with(['recetas'])
+        ->where('tipo', 4)
+        ->where('reserva_detalle_id', $habitacion_data_estado->habitacion_detalle_id)
+        ->get();
+
         /* $serviciosHabitacion = DetalleHabitacionReserva::where('tipo', 2)
         ->where('reserva_detalle_id', $habitacion_data_estado->habitacion_detalle_id)
         ->get();*/
@@ -1384,6 +1390,10 @@ class HabitacionController extends Controller
 
         $impuesto = Impuesto::where('hotel_id', $habitacion_data->hotel_id)->get(); 
 
+        $receta = Receta::where('estado', 1)
+        ->where('hotel_id',  $habitacion_data->hotel_id)
+        ->get();
+
         return [
             'estadoHabitacion' => $habitacion_data_estado,
             'detalleHabitacion' =>  $habitacion_data,
@@ -1394,6 +1404,8 @@ class HabitacionController extends Controller
             'productos' => $productos,
             'metodos_pago' => $metodos_pago,
             'impuesto' => $impuesto,
+            'receta' => $receta,
+            'recetasHabitacion' => $recetasHabitacion, 
         ]; 
 
     }

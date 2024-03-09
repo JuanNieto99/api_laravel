@@ -29,4 +29,8 @@ class DetalleHabitacionReserva extends Model
     public function productos()  {
         return $this->belongsTo(Productos::class,  'item_id', 'id' );  
     }
+
+    public function recetas()  {
+        return $this->belongsTo(Receta::class,  'item_id', 'id' );  
+    }
 }
