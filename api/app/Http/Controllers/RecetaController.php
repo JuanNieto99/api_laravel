@@ -286,7 +286,7 @@ class RecetaController extends Controller
 
     }
 
-    function agetProductosRecetas() {
+    function getProductosRecetas() {
         $productos = Productos::where('estado', 1)
         ->where('productos.visible_receta', 1)
         ->get();
