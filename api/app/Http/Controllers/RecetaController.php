@@ -286,7 +286,12 @@ class RecetaController extends Controller
 
     }
 
-    function getProductosRecetas() {
+    function getProductosRecetas($receta_id) {
+
+        $receta = Receta::where('id', $receta_id)
+        ->where('estado', 1)
+        ->first();
+
         $productos = Productos::where('estado', 1)
         ->where('productos.visible_receta', 1)
         ->get();
@@ -297,6 +302,7 @@ class RecetaController extends Controller
 
         return [
             'productos' => $productos  ,
+            'receta' =>  $receta,
         ];
     }
 
