@@ -19,6 +19,7 @@ use App\Http\Controllers\RolPermisoDetalleController;
 use App\Http\Controllers\GeneroController;
 use App\Http\Controllers\HabitacionController;
 use App\Http\Controllers\HotelController;
+use App\Http\Controllers\ImpuestoController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\MedidaController;
 use App\Http\Controllers\MetodosPagoController;
@@ -297,6 +298,14 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::post('secuenciaInternaEliminar', [SecuenciaInternaController::class, 'destroy']); 
         Route::get('secuenciaInternaEditar/{id}', [SecuenciaInternaController::class, 'edit']); 
         Route::post('secuenciaInternaActualizar', [SecuenciaInternaController::class, 'update']); 
+    });
+ 
+    Route::group(['middleware'=>'permission:ipt'],function(){ 
+        Route::get('getProductoImpuesto', [ImpuestoController::class, 'getProductoImpuesto']); 
+        Route::get('productoImpuestoGet/{id}', [ImpuestoController::class, 'indexImpuesto']); 
+
+        Route::post('productoImpuestoCrear', [ImpuestoController::class, 'guardarImpuesto']); 
+        
     });
 
     Route::post('getReserva', [HabitacionController::class, 'getReserva']); 

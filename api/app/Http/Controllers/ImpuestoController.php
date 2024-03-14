@@ -8,26 +8,30 @@ use Illuminate\Http\Request;
 
 class ImpuestoController extends Controller
 {
-    function getImpuestosDetalle () {
+    function getProductoImpuesto () {
         
-        $impuesto = Impuesto::where('estado', 1)->get();
+        $impuestos = Impuesto::where('estado', 1)->get();
 
         return [
-            'impuesto' => $impuesto,
+            'impuestos' => $impuestos,
         ];
     }
 
     function guardarImpuesto(Request $request) {
 
-        $producto_id = $request->producto_id;
-        $impuesto_id = $request->impuesto_id;
+        $impuesto = $request->impuestos;
+        $id = $request->id;
+        
+        ImpuestoProducto::where('producto_id', $id)->delete();
+        $insert = [];
+        foreach ($impuesto as $key => $value) {
+            $insert[] = [
+                'producto_id' => $id,
+                'impuesto_id' => $value['id'],
+            ];
+        }
 
-        $insert = [
-            'producto_id' => $producto_id,
-            'impuesto_id' => $impuesto_id,
-        ];
-
-        $val = ImpuestoProducto::insert($insert );
+        $val = ImpuestoProducto::insert($insert);
 
         if($val){
             return [
@@ -52,4 +56,6 @@ class ImpuestoController extends Controller
             'impuestoProducto' => $impuestoProducto,
         ];
     }
+
+  
 }

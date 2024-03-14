@@ -295,6 +295,14 @@ class PermisoSeeder extends Seeder
                 'id_padre' => 0,
                 'estado' => '1', // activo = 1, inactivo = 0
             ], 
+            [
+                'id' => '36',
+                'codigo' => 'ipt',
+                'nombre' => 'Impuestos Producto',
+                'descripcion' => '',
+                'id_padre' => 0,
+                'estado' => '1', // activo = 1, inactivo = 0
+            ], 
         ]);
     }
 }
