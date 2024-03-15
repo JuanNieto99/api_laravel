@@ -40,8 +40,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('producto_id')->nullable(false);
             $table->unsignedBigInteger('receta_id')->nullable(false);
-            $table->unsignedBigInteger('cantidad')->nullable(false);
-            $table->unsignedTinyInteger('estado');
+            $table->unsignedBigInteger('cantidad')->nullable(false); 
             $table->foreign('receta_id')->references('id')->on('recetas')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('producto_id')->references('id')->on('productos')->onUpdate('cascade')->onDelete('restrict');
         });

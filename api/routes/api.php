@@ -244,6 +244,8 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::get('recetaEditar/{id}', [RecetaController::class, 'edit']); 
         Route::post('recetaActualizar', [RecetaController::class, 'update']); 
         Route::get('getRecetaProductos/{id}', [RecetaController::class, 'getProductosRecetas']); 
+        Route::post('agregarProductosReceta', [RecetaController::class, 'agregarProductosReceta']);  
+        
     });
 
     Route::group(['middleware'=>'permission:umd'],function(){ 

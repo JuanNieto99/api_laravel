@@ -23,4 +23,8 @@ class Receta extends Model
     public function hotel() { 
         return $this->belongsTo(Hotel::class,'hotel_id','id');
     }
+
+    function recetaDetalle() {
+        return $this->hasMany(RecetaDetalle::class, 'receta_id', 'id' );  
+    }
 }

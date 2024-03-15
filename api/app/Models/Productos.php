@@ -35,4 +35,8 @@ class Productos extends Model
     public function medida() {
         return $this->belongsTo(Medidas::class);
     }
+    
+    public function impuestos()  {
+        return $this->hasMany(ImpuestoProducto::class, 'producto_id', 'id');
+    }
 }

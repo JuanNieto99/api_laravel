@@ -1361,15 +1361,14 @@ class HabitacionController extends Controller
         $tarifasHabitacion = DetalleHabitacionReserva::with(['tarifa'])
         ->where('tipo', 3)
         ->where('reserva_detalle_id', $habitacion_data_estado->habitacion_detalle_id)
-        ->get();
+        ->get(); 
 
-        $productosHabitacion = DetalleHabitacionReserva::with(['productos'])
+        $productosHabitacion = DetalleHabitacionReserva::with(['productos.impuestos.impuesto'])
         ->whereIn('tipo', [1,2])
         ->where('reserva_detalle_id', $habitacion_data_estado->habitacion_detalle_id)
-        ->get();
+        ->get(); 
 
-
-        $recetasHabitacion = DetalleHabitacionReserva::with(['recetas'])
+        $recetasHabitacion = DetalleHabitacionReserva::with(['recetas.recetaDetalle.productos.impuestos.impuesto'])
         ->where('tipo', 4)
         ->where('reserva_detalle_id', $habitacion_data_estado->habitacion_detalle_id)
         ->get();
@@ -1381,6 +1380,7 @@ class HabitacionController extends Controller
         $tarifas = Tarifa::where('estado', 1)->where('hotel_id',  $habitacion_data->hotel_id)->get();
 
         $productos = Productos::where('productos.estado', 1)
+        ->with(['impuestos.impuesto'])
         ->join('inventarios','inventarios.id','productos.inventario_id')
         ->where('inventarios.hotel_id', $habitacion_data->hotel_id)
         ->where('productos.visible_venta', 1)
@@ -1388,9 +1388,10 @@ class HabitacionController extends Controller
         ->select('productos.*')
         ->get();
 
-        $impuesto = Impuesto::where('hotel_id', $habitacion_data->hotel_id)->get(); 
+       // $impuesto = Impuesto::where('hotel_id', $habitacion_data->hotel_id)->get(); 
 
         $receta = Receta::where('estado', 1)
+        ->with(['recetaDetalle.productos.impuestos.impuesto'])
         ->where('hotel_id',  $habitacion_data->hotel_id)
         ->get();
 
@@ -1402,8 +1403,7 @@ class HabitacionController extends Controller
             'productosHabitacion' => $productosHabitacion, 
             'tarifas' => $tarifas,
             'productos' => $productos,
-            'metodos_pago' => $metodos_pago,
-            'impuesto' => $impuesto,
+            'metodos_pago' => $metodos_pago, 
             'receta' => $receta,
             'recetasHabitacion' => $recetasHabitacion, 
         ]; 

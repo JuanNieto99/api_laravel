@@ -17,4 +17,8 @@ class RecetaDetalle extends Model
         'cantidad',
         'estado',  
     ];
+
+    public function productos()  {
+        return $this->belongsTo(Productos::class,  'producto_id', 'id' );  
+    }
 }

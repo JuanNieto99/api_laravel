@@ -6,6 +6,7 @@ use App\Models\Historial;
 use App\Models\Hotel;
 use App\Models\Productos;
 use App\Models\Receta;
+use App\Models\RecetaDetalle;
 use App\Models\Recetas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
@@ -284,6 +285,37 @@ class RecetaController extends Controller
         return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
     }
 
+    }
+
+    function agregarProductosReceta(Request $request) {
+        $receta_id = $request->receta_id;
+        $producto = $request->producto;
+
+        $insert = [];
+
+        RecetaDetalle::where('receta_id', $receta_id)->delete();
+
+        foreach ($producto as $key => $value) {
+            $insert [] = [
+                'producto_id' => $value['producto_id'],
+                'receta_id' => $receta_id,
+                'cantidad' => $value['cantidad'], 
+            ];
+        }
+
+        $val = RecetaDetalle::insert($insert);
+
+        if($val) {
+            return response()->json([
+                'mensaje' => 'Exito',                      
+                'code' => "success"
+            ]);
+        }
+
+        return response()->json([
+            'mensaje' => 'Error',                      
+            'code' => "error"
+        ]);
     }
 
     function getProductosRecetas($receta_id) {

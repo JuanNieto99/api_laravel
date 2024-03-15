@@ -41,7 +41,7 @@ class ProductosController extends Controller
         if(!empty($search) && $search!=null){  
             
             $query->where(function ($query) use ($search) { 
-                $query->where('productos.nombre', 'like', "%{$search}%"); 
+                $query->orWhere('productos.nombre', 'like', "%{$search}%"); 
                 $query->orWhere('productos.cantidad', 'like', "%{$search}%"); 
                 $query->orWhere('productos.precio', 'like', "%{$search}%");   
                 $query->orWhere('inventarios.nombre', 'like', "%{$search}%");   
