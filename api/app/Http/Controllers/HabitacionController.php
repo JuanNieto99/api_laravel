@@ -1368,7 +1368,7 @@ class HabitacionController extends Controller
         ->where('reserva_detalle_id', $habitacion_data_estado->habitacion_detalle_id)
         ->get(); 
 
-        $recetasHabitacion = DetalleHabitacionReserva::with(['recetas.recetaDetalle.productos.impuestos.impuesto'])
+        $recetasHabitacion = DetalleHabitacionReserva::with(['recetas.impuestos.impuesto'])
         ->where('tipo', 4)
         ->where('reserva_detalle_id', $habitacion_data_estado->habitacion_detalle_id)
         ->get();
@@ -1391,7 +1391,7 @@ class HabitacionController extends Controller
        // $impuesto = Impuesto::where('hotel_id', $habitacion_data->hotel_id)->get(); 
 
         $receta = Receta::where('estado', 1)
-        ->with(['recetaDetalle.productos.impuestos.impuesto'])
+        ->with(['impuestos.impuesto'])
         ->where('hotel_id',  $habitacion_data->hotel_id)
         ->get();
 
