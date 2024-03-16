@@ -27,4 +27,8 @@ class Receta extends Model
     function recetaDetalle() {
         return $this->hasMany(RecetaDetalle::class, 'receta_id', 'id' );  
     }
+
+    public function impuestos()  {
+        return $this->hasMany(RecetaImpuesto::class, 'receta_id', 'id');
+    }
 }

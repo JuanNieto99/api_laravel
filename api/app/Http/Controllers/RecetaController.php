@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Historial;
 use App\Models\Hotel;
+use App\Models\Impuesto;
 use App\Models\Productos;
 use App\Models\Receta;
 use App\Models\RecetaDetalle;
+use App\Models\RecetaImpuesto;
 use App\Models\Recetas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
@@ -338,6 +340,16 @@ class RecetaController extends Controller
         ];
     }
 
+    function getAllProductosByRecetas($receta_id) {
+        $receta =  RecetaDetalle::with(['productos'])
+        ->where('receta_id', $receta_id)
+        ->get();
+        
+        return [
+            'receta' => $receta,
+        ];
+    }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -376,5 +388,62 @@ class RecetaController extends Controller
             // No se encontró un usuario con el ID proporcionado
             return response()->json(['error' => 'Registro no encontrado', 'code' => "error"], 404);
         }
+    }
+
+    function getCrearImpuesto($id) {
+        $impuesto = Impuesto::where('estado',1)->get();
+        $receta = Receta::where('id', $id)->get();
+
+        return [
+            'impuesto' => $impuesto,
+            'receta' => $receta,
+        ];  
+
+    }
+
+    
+    function agregarImpuestoReceta(Request $request) {
+        
+        $validator = Validator::make($request->all(),[
+            'receta_id' => 'required|numeric', 
+            'impuestos' => 'required',  
+        ],     
+        );
+
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+
+        $receta_id = $request->receta_id;
+        $impuestos = $request->impuesto;
+        
+        RecetaImpuesto::where('receta_id', $receta_id)->delete();
+
+        $array_impuesto = [];
+
+        foreach ($impuestos as $key => $value) {
+            $array_impuesto [] = [
+                'receta_id' => $receta_id, 
+                'impuesto_id' => $value->impuesto_id,
+            ];  
+        }
+
+        $val = RecetaImpuesto::insert($array_impuesto);
+        
+        if($val){
+            return response()->json(['mensaje' => 'Agregado Exitosamente', 'code' => "success"]);
+        } else {
+            return response()->json(['error' => 'Error', 'code' => "error"], 404);
+        }
+    }
+
+    function getImpuestoReceta($receta_id) {
+        $receta_impuesto =  RecetaImpuesto::with(['impuesto'])
+        ->where('receta_id', $receta_id)
+        ->get();
+        
+        return [
+            'receta_impuesto' => $receta_impuesto,
+        ];
     }
 }

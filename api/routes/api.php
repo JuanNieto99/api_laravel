@@ -243,9 +243,14 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::post('recetaEliminar', [RecetaController::class, 'destroy']); 
         Route::get('recetaEditar/{id}', [RecetaController::class, 'edit']); 
         Route::post('recetaActualizar', [RecetaController::class, 'update']); 
+        Route::get('getAllProductosByRecetas/{id}', [RecetaController::class, 'getAllProductosByRecetas']); 
         Route::get('getRecetaProductos/{id}', [RecetaController::class, 'getProductosRecetas']); 
         Route::post('agregarProductosReceta', [RecetaController::class, 'agregarProductosReceta']);  
-        
+       
+        Route::get('getRecetaCrearImpuesto/{id}', [RecetaController::class, 'getCrearImpuesto']);
+        Route::post('agregarImpuestoReceta', [RecetaController::class, 'agregarImpuestoReceta']);  
+        Route::get('getImpuestoReceta/{id}', [RecetaController::class, 'getImpuestoReceta']);  
+
     });
 
     Route::group(['middleware'=>'permission:umd'],function(){ 
@@ -302,10 +307,10 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::post('secuenciaInternaActualizar', [SecuenciaInternaController::class, 'update']); 
     });
  
-    Route::group(['middleware'=>'permission:ipt'],function(){ 
+    Route::group(['middleware'=>'permission:ipt'] , function(){ 
+        
         Route::get('getProductoImpuesto', [ImpuestoController::class, 'getProductoImpuesto']); 
         Route::get('productoImpuestoGet/{id}', [ImpuestoController::class, 'indexImpuesto']); 
-
         Route::post('productoImpuestoCrear', [ImpuestoController::class, 'guardarImpuesto']); 
         
     });
