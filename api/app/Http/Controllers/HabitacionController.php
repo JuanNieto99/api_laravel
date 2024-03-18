@@ -17,6 +17,7 @@ use App\Models\Impuesto;
 use App\Models\Productos;
 use App\Models\MetodosPago;
 use App\Models\Receta;
+use App\Models\RecetaDetalle;
 use App\Models\Tarifa;
 use App\Models\TiposHabitaciones;
 use Illuminate\Http\Request; 
@@ -1390,7 +1391,7 @@ class HabitacionController extends Controller
 
        // $impuesto = Impuesto::where('hotel_id', $habitacion_data->hotel_id)->get(); 
 
-        $receta = Receta::where('estado', 1)
+        $recetas = Receta::where('estado', 1)
         ->with(['impuestos.impuesto'])
         ->where('hotel_id',  $habitacion_data->hotel_id)
         ->get();
@@ -1404,7 +1405,7 @@ class HabitacionController extends Controller
             'tarifas' => $tarifas,
             'productos' => $productos,
             'metodos_pago' => $metodos_pago, 
-            'receta' => $receta,
+            'recetas' => $recetas,
             'recetasHabitacion' => $recetasHabitacion, 
         ]; 
 
@@ -1416,6 +1417,7 @@ class HabitacionController extends Controller
 
             $productos = $request->productos;
             $tarifas = $request->tarifas;
+            $receta = $request->receta;
             $abonos = $request->abonos;
             $detalle_id = $request->detalleId;
             $hotel_id = $request->hotelId;
@@ -1423,6 +1425,7 @@ class HabitacionController extends Controller
 
             $productos_data = [];
             $abonos_data = [];
+            $receta_data = [];
 
             $usuario = auth()->user();
 
@@ -1455,7 +1458,7 @@ class HabitacionController extends Controller
             foreach ($productos as $key => $value) { 
                     
                     if($value['tipoProducto'] == 1){
-                        $validacion = InventarioController::validarDisponibilidadProducto($value['id'], $value['cantidad']?$value['cantidad']:1);
+                        $validacion = InventarioController::validarDisponibilidadProducto($value['id'], $value['cantidad']?$value['cantidad']:1, 1);
                         $sobrepaso_stock = $validacion['validacion'];
                         $sobrepaso_stock_mensaje = $validacion['mensaje']; 
 
@@ -1472,6 +1475,33 @@ class HabitacionController extends Controller
                         'item_id' => $value['id'],
                     ];
             
+            }
+
+            foreach ($receta as $key => $value) {
+
+                $receta_productos = RecetaDetalle::where('receta_id', $value['id'])
+                ->select('producto_id','cantidad')
+                ->get();
+
+                foreach ($receta_productos as $key => $value_producto) {
+                  
+                    $validacion = InventarioController::validarDisponibilidadProducto($value_producto['producto_id'], $value_producto['cantidad']?$value_producto['cantidad']:1, 2);
+                    $sobrepaso_stock = $validacion['validacion'];
+                    $sobrepaso_stock_mensaje = $validacion['mensaje']; 
+
+                    if($sobrepaso_stock){
+                        $nombre_receta = ' de la receta '+$value['nombre'];
+                        return response()->json(['msm' => $sobrepaso_stock_mensaje+$nombre_receta,'code' => "warning"]);
+                    }
+                }
+
+                $receta_data [] = [
+                    'tipo' => 4,
+                    'cantidad' => $value['cantidad']?$value['cantidad']:1,
+                    'valor' =>(int) $value['valor'],
+                    'reserva_detalle_id' => $detalle_id,
+                    'item_id' => $value['id'],
+                ];
             }
 
             foreach ($tarifas as $key => $value) { 
@@ -1503,11 +1533,14 @@ class HabitacionController extends Controller
     
             if($abonos_data) {
                 Abono::insert($abonos_data);
-            }
-            
+            } 
 
             if($productos_data){
                 DetalleHabitacionReserva::insert($productos_data);
+            }
+
+            if($receta_data){
+                DetalleHabitacionReserva::insert($receta_data);
             }
 
             return [
