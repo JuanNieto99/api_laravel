@@ -252,8 +252,10 @@ class InventarioController extends Controller
         
     }
 
-    public static function validarDisponibilidadProducto($producto_id, $cantidad)  {
+    public static function validarDisponibilidadProducto($producto_id, $cantidad, $tipo_respuesta)  {
+        Log::debug("producto_id");
 
+        Log::debug($producto_id);
         $productos = Productos::where('id', $producto_id)->select('sin_limite_cantidad', 'nombre')->first();
 
         $menseje = "";
@@ -277,7 +279,13 @@ class InventarioController extends Controller
             $cantidad_actual =   $cantidad_agregada - $cantidad_usada;
 
             if($cantidad_actual < $cantidad) {
-                $menseje = "La cantidad agregada del producto ".$productos->nombre." sobre pasa al stock";
+
+                if ($tipo_respuesta == 1) {
+                    $menseje = "La cantidad agregada del producto ".$productos->nombre." sobre pasa al stock";
+                } else if ($tipo_respuesta == 2)  {
+                    $menseje = "El producto ".$productos->nombre." sobre pasa al stock";
+                }
+
                 $validacion = true;
             }
         }

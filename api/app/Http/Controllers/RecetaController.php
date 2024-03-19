@@ -391,7 +391,8 @@ class RecetaController extends Controller
     }
 
     function getCrearImpuesto($id) {
-        $impuesto = Impuesto::where('estado',1)->get();
+        $impuesto = Impuesto::where('estado',1) 
+        ->get();
         $receta = Receta::where('id', $id)->get();
 
         return [
