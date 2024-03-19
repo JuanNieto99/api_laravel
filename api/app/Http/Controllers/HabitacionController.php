@@ -1404,7 +1404,7 @@ class HabitacionController extends Controller
             'tarifas' => $tarifas,
             'productos' => $productos,
             'metodos_pago' => $metodos_pago, 
-            'receta' => $receta,
+            'recetas' => $receta,
             'recetasHabitacion' => $recetasHabitacion, 
         ]; 
 
