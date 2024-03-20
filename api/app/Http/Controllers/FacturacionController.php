@@ -70,7 +70,7 @@ class FacturacionController extends Controller
                 'porcentaje_descuento' => 'required|integer',
                 'hotel_id' => 'required|integer',        
                 'detalle_id' => 'required|integer',
-                'impuesto'  => 'required', 
+               // 'impuesto'  => 'required', 
                 'habitacion_id'  => 'required',             
             ], 
             [ 
@@ -152,6 +152,8 @@ class FacturacionController extends Controller
                 'impuesto_id' => $value['id'],
                 'porcentaje' => $value['porcentaje'],
                 'item_id' => $value['item_id'],
+                'cantidad' => $value['cantidad'],
+                'tipo' => $value['tipo'],  
             ];
         }
 

@@ -17,10 +17,15 @@ return new class extends Migration
             $table->unsignedBigInteger('factura_id')->nullable(false); 
             $table->unsignedBigInteger('impuesto_id')->nullable(false); 
             $table->unsignedBigInteger('item_id')->nullable(false); 
-            $table->unsignedTinyInteger('porcentaje');  
+            $table->unsignedBigInteger('cantidad')->nullable(false)->default(1); 
+            $table->unsignedTinyInteger('porcentaje'); 
+            $table->unsignedBigInteger('tipo')->nullable(false);    //1->producto 4->receta
             $table->foreign('factura_id')->references('id')->on('facturacions')->onUpdate('cascade')->onDelete('restrict'); 
             $table->foreign('impuesto_id')->references('id')->on('impuestos')->onUpdate('cascade')->onDelete('restrict'); 
-            $table->foreign('item_id')->references('id')->on('productos')->onUpdate('cascade')->onDelete('restrict');    
+            $table->foreign('tipo')->references('id')->on('tipo_servicio')->onUpdate('cascade')->onDelete('restrict');    
+
+            
+            // $table->foreign('item_id')->references('id')->on('productos')->onUpdate('cascade')->onDelete('restrict');    
         });
     }
 

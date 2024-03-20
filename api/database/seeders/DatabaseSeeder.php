@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             PaisSeeder::class,
             DepartamentoSeeder::class,
             CiudadSeeder::class,
+            TipoServicioSeeder::class,
             PermisoSeeder::class, 
             TipoDocumentoSeeder::class,
             EstadoCivilSeeder::class,
