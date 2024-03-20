@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             TipoServicioSeeder::class,
             PermisoSeeder::class, 
             TipoDocumentoSeeder::class,
+            TipoOperacionSeed::class,
             EstadoCivilSeeder::class,
             GeneroSeeder::class,
             NivelEstudioSeeder::class,

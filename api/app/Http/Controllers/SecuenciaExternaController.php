@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Historial;
 use App\Models\Hotel;
 use App\Models\SecuenciaExterna;
+use App\Models\TipoOperacion;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
@@ -88,7 +89,10 @@ class SecuenciaExternaController extends Controller
 
     public function edit($id) {
         $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
-
+        $tipo_operacion = TipoOperacion::select('nombre','id')->where('estado','1')
+        ->where('isInterna', 0)
+        ->get();
+        
         $secuencia_externa = SecuenciaExterna::where('id', $id)
         ->where('estado', 1)
         ->first();
@@ -97,11 +101,13 @@ class SecuenciaExternaController extends Controller
             return [
                 'hotel' => $hotel,
                 'secuencia_externa' => $secuencia_externa,
+                'tipo_operacion' =>  $tipo_operacion,
             ];
         }
 
         return [
             'hotel' => $hotel,
+            'tipo_operacion' =>  $tipo_operacion,
         ];
     }
 

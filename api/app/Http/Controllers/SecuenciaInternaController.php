@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon; 
 use Illuminate\Support\Facades\Validator;   
 use App\Models\SecuenciaInterna;
+use App\Models\TipoOperacion;
 
 class SecuenciaInternaController extends Controller
 {
@@ -84,6 +85,10 @@ class SecuenciaInternaController extends Controller
     public function edit($id) {
         $hotel = Hotel::select('nombre','id')->where('estado','1')->get();
 
+        $tipo_operacion = TipoOperacion::select('nombre','id')->where('estado','1')
+        ->where('isInterna',1)
+        ->get();
+        
         $secuencia_interna = SecuenciaInterna::where('id', $id)
         ->where('estado', 1)
         ->first();
@@ -92,11 +97,13 @@ class SecuenciaInternaController extends Controller
             return [
                 'hotel' => $hotel,
                 'secuencia_interna' => $secuencia_interna,
+                'tipo_operacion' => $tipo_operacion,
             ];
         }
 
         return [
             'hotel' => $hotel,
+            'tipo_operacion' => $tipo_operacion,
         ];
     }
 
