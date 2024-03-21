@@ -16,12 +16,13 @@ use App\Models\Habitacion;
 use App\Models\Historial;
 use App\Models\SecuenciaExterna;
 use App\Models\SecuenciaInterna;
+use App\Models\TipoOperacion;
 use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
+use Carbon\Carbon; 
 use PDF;
+
 class FacturacionController extends Controller
 {
     /**
@@ -100,7 +101,7 @@ class FacturacionController extends Controller
             return response()->json(['msm' => 'No hay caja abierta','code' => "warning"]);
         } 
 
-        $secuencia =  $this->getSecuenciasFactura($request->hotel_id, 'interna');
+        $secuencia =  $this->getSecuenciasFactura($request->hotel_id, 'interna', TipoOperacion::FACTURACION);
 
         $secuencia_interna_data = $secuencia['secuencia'];
 
@@ -326,13 +327,14 @@ class FacturacionController extends Controller
         }
     }
 
-    public function getSecuenciasFactura($hotel_id, $opcion) {
+    public function getSecuenciasFactura($hotel_id, $opcion, $tipo_operacion) {
 
         $secuencia = [];
         switch ($opcion) {
             case 'interna':
                 $secuencia = SecuenciaInterna::select('secuencia_actual','id')
                 ->where('hotel_id', $hotel_id)
+                ->where('tipo_operacion_id', $tipo_operacion)
                 ->where('estado','1')
                 ->first(); 
 
@@ -355,6 +357,7 @@ class FacturacionController extends Controller
             case 'externa':
                 $secuencia = SecuenciaExterna::select('secuencia_actual','id')
                 ->where('hotel_id', $hotel_id)
+                ->where('tipo_operacion_id', $tipo_operacion)
                 ->where('estado','1')
                 ->first();
 

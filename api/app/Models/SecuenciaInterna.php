@@ -20,10 +20,15 @@ class SecuenciaInterna extends Model
         'secuencia_actual',
         'usuario_id_crea', 
         'usuario_id_actualiza', 
-        'estado'
+        'estado',
+        'tipo_operacion_id',
     ];
 
     public function hotel() { 
         return $this->belongsTo(Hotel::class,'hotel_id','id');
+    }
+
+    public function tipo_operacion() {
+        return $this->belongsTo(TipoOperacion::class,'tipo_operacion_id','id');
     }
 }

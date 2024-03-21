@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoOperacion extends Model
 {
-    protected $primaryKey = 'id';
+    const FACTURACION = 1;
 
+    protected $primaryKey = 'id';
     protected $table='tipo_operacion'; 
 
     protected $fillable = [

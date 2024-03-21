@@ -20,7 +20,11 @@ class SecuenciaInternaController extends Controller
 
         $query = SecuenciaInterna::with(['hotel'=> function($query){
             $query->select('nombre','id');
-        }])-> where('estado',1)->orderBy('descripcion_secuencia', 'asc');
+        },
+        'tipo_operacion'=>  function($query){
+            $query->select('nombre','id');
+        },
+        ])-> where('estado',1)->orderBy('descripcion_secuencia', 'asc');
 
         $query->where(function ($query) use ($search) {
             $query->where('secuencia_interna.descripcion_secuencia', 'like', "%{$search}%");    
@@ -37,10 +41,20 @@ class SecuenciaInternaController extends Controller
             'descripcion_secuencia' => 'required|string', 
             'secuencia_incial' => 'required|integer',
             'secuencia_actual' => 'required|integer', 
+            'tipo_operacion_id' => 'required|integer', 
         ]);    
 
         if($validator->fails()){
             return response()->json($validator->errors());
+        }
+
+       $secuencia_creada = SecuenciaInterna::where('estado',1)
+        ->where('hotel_id',  $request->hotel_id)
+        ->where('tipo_operacion_id',  $request->tipo_operacion_id)
+        ->first();
+
+        if(!empty($secuencia_creada)){
+            return response()->json(['mensaje' => 'Solo se puede crear una secuencia por tipo de Operacion', 'code' => "warning"]);
         }
 
         $usuario = auth()->user(); 
@@ -51,7 +65,8 @@ class SecuenciaInternaController extends Controller
                 'descripcion_secuencia' => $request->descripcion_secuencia, 
                 'secuencia_actual' => $request->secuencia_actual,
                 'secuencia_incial' => $request->secuencia_incial,
-                'usuario_id_crea' => $usuario->id, 
+                'usuario_id_crea' => $usuario->id,
+                'tipo_operacion_id' => $request->tipo_operacion_id,
                 'estado' => 1,
             ]
         ); 
@@ -131,6 +146,7 @@ class SecuenciaInternaController extends Controller
             'secuencia_incial' => 'required|integer',
             'secuencia_actual' => 'required|integer', 
             'id' => 'required|integer', 
+            'tipo_operacion_id'=> 'required|integer', 
         ]);    
 
         if($validator->fails()){
@@ -147,6 +163,7 @@ class SecuenciaInternaController extends Controller
                 'secuencia_actual' => $request->secuencia_actual,
                 'usuario_id_actualiza' => $usuario->id,
                 'descripcion_secuencia' => $request->descripcion_secuencia,
+                'tipo_operacion_id' => $request->tipo_operacion_id,
             ]
         );
 

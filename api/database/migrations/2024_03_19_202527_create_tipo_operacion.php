@@ -18,6 +18,8 @@ return new class extends Migration
             $table->unsignedTinyInteger('estado');
             $table->timestamps();
         });
+
+
     }
 
     /**

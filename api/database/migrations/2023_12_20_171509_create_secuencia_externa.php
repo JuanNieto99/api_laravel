@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('secuencia_final')->nullable(false);
             $table->unsignedBigInteger('usuario_id_crea')->nullable(false); 
             $table->unsignedBigInteger('usuario_id_actualiza')->nullable(); 
+            $table->unsignedBigInteger('tipo_operacion_id')->nullable(false); 
             $table->unsignedTinyInteger('estado');
             $table->foreign('usuario_id_crea')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('hotel_id')->references('id')->on('hotels')->onUpdate('cascade')->onDelete('restrict'); 

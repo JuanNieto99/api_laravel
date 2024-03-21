@@ -21,7 +21,8 @@ class SecuenciaExternaController extends Controller
             'fecha_final' => 'required|string',
             'secuencia_actual' => 'required|integer',
             'secuencia_incial' => 'required|integer',
-            'secuencia_final' => 'required|integer', 
+            'secuencia_final' => 'required|integer',
+            'tipo_operacion_id' => 'required|integer',  
         ]);    
 
         if($validator->fails()){
@@ -40,6 +41,7 @@ class SecuenciaExternaController extends Controller
                 'secuencia_final' => $request->secuencia_final,
                 'secuencia_incial' => $request->secuencia_incial,
                 'usuario_id_crea' => $usuario->id,
+                'tipo_operacion_id' => $request->tipo_operacion_id,
                 'estado' => 1,
             ]
         ); 
@@ -74,6 +76,8 @@ class SecuenciaExternaController extends Controller
         $search = $request->query('search',false);
 
         $query = SecuenciaExterna::with(['hotel'=> function($query){
+            $query->select('nombre','id');
+        },'tipo_operacion'=>  function($query){
             $query->select('nombre','id');
         }])->where('estado',1)->orderBy('id', 'asc');
 
@@ -136,6 +140,7 @@ class SecuenciaExternaController extends Controller
             'secuencia_incial' => 'required|integer',
             'secuencia_final' => 'required|integer', 
             'id' => 'required|integer',
+            'tipo_operacion_id' => 'required|integer',
         ]);    
 
         if($validator->fails()){
@@ -154,6 +159,7 @@ class SecuenciaExternaController extends Controller
                 'secuencia_incial' => $request->secuencia_incial,
                 'secuencia_final' => $request->secuencia_final,
                 'usuario_id_actualiza' => $usuario->id,
+                'tipo_operacion_id' => $request->tipo_operacion_id,
             ]
         );
 

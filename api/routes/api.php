@@ -26,6 +26,7 @@ use App\Http\Controllers\MetodosPagoController;
 use App\Http\Controllers\PaisController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\RecetaController;
+use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\SecuenciaExternaController;
 use App\Http\Controllers\SecuenciaInternaController;
 use App\Http\Controllers\TarifaController;
@@ -272,6 +273,7 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
         Route::post('facturaListar', [FacturacionController::class, 'index']); 
         Route::post('facturaAnular', [FacturacionController::class, 'destroy']); 
         Route::get('facturaPdf/{id}', [FacturacionController::class, 'facturaPdf']);  
+        Route::get('facturaRemisionPdf/{id}', [ReporteController::class, 'reporteFacturacionRemision']);  
 
     }); 
 
