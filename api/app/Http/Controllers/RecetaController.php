@@ -407,7 +407,7 @@ class RecetaController extends Controller
         
         $validator = Validator::make($request->all(),[
             'receta_id' => 'required|numeric', 
-            'impuestos' => 'required',  
+           // 'impuestos' => 'required',  
         ],     
         );
 
