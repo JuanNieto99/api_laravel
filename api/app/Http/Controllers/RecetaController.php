@@ -425,7 +425,7 @@ class RecetaController extends Controller
         foreach ($impuestos as $key => $value) {
             $array_impuesto [] = [
                 'receta_id' => $receta_id, 
-                'impuesto_id' => $value->impuesto_id,
+                'impuesto_id' => $value['impuesto_id'],
             ];  
         }
 
