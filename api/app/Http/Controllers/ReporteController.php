@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Facturacion;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PDF;
 
 class ReporteController extends Controller
 {
-    function reporteFacturacionRemision($id) {
-        Log::debug($id);
+    function reporteFacturacionRemision($id) { 
 
         $factura = Facturacion::with(['hotel', 'cliente'])->find($id);
         
@@ -22,7 +22,10 @@ class ReporteController extends Controller
         } else  {
             $ruta_imagen = 'imagenes/hoteles/'.$imagen;
         } 
-        $pdf = PDF::loadView('PDF/facturaRemision', ['factura' => $factura, 'ruta_imagen' => 'data:image/jpeg;base64,'.$ruta_imagen]);
+
+        $fecha_hoy = Carbon::now();
+
+        $pdf = PDF::loadView('PDF/facturaRemision', ['factura' => $factura, 'ruta_imagen' => 'data:image/jpeg;base64,'.$ruta_imagen, 'fecha_actual' => $fecha_hoy->format('Y-m-d H:i:s')]);
         return $pdf->stream('remision_'.$factura->secuencia_factura_interna.'.pdf');
     }
 }
