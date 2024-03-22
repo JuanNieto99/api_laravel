@@ -416,7 +416,7 @@ class RecetaController extends Controller
         }
 
         $receta_id = $request->receta_id;
-        $impuestos = $request->impuesto;
+        $impuestos = $request->impuestos;
         
         RecetaImpuesto::where('receta_id', $receta_id)->delete();
 
