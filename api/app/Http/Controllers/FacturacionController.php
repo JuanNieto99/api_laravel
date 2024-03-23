@@ -162,7 +162,7 @@ class FacturacionController extends Controller
             FacturacionImpuesto::insert( $impuestos_data);
         }
         
-        if($factura){
+        if($factura) {
             $medios_pagos_detalle_array = [];
 
             $medios_pagos_caja_array = [];
@@ -204,14 +204,7 @@ class FacturacionController extends Controller
                 'facturacion_id' => $factura->id,
                 'checkout' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);  
-         /*   
-            Habitacion::where('id', $request->habitacion_id )
-            ->update(
-                [
-                    'estado' => 3,
-                ]
-            ); */
-
+ 
             EstadoHabitacion::where('habitacion_detalle_id',  $request->detalle_id)
             ->update(
                 [

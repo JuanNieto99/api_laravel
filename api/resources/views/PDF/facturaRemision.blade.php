@@ -72,12 +72,12 @@
                 </tbody>
             </table> 
         </div>
-        <div class="box">
+        <div class="box" style="margin-left: 10%;" >
             <table class="table">
-                <thead>
+                <thead  >
                     <tr>
-                        <th>Beneficiario</th>
-                        <th></th> 
+                        <th></th>
+                        <th>Beneficiario</th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -156,9 +156,9 @@
         </thead>
         <tbody>
             <tr style="border: 1px solid black;"> 
-                <td style="border: 1px solid black;">{{ number_format($factura['total'], 2) }}</td>
-                <td style="border: 1px solid black;">{{ number_format($factura['sub_total'], 2) }}</td>
                 <td style="border: 1px solid black;">{{ number_format($factura['impuesto_total'], 2) }}</td>
+                <td style="border: 1px solid black;">{{ number_format($factura['sub_total'], 2) }}</td>
+                <td style="border: 1px solid black;">{{ number_format($factura['total'], 2) }}</td>
             </tr>
         </tbody>
     </table>

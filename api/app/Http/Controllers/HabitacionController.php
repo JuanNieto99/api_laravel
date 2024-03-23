@@ -1447,7 +1447,7 @@ class HabitacionController extends Controller
                     'cantidad' => $item_data->sum('cantidad'),
                     'identificador' =>$item['identificador'],
                     'tipoProducto' => $item['tipoProducto'],
-                    'valor' => $item['valor'],
+                    'valor' => $item_data->sum('valor'), 
                     'id' => $item['id'],
                     'valorImpuesto' => $item['valorImpuesto'],
                 ];
@@ -1467,10 +1467,12 @@ class HabitacionController extends Controller
                         }
                     }
 
+                    $cantidad = $value['cantidad']?$value['cantidad']:1;
+
                     $productos_data [] = [
                         'tipo' => $value['tipoProducto'],
-                        'cantidad' => $value['cantidad']?$value['cantidad']:1,
-                        'valor' =>(int) $value['valor'],
+                        'cantidad' => $cantidad,
+                        'valor' =>(int) $value['valor'] ,
                         'reserva_detalle_id' => $detalle_id,
                         'item_id' => $value['id'],
                     ];
