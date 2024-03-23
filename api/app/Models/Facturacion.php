@@ -37,5 +37,11 @@ class Facturacion extends Model
 
     public function hotel() {
         return $this->belongsTo(Hotel::class); 
+    } 
+
+    function impuestos () {
+        return $this->hasMany(FacturacionImpuesto::class, 'factura_id','id' );
     }
+
+  
 }

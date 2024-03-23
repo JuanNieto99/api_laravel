@@ -33,4 +33,5 @@ class DetalleHabitacionReserva extends Model
     public function recetas()  {
         return $this->belongsTo(Receta::class,  'item_id', 'id' );  
     }
+
 }
