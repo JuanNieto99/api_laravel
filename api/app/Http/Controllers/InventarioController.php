@@ -270,10 +270,8 @@ class InventarioController extends Controller
             $usados = ProductoDetalle::where('producto_id', $producto_id)
             ->where('estado', 3)
             ->select(DB::raw('SUM(cantidad) as cantidad'))            
-            ->first();
-            Log::debug($agregados);
-            Log::debug($usados);
-
+            ->first(); 
+            
             $cantidad_agregada = $agregados->cantidad ? $agregados->cantidad : 0;
             $cantidad_usada = $usados->cantidad ? $usados->cantidad : 0;
             $cantidad_actual =   $cantidad_agregada - $cantidad_usada;

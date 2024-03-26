@@ -19,6 +19,7 @@ use App\Models\MetodosPago;
 use App\Models\Receta;
 use App\Models\RecetaDetalle;
 use App\Models\Tarifa;
+use App\Models\TipoOperacion;
 use App\Models\TiposHabitaciones;
 use Illuminate\Http\Request; 
 use Illuminate\Support\Facades\Validator;   
@@ -422,7 +423,7 @@ class HabitacionController extends Controller
                     'caja_control_id' => $caja['control_caja']['id'],
                     'precio' => $value['monto'],
                     'metodo_pago_id' => $value['medio_pago']['id'],
-                    'operacion_id' => 1,
+                    'operacion_id' => TipoOperacion::ABONO,
                     'referencia_id' => $detalle_habitacion->id,
                     'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 ];
@@ -522,7 +523,7 @@ class HabitacionController extends Controller
         ]);
 
         $devolver_abono = DetalleCaja::
-        where('operacion_id', 1)
+        where('operacion_id', TipoOperacion::ABONO)
         ->where('referencia_id', $habitacion_detalle_id)->get();
 /*
         $abono_regresado = [];
@@ -1008,7 +1009,7 @@ class HabitacionController extends Controller
                 'metodo_pago_id' => $value['medio_pago']['id'],
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'referencia_id' =>  $detalle_habitacion->id,
-                'operacion_id' => 1,
+                'operacion_id' => TipoOperacion::ABONO,
             ];
         }
         if($request->productos){
@@ -1093,7 +1094,7 @@ class HabitacionController extends Controller
         } 
 
         $devolver_abono = DetalleCaja::
-        where('operacion_id', 1)
+        where('operacion_id', TipoOperacion::ABONO)
         ->where('referencia_id', $request->id_detalle)->get();
 
         $abono_regresado = [];
@@ -1111,7 +1112,7 @@ class HabitacionController extends Controller
                 'metodo_pago_id' =>  $value->metodo_pago_id,
                 'referencia_id' => $request->id_detalle,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'operacion_id' => 1,
+                'operacion_id' => TipoOperacion::ABONO,
             ];
         }
 
@@ -1429,7 +1430,6 @@ class HabitacionController extends Controller
 
             $usuario = auth()->user();
 
-            DetalleHabitacionReserva::where('reserva_detalle_id', $detalle_id)->delete();
 
             Abono::where('habitacion_detalle_id', $detalle_id)->delete();
 
@@ -1492,8 +1492,8 @@ class HabitacionController extends Controller
                     $sobrepaso_stock_mensaje = $validacion['mensaje']; 
 
                     if($sobrepaso_stock){
-                        $nombre_receta = ' de la receta '+$value['nombre'];
-                        return response()->json(['msm' => $sobrepaso_stock_mensaje+$nombre_receta,'code' => "warning"]);
+                        $nombre_receta = ' de la receta '.$value['nombre'];
+                        return response()->json(['msm' => $sobrepaso_stock_mensaje.$nombre_receta,'code' => "warning"]);
                     }
                 }
 
@@ -1505,6 +1505,9 @@ class HabitacionController extends Controller
                     'item_id' => $value['id'],
                 ];
             }
+
+            DetalleHabitacionReserva::where('reserva_detalle_id', $detalle_id)->delete();
+
 
             foreach ($tarifas as $key => $value) { 
 

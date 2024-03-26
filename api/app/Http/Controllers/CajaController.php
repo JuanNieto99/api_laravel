@@ -379,7 +379,7 @@ class CajaController extends Controller
         ->update(
             [
                 'cierre_caja' => Carbon::now()->format('Y-m-d H:i:s'),
-                'cierre_saldo' => $saldo_abrir - $detalle_caja_precio,
+                'cierre_saldo' => $saldo_abrir + $detalle_caja_precio,
                 'diferencia' => $detalle_caja_precio,
                 'usuario_id_cierra' => $usuario->id,
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'), 

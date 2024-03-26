@@ -26,6 +26,12 @@ class TipoOperacionSeed extends Seeder
                 'isInterna' => 0, // interna = 1, externa 0,
                 'estado' => '1', // activo = 1, inactivo = 0
             ],
+            [
+                'id' => '3',
+                'nombre' => 'Abono',  
+                'isInterna' => 1, // interna = 1, externa 0,
+                'estado' => '1', // activo = 1, inactivo = 0
+            ],
         ]);
     }
 }

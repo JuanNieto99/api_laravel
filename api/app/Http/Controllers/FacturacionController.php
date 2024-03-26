@@ -20,7 +20,8 @@ use App\Models\TipoOperacion;
 use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;   
-use Carbon\Carbon; 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use PDF;
 
 class FacturacionController extends Controller
@@ -95,11 +96,11 @@ class FacturacionController extends Controller
         ->select('id')
         ->where('estado',1) 
         ->where('tipo', 1) 
-        ->first();    
+        ->first();     
 
-        if(!$caja_abierta) {
+        if(!$caja_abierta || !$caja_abierta->control_caja) {
             return response()->json(['msm' => 'No hay caja abierta','code' => "warning"]);
-        } 
+        }  
 
         $secuencia =  $this->getSecuenciasFactura($request->hotel_id, 'interna', TipoOperacion::FACTURACION);
 
